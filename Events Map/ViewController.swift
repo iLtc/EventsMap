@@ -31,20 +31,36 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
     
     func showCurrentLocationOnMap() {
         let camera = GMSCameraPosition.camera(withLatitude: (self.manger.location?.coordinate.latitude)!,longitude: (self.manger.location?.coordinate.longitude)!,zoom: 15)
-        let mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+        mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
+        EventService.instance.sync(addEvents)
         self.view.addSubview(mapView)
+
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    func test() {
+    func addEvents() {
         let events = EventService.instance.getEvents()
         for event in events {
-            print(event.debug())
+            print(event.id, event.title)
+            if event.geo["latitude"] == "" {
+                continue
+            }
+            let latitude = event.geo["latitude"]! as NSString
+            let longitude = event.geo["longitude"]! as NSString
+            let marker = GMSMarker()
+            let la = latitude.floatValue
+            let lo = longitude.floatValue
+            marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(la), longitude: CLLocationDegrees(lo))
+            marker.title = event.title
+            marker.snippet = event.date
+            marker.map = mapView
+            print(la, lo)
         }
     }
 }
