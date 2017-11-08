@@ -10,11 +10,12 @@ import GoogleMaps
 import GooglePlaces
 import CoreLocation
 
-class ViewController: UIViewController, CLLocationManagerDelegate{
+class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate{
     
     let manger = CLLocationManager()
     var mapView: GMSMapView!
     var carema = GMSCameraPosition()
+    var buffer: [UIView] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +35,51 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
+        mapView.delegate = self
         EventService.instance.sync(addEvents)
         self.view.addSubview(mapView)
 
-        
     }
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        addInfoView(marker)
+        return true
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        if buffer.count != 0 {
+            for i in buffer {
+                i.removeFromSuperview()
+                buffer.removeAll()
+            }
+        }
+    }
+    
+    func addInfoView(_ marker: GMSMarker) {
+        let event = marker.userData as! Event
+        let edge = CGFloat(5)
+        let size = CGSize(width: self.view.bounds.width-2*edge, height: (self.view.bounds.height)/2-100)
+        let origin = CGPoint(x: edge, y: (self.view.bounds.height)/2+100)
+        let rect = CGRect(origin: origin, size: size)
+        let infoView = UIView(frame: rect)
+        infoView.backgroundColor = .white
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+        imageView.downloadedFrom(url: URL(string: event.photos[0])!)
+        imageView.contentMode = .scaleAspectFit
+        infoView.addSubview(imageView)
+        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: infoView.bounds.midX, y: edge), size: CGSize(width: infoView.bounds.width/2, height: infoView.bounds.height)))
+        contentLabel.numberOfLines = 10
+        contentLabel.text = marker.title
+        contentLabel.sizeToFit()
+        infoView.addSubview(contentLabel)
+        self.view.addSubview(infoView)
+        buffer.append(infoView)
+    }
+    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        print("You long pressed at \(coordinate.latitude), \(coordinate.longitude)")
+        
+
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -47,7 +88,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
     func addEvents() {
         let events = EventService.instance.getEvents()
         for event in events {
-            print(event.id, event.title)
             if event.geo["latitude"] == "" {
                 continue
             }
@@ -57,10 +97,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
             let la = latitude.floatValue
             let lo = longitude.floatValue
             marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(la), longitude: CLLocationDegrees(lo))
+            marker.icon = GMSMarker.markerImage(with: .red)
             marker.title = event.title
             marker.snippet = event.date
             marker.map = mapView
-            print(la, lo)
+            
+            marker.userData = event
         }
     }
 }
