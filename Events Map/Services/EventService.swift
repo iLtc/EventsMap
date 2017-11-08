@@ -32,17 +32,16 @@ class EventService {
                         description: subJson["description"].stringValue
                     )
                     
-                    /*for (_, photo): (String, JSON) in subJson["photos"] {
-                        print(photo)
+                    for (_, photo): (String, JSON) in subJson["photos"] {
                         event.photos.append(photo.stringValue)
-                    }*/
+                    }
                     
                     event.geo["latitude"] = subJson["geo"]["latitude"].stringValue
                     event.geo["longitude"] = subJson["geo"]["longitude"].stringValue
                     
-                    /*for category in subJson["categories"].arrayValue {
+                    for category in subJson["categories"].arrayValue {
                         event.categories.append(category.stringValue)
-                    }*/
+                    }
                     
                     self.events.append(event)
                 }
