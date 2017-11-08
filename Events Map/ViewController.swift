@@ -55,15 +55,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
     }
     
     func addInfoView(_ marker: GMSMarker) {
+        let event = marker.userData as! Event
         let edge = CGFloat(5)
         let size = CGSize(width: self.view.bounds.width-2*edge, height: (self.view.bounds.height)/2-100)
         let origin = CGPoint(x: edge, y: (self.view.bounds.height)/2+100)
         let rect = CGRect(origin: origin, size: size)
         let infoView = UIView(frame: rect)
         infoView.backgroundColor = .white
-        let image = UIImage(named: "luotiancheng")
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
-        imageView.image = image
+        imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
         infoView.addSubview(imageView)
         let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: infoView.bounds.midX, y: edge), size: CGSize(width: infoView.bounds.width/2, height: infoView.bounds.height)))
@@ -88,7 +88,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
     func addEvents() {
         let events = EventService.instance.getEvents()
         for event in events {
-            print(event.id, event.title)
             if event.geo["latitude"] == "" {
                 continue
             }
@@ -102,7 +101,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
             marker.title = event.title
             marker.snippet = event.date
             marker.map = mapView
-            print(la, lo)
+            
+            marker.userData = event
         }
     }
 }

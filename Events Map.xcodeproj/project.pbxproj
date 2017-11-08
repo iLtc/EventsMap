@@ -16,6 +16,7 @@
 		243887AC1FAF88A0000C012C /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243887AB1FAF88A0000C012C /* EventService.swift */; };
 		243887AE1FAF89C7000C012C /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 243887AD1FAF89C7000C012C /* Config.plist */; };
 		243887B21FAF8A7A000C012C /* ConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243887B11FAF8A7A000C012C /* ConfigService.swift */; };
+		244E8E841FB2AC8C0043996B /* download-image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244E8E831FB2AC8C0043996B /* download-image.swift */; };
 		24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A06A671FB00C7D00F433CC /* string-truncate.swift */; };
 		6C9B71F5AE74F50A72F40002 /* Pods_Events_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10A9A14C475A39F661E72B86 /* Pods_Events_Map.framework */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		243887AB1FAF88A0000C012C /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		243887AD1FAF89C7000C012C /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		243887B11FAF8A7A000C012C /* ConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigService.swift; sourceTree = "<group>"; };
+		244E8E831FB2AC8C0043996B /* download-image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "download-image.swift"; sourceTree = "<group>"; };
 		24A06A671FB00C7D00F433CC /* string-truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "string-truncate.swift"; sourceTree = "<group>"; };
 		364B4EDF7B0BBB5D55635A9C /* Pods-Events Map.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.debug.xcconfig"; sourceTree = "<group>"; };
 		687E7DC15DAC17C76C4086E5 /* Pods-Events Map.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.release.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				24A06A671FB00C7D00F433CC /* string-truncate.swift */,
+				244E8E831FB2AC8C0043996B /* download-image.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				244E8E841FB2AC8C0043996B /* download-image.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
 				243887AC1FAF88A0000C012C /* EventService.swift in Sources */,
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
