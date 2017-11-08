@@ -23,6 +23,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
         manger.desiredAccuracy = kCLLocationAccuracyBest
         manger.requestWhenInUseAuthorization()
         manger.startUpdatingLocation()
+        
+
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -73,11 +75,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
         infoView.addSubview(contentLabel)
         self.view.addSubview(infoView)
         buffer.append(infoView)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(tapGestureRecognizer:)))
+        infoView.isUserInteractionEnabled = true
+        infoView.addGestureRecognizer(tapGestureRecognizer)
     }
+    
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         print("You long pressed at \(coordinate.latitude), \(coordinate.longitude)")
         
 
+    }
+    
+    @objc func infoViewTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let vc = DetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     
