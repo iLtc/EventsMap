@@ -33,8 +33,8 @@ class DetailViewController: UIViewController, UIToolbarDelegate {
         toolBar.tintColor = UIColor.blue
         toolBar.backgroundColor = UIColor.white
         
-        let starBtn: UIBarButtonItem = UIBarButtonItem(title: "✩", style: .done, target: self, action: nil)
-        let calendarBtn: UIBarButtonItem = UIBarButtonItem(title: "📅", style: .plain, target: self, action: nil)
+        let starBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .done, target: self, action: nil)
+        let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: nil)
         let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: nil)
         let shareBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
         let space: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
