@@ -76,7 +76,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
         self.view.addSubview(infoView)
         buffer.append(infoView)
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(tapGestureRecognizer:)))
+        // Tap InfoView trigger
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(sender:)))
         infoView.isUserInteractionEnabled = true
         infoView.addGestureRecognizer(tapGestureRecognizer)
     }
@@ -87,8 +88,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
 
     }
     
-    @objc func infoViewTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+    class tapGestureRecognizer: UITapGestureRecognizer {
+        
+    }
+    
+    // Mark: InfoView tap action
+    @objc func infoViewTapped(sender: UITapGestureRecognizer) {
         let vc = DetailViewController()
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
