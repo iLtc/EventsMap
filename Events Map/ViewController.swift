@@ -53,8 +53,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             for infoView in buffer {
                 UIView.animate(withDuration: 0.5, animations: {
                     infoView.frame.origin.y = self.view.bounds.height
-                }, completion: nil)
-                infoView.removeFromSuperview()
+                }, completion: {(finished: Bool) in
+                    infoView.removeFromSuperview()
+                })
                 buffer.removeAll()
             }
         }
