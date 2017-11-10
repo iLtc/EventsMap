@@ -5,4 +5,5 @@ target ‘Events Map’ do
   pod 'GooglePlaces'
   pod 'Alamofire', '~> 4.5'
   pod 'SwiftyJSON'
+  pod 'IntentKit'
 end
