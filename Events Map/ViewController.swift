@@ -20,6 +20,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.largeTitleDisplayMode = .never
+        collectionView?.backgroundColor = UIColor(red: 237/255.0, green: 234/255.0, blue: 227/255.0, alpha: 1)
         manger.delegate = self
         manger.desiredAccuracy = kCLLocationAccuracyBest
         manger.requestWhenInUseAuthorization()
@@ -44,14 +46,24 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
 
     }
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        removeView()
         addInfoView(marker)
         return true
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        removeView()
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        print("hehe")
+    }
+    
+    // Mark: Animated remove infoView
+    func removeView() {
         if buffer.count != 0 {
             for infoView in buffer {
-                UIView.animate(withDuration: 0.5, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     infoView.frame.origin.y = self.view.bounds.height
                 }, completion: {(finished: Bool) in
                     infoView.removeFromSuperview()
@@ -61,20 +73,28 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         }
     }
     
-    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        print("hehe")
-    }
-    
     func addInfoView(_ marker: GMSMarker) {
         let event = marker.userData as! Event
         self.event = event
         let edge = CGFloat(10)
-        let size = CGSize(width: self.view.bounds.width-2*edge, height: (self.view.bounds.height)/2-100)
+        let size = CGSize(width: self.view.bounds.width-2*edge, height: (self.view.bounds.height)*0.3)
         let origin = CGPoint(x: edge, y: self.view.bounds.height)
         let rect = CGRect(origin: origin, size: size)
         let infoView = UIView(frame: rect)
+        
+        // Mark: infoView UI style
         infoView.backgroundColor = .white
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+        infoView.layer.cornerRadius = 4
+        infoView.layer.shadowRadius = 4
+        infoView.layer.shadowColor = UIColor.black.cgColor
+        infoView.layer.shadowOpacity = 0.5
+        infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
+        infoView.layer.shouldRasterize = true
+        
+        infoView.tag = 1
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 150, height: 100))
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
         infoView.addSubview(imageView)
@@ -82,12 +102,26 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         contentLabel.numberOfLines = 10
         contentLabel.text = marker.title
         contentLabel.sizeToFit()
-        infoView.tag = 1
+        
         infoView.addSubview(contentLabel)
+        
+        let detailBtn = UIButton(frame: CGRect(x: 10, y: imageView.frame.maxY + 10, width: infoView.bounds.maxX - 20, height: infoView.bounds.maxY - imageView.bounds.maxY - 20))
+        detailBtn.layer.cornerRadius = 4
+        detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+        detailBtn.setTitleColor(UIColor.white, for: .normal)
+        detailBtn.setTitle("Detail", for: .normal)
+        
+        detailBtn.isUserInteractionEnabled = true
+        detailBtn.addTarget(self, action: #selector(btnPressedDown(_:)), for: UIControlEvents.touchDown)
+        detailBtn.addTarget(self, action: #selector(infoViewTapped(_:)), for: UIControlEvents.touchUpInside)
+
+        infoView.addSubview(detailBtn)
+        
+        
         self.view.addSubview(infoView)
         
-        UIView.animate(withDuration: 0.5, animations: {
-            infoView.frame.origin.y = self.view.bounds.height * 0.5 + 100
+        UIView.animate(withDuration: 0.3, animations: {
+            infoView.frame.origin.y = self.view.bounds.height * 0.7
         }, completion: nil)
         
         buffer.append(infoView)
@@ -100,16 +134,26 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
     }
     
+    
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         print("You long pressed at \(coordinate.latitude), \(coordinate.longitude)")
         
 
     }
     
-    
+    // Mark: ButtonPressed down action
+    @objc func btnPressedDown(_ sender: UIButton) {
+        UIButton.animate(withDuration: 0.1) {
+            sender.backgroundColor = UIColor(red: 128/255.0, green: 212/255.0, blue: 255/255.0, alpha: 1)
+        }
+        
+    }
     
     // Mark: InfoView tap action
-    func infoViewTapped(_ view: UIView) {
+    @objc func infoViewTapped(_ sender: UIButton) {
+        UIButton.animate(withDuration: 0.1) {
+            sender.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+        }
         let vc = DetailViewController()
         vc.event = self.event
         navigationController?.pushViewController(vc, animated: true)
@@ -134,7 +178,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(la), longitude: CLLocationDegrees(lo))
             marker.icon = GMSMarker.markerImage(with: .red)
             marker.title = event.title
-            marker.snippet = event.date
+            marker.snippet = "\(event.date)"
             marker.map = mapView
             
             marker.userData = event
@@ -147,14 +191,23 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         if (touch.view?.tag == 1) {
             
-            let infoView = touch.view
-            infoView?.backgroundColor = UIColor.lightGray
+            //let infoView = touch.view
+            
             
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        let touch:UITouch = touches.first as UITouch!
         
+        if (touch.view?.tag == 1) {
+            let infoView = touch.view
+            if ((infoView?.frame.origin.y)! > view.frame.maxY * 0.65) {
+                let displacement = (infoView?.frame.maxY)!*0.6 - touch.location(in: view).y
+                infoView?.frame.origin.y -= displacement * 0.005
+            }
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -164,8 +217,23 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         if (touch.view?.tag == 1) {
 
             let infoView = touch.view
-            infoView?.backgroundColor = UIColor.white
-            infoViewTapped(infoView!)
+            UIView.animate(withDuration: 0.3, animations: {
+                infoView?.frame.origin.y = self.view.bounds.height * 0.7
+            }, completion: nil)
+            //infoViewTapped(infoView!)
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        let touch: UITouch = touches.first as UITouch!
+        
+        if (touch.view?.tag == 1) {
+            
+            let infoView = touch.view
+            UIView.animate(withDuration: 0.3, animations: {
+                infoView?.frame.origin.y = self.view.bounds.height * 0.7
+            }, completion: nil)
         }
     }
 }

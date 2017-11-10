@@ -27,6 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let flowLayout = UICollectionViewFlowLayout()
         let mainViewController = ViewController(collectionViewLayout: flowLayout)
         let navigationController = UINavigationController(rootViewController: mainViewController)
+        if #available(iOS 11.0, *) {
+            navigationController.navigationBar.prefersLargeTitles = true
+        } else {
+            // Fallback on earlier versions
+        }
         
         window?.rootViewController = navigationController
         
