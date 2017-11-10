@@ -91,32 +91,35 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
         infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
         infoView.layer.shouldRasterize = true
-        
+        infoView.sizeToFit()
         infoView.tag = 1
         
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 150, height: 100))
+        // Mark: imageView UI
+        let imageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 150, height: 100))
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
         infoView.addSubview(imageView)
-        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: infoView.bounds.midX, y: edge), size: CGSize(width: infoView.bounds.width/2, height: infoView.bounds.height)))
-        contentLabel.numberOfLines = 10
+        
+        // Mark: ContentLabel UI
+        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.maxX + 5, y: 5), size: CGSize(width: infoView.bounds.width/2 - 10, height: 100)))
+        contentLabel.numberOfLines = 0
         contentLabel.text = marker.title
         contentLabel.sizeToFit()
-        
         infoView.addSubview(contentLabel)
         
-        let detailBtn = UIButton(frame: CGRect(x: 10, y: imageView.frame.maxY + 10, width: infoView.bounds.maxX - 20, height: infoView.bounds.maxY - imageView.bounds.maxY - 20))
+        // Mark: -- Detail button
+        let detailBtn = UIButton(frame: CGRect(x: 5, y: imageView.frame.maxY + 10, width: infoView.bounds.maxX - 10, height: 40))
         detailBtn.layer.cornerRadius = 4
         detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         detailBtn.setTitleColor(UIColor.white, for: .normal)
         detailBtn.setTitle("Detail", for: .normal)
-        
         detailBtn.isUserInteractionEnabled = true
         detailBtn.addTarget(self, action: #selector(btnPressedDown(_:)), for: UIControlEvents.touchDown)
         detailBtn.addTarget(self, action: #selector(infoViewTapped(_:)), for: UIControlEvents.touchUpInside)
-
         infoView.addSubview(detailBtn)
         
+        // Mark: DateLabel UI
+        let dateLabel = UILabel()
         
         self.view.addSubview(infoView)
         
