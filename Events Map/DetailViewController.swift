@@ -8,10 +8,11 @@
 
 import UIKit
 import EventKit
+import MapKit
 
 class DetailViewController: UITableViewController, UIToolbarDelegate {
     
-    var calendar: EKCalendar!
+    //var calendar: EKCalendar!
     var event: Event = Event()
     //var scroll: UIScrollView = UIScrollView()
     
@@ -42,7 +43,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         //self.navigationController?.toolbar.backgroundColor = UIColor.white
         
         let starBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .done, target: self, action: nil)
-        let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: nil)
+        let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(addCalendarEvent(_:)))
         let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: #selector(getDirection(_:)))
         let shareBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
         let space: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
@@ -79,6 +80,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
     
     // Mark: share method
     @objc func share(_ sender: Any) {
+        
         let text = "Check out this event."
         let dataToShare = [ text ]
         let activityViewController = UIActivityViewController(
@@ -92,6 +94,20 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
     
     // Mark: get direction method
     @objc func getDirection (_ sender: Any) {
+        
+        let latitude: CLLocationDegrees = (event.geo["latitude"]! as NSString).doubleValue
+        let longitude: CLLocationDegrees = (event.geo["longitude"]! as NSString).doubleValue
+        
+        let regionDistance: CLLocationDistance = 1000;
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
+        let placeMark = MKPlacemark(coordinate: coordinates)
+        let mapItem = MKMapItem(placemark: placeMark)
+        mapItem.name = event.title
+        mapItem.openInMaps(launchOptions: options)
+        
+        """
         let directionView = UIViewController()
         
         directionView.modalPresentationStyle = UIModalPresentationStyle.popover
@@ -107,18 +123,41 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         }
         
         present(directionView, animated: true, completion: nil)
+        """
+        
+        
     }
     
     // Mark: add calendar event method
-    func addCalendarEvent (_ sender: Any) {
+    @objc func addCalendarEvent (_ sender: Any) {
         let eventStore = EKEventStore()
         
-        if let calendarEvent = eventStore.calendar(withIdentifier: self.calendar.calendarIdentifier) {
-            let newEvent = EKEvent(eventStore: eventStore)
-            newEvent.calendar = calendarEvent
-            newEvent.title = self.event.title
-            //newEvent.startDate = self.event.date
-            //newEvent.endDate
+        //let calendars = eventStore.calendars(for: .event)
+        
+        eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
+            if (granted) && (error == nil) {
+               
+                let newEvent = EKEvent(eventStore: eventStore)
+                newEvent.calendar = eventStore.defaultCalendarForNewEvents
+                newEvent.title = self.event.title
+                newEvent.location = self.event.location
+                newEvent.notes = self.event.description
+                newEvent.startDate = self.event.date as Date!
+                newEvent.endDate = newEvent.startDate.addingTimeInterval(30 * 60)
+                
+                do {
+                    try eventStore.save(newEvent, span: .thisEvent, commit: true)
+                    
+                    self.dismiss(animated: true, completion: nil)
+                } catch {
+                    let alert = UIAlertController(title: "Event could not save", message: (error as NSError).localizedDescription, preferredStyle: .alert)
+                    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alert.addAction(OKAction)
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }
+                
+            }
         }
     }
     
@@ -129,7 +168,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         self.titleCell.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         
         // set imageView UI
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.imageCell.bounds.width, height: self.imageCell.bounds.width * 0.67))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.width * 0.67))
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
         imageHeight = imageView.bounds.maxY
@@ -137,7 +176,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         self.imageCell.addSubview(imageView)
         
         // set titleLabel UI (title)
-        let titleLabel = UILabel(frame: self.titleCell.contentView.bounds.insetBy(dx: 15, dy: 10))
+        let titleLabel = UILabel(frame: CGRect(x: 15, y: 10, width: self.view.bounds.width - 30, height: 0))
         titleLabel.text = event.title
         titleLabel.font = UIFont(name: "Arial", size: 25.0)
         titleLabel.textColor = UIColor.white
@@ -159,19 +198,19 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
         
         // set addressLabel UI (address)
-        let addressLabel = UILabel(frame: self.addressCell.contentView.bounds.insetBy(dx: 15, dy: 10))
+        let addressLabel = UILabel(frame: CGRect(x: 15, y: 10, width: self.view.bounds.width - 30, height: 0))
         addressLabel.text = event.location
         addressLabel.numberOfLines = 0
         addressLabel.lineBreakMode = .byWordWrapping
-        addressLabel.font = UIFont(name: "Arial", size: 15.0)
-        addressLabel.textColor = UIColor(red: 127/255.0, green: 127/255.0, blue: 127/255.0, alpha: 0.5)
+        addressLabel.font = UIFont(name: "Arial", size: 20.0)
+        addressLabel.textColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.5)
         addressLabel.sizeToFit()
         addressHeight = addressLabel.bounds.maxY + 20
         self.addressCell.isUserInteractionEnabled = false
         self.addressCell.addSubview(addressLabel)
         
         // set ContentLabel UI (description)
-        let contentLabel = UILabel(frame: self.descriptionCell.contentView.bounds.insetBy(dx: 15, dy: 10))
+        let contentLabel = UILabel(frame: CGRect(x: 15, y: 10, width: self.view.bounds.width - 30, height: 0))
         contentLabel.text = event.description
         contentLabel.numberOfLines = 0
         contentLabel.lineBreakMode = .byWordWrapping
