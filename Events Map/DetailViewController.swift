@@ -150,7 +150,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
         // set dateLabel UI (date)
         let dateLabel = UILabel(frame: self.titleCell.contentView.bounds.insetBy(dx: 20, dy: titleLabel.bounds.maxY + 5))
-        dateLabel.text = event.date
+        dateLabel.text = "\(event.date)"
         dateLabel.numberOfLines = 1
         dateLabel.font = UIFont(name: "Arial", size: 15.0)
         dateLabel.textColor = UIColor(red: 50/255.0, green: 50/255.0, blue: 50/255.0, alpha: 0.5)
