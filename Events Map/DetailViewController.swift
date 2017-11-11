@@ -43,7 +43,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         //self.navigationController?.toolbar.backgroundColor = UIColor.white
         
         let starBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .done, target: self, action: nil)
-        let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(addCalendarEvent(_:)))
+        let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(saveCalendarAlert(_:)))
         let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: #selector(getDirection(_:)))
         let shareBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
         let space: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
@@ -128,8 +128,20 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
     }
     
+    @objc func saveCalendarAlert(_ sender: Any) {
+        let alertController = UIAlertController(title: "Calendar", message: "Add this event to calendar.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        alertController.addAction(cancelAction)
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (action) in
+            self.addCalendarEvent(action)
+        }
+        alertController.addAction(confirmAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     // Mark: add calendar event method
-    @objc func addCalendarEvent (_ sender: Any) {
+    func addCalendarEvent (_ sender: Any) {
         let eventStore = EKEventStore()
         
         //let calendars = eventStore.calendars(for: .event)
