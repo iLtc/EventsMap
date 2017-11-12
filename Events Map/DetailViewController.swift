@@ -9,15 +9,17 @@
 import UIKit
 import EventKit
 import MapKit
+import SwiftGifOrigin
 
 class DetailViewController: UITableViewController, UIToolbarDelegate {
     
-    //var calendar: EKCalendar!
+    
     var event: Event = Event()
     //var scroll: UIScrollView = UIScrollView()
     
     var imageCell: UITableViewCell = UITableViewCell()
-    var titleCell: UITableViewCell = UITableViewCell()
+    //var titleCell: UITableViewCell = UITableViewCell()
+    var titleView: UIView = UIView()
     var dateCell: UITableViewCell = UITableViewCell()
     var addressCell: UITableViewCell = UITableViewCell()
     var descriptionCell: UITableViewCell = UITableViewCell()
@@ -44,7 +46,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
         let starBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .done, target: self, action: nil)
         let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(saveCalendarAlert(_:)))
-        let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: #selector(getDirection(_:)))
+        let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: #selector(getDirectionMapKit(_:)))
         let shareBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
         let space: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
@@ -92,8 +94,8 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         present(activityViewController, animated: true, completion: nil)
     }
     
-    // Mark: get direction method
-    @objc func getDirection (_ sender: Any) {
+    // Mark: get direction method using MapKit
+    @objc func getDirectionMapKit (_ sender: Any) {
         
         let latitude: CLLocationDegrees = (event.geo["latitude"]! as NSString).doubleValue
         let longitude: CLLocationDegrees = (event.geo["longitude"]! as NSString).doubleValue
@@ -107,7 +109,10 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         mapItem.name = event.title
         mapItem.openInMaps(launchOptions: options)
         
+        
         """
+        
+        
         let directionView = UIViewController()
         
         directionView.modalPresentationStyle = UIModalPresentationStyle.popover
@@ -124,10 +129,19 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
         present(directionView, animated: true, completion: nil)
         """
-        
-        
     }
     
+    // MARK: -- get direction method using Google Maps
+    func getDirectionGoogle (_ sender: Any) {
+        
+        if (UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!)) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(String(describing: event.geo["latitude"]))&zoom=14&view=traffic,\(String(describing: event.geo["longitude"]))")!)
+        } else {
+            UIApplication.shared.open(URL(string: "https://www.google.com/maps/@\(String(describing: event.geo["latitude"])),\(String(describing: event.geo["longitude"]))z")!)
+        }
+    }
+    
+    // Mark: add to calendar alert
     @objc func saveCalendarAlert(_ sender: Any) {
         let alertController = UIAlertController(title: "Calendar", message: "Add this event to calendar.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
@@ -177,10 +191,13 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
     func setUI() {
         // set cells UI
         self.imageCell.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5)
-        self.titleCell.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+        self.titleView.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         
         // set imageView UI
+        let asset = NSDataAsset(name: "LoadingData")
+        let gifImage = UIImage.gif(data: (asset?.data)!)
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.width * 0.67))
+        imageView.image = gifImage
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
         imageHeight = imageView.bounds.maxY
@@ -188,37 +205,42 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         self.imageCell.addSubview(imageView)
         
         // set titleLabel UI (title)
-        let titleLabel = UILabel(frame: CGRect(x: 15, y: 10, width: self.view.bounds.width - 30, height: 0))
+        let titleLabel = UILabel(frame: CGRect(x: 15, y: 15, width: self.view.bounds.width - 30, height: 0))
         titleLabel.text = event.title
         titleLabel.font = UIFont(name: "Arial", size: 25.0)
         titleLabel.textColor = UIColor.white
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.sizeToFit()
-        titleHeight = titleLabel.bounds.maxY + 20
-        self.titleCell.isUserInteractionEnabled = false
-        self.titleCell.addSubview(titleLabel)
+        titleHeight = titleLabel.bounds.maxY + 30
+        self.titleView.addSubview(titleLabel)
         
         // set dateLabel UI (date)
-        let dateLabel = UILabel(frame: self.titleCell.contentView.bounds.insetBy(dx: 20, dy: titleLabel.bounds.maxY + 5))
-        dateLabel.text = "\(event.date)"
+        let dateLabel = UILabel(frame: CGRect(x: 15, y: 15, width: self.view.bounds.width - 30, height: 0))
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM dd,yyyy HH:mm"
+        let eventDate = formatter.string(from: self.event.date as Date)
+        dateLabel.text = eventDate
         dateLabel.numberOfLines = 1
         dateLabel.font = UIFont(name: "Arial", size: 15.0)
-        dateLabel.textColor = UIColor(red: 50/255.0, green: 50/255.0, blue: 50/255.0, alpha: 0.5)
+        dateLabel.textColor = UIColor(red: 50/255.0, green: 50/255.0, blue: 50/255.0, alpha: 1)
         dateLabel.sizeToFit()
-        
-        
+        dateHeight = dateLabel.bounds.maxY + 30
+        self.dateCell.selectionStyle = .none
+        self.dateCell.isUserInteractionEnabled = true
+        self.dateCell.addSubview(dateLabel)
         
         // set addressLabel UI (address)
-        let addressLabel = UILabel(frame: CGRect(x: 15, y: 10, width: self.view.bounds.width - 30, height: 0))
+        let addressLabel = UILabel(frame: CGRect(x: 15, y: 15, width: self.view.bounds.width - 30, height: 0))
         addressLabel.text = event.location
         addressLabel.numberOfLines = 0
         addressLabel.lineBreakMode = .byWordWrapping
         addressLabel.font = UIFont(name: "Arial", size: 20.0)
         addressLabel.textColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.5)
         addressLabel.sizeToFit()
-        addressHeight = addressLabel.bounds.maxY + 20
-        self.addressCell.isUserInteractionEnabled = false
+        addressHeight = addressLabel.bounds.maxY + 30
+        self.addressCell.selectionStyle = .none
+        self.addressCell.isUserInteractionEnabled = true
         self.addressCell.addSubview(addressLabel)
         
         // set ContentLabel UI (description)
@@ -240,15 +262,14 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
     
     // Return the number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     // Return the number of rows for each section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
         case 0: return 1
-        case 1: return 2
-        case 2: return 1
+        case 1: return 3
         default: fatalError("Unknown number of sections")
         }
     }
@@ -263,13 +284,9 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
             }
         case 1:
             switch(indexPath.row) {
-            case 0: return self.titleCell
+            case 0: return self.dateCell
             case 1: return self.addressCell
-            default: fatalError("Unknown number of sections")
-            }
-        case 2:
-            switch(indexPath.row) {
-            case 0: return self.descriptionCell
+            case 2: return self.descriptionCell
             default: fatalError("Unknown number of sections")
             }
         default:
@@ -277,11 +294,65 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if (section == 2) {
-            return "Description"
+    // MARK: -- Touch Event
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        let touch:UITouch = touches.first as UITouch!
+        
+        switch (touch.view?.tag) {
+        case 1?:
+            let touchView = touch.view
+            touchView?.backgroundColor = .lightGray
+        case 0?:
+            let touchView = touch.view
+            touchView?.backgroundColor = .lightGray
+        default: break
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        let touch:UITouch = touches.first as UITouch!
+        
+        switch (touch.view?.tag) {
+        case 1?:
+            let touchView = touch.view
+            touchView?.backgroundColor = .white
+        case 0?:
+            let touchView = touch.view
+            touchView?.backgroundColor = .white
+        default: break
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        let touch:UITouch = touches.first as UITouch!
+        switch (touch.view?.tag) {
+        case 1?:
+            let touchView = touch.view
+            touchView?.backgroundColor = .white
+        case 0?:
+            let touchView = touch.view
+            touchView?.backgroundColor = .white
+        default: break
+        }
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if (section == 1) {
+            return self.titleView
         } else {
-            return ""
+            return UIView()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 1) {
+            return self.titleHeight
+        } else {
+            return 0
         }
     }
     
@@ -294,13 +365,9 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
             }
         case 1:
             switch(indexPath.row) {
-            case 0: return self.titleHeight
+            case 0: return self.dateHeight
             case 1: return self.addressHeight
-            default: fatalError("Unknown number of sections")
-            }
-        case 2:
-            switch(indexPath.row) {
-            case 0: return self.descriptionHeight
+            case 2: return self.descriptionHeight
             default: fatalError("Unknown number of sections")
             }
         default:
