@@ -201,7 +201,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         self.titleView.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         
         // set imageView UI
-        let asset = NSDataAsset(name: "LoadingData")
+        let asset = NSDataAsset(name: "Loading")
         let gifImage = UIImage.gif(data: (asset?.data)!)
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.width * 0.67))
         imageView.image = gifImage
