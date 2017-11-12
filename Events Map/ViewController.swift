@@ -77,7 +77,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let event = marker.userData as! Event
         self.event = event
         let edge = CGFloat(10)
-        let size = CGSize(width: self.view.bounds.width-2*edge, height: (self.view.bounds.height)*0.3)
+        let size = CGSize(width: self.view.bounds.width-2*edge, height: 170)
         let origin = CGPoint(x: edge, y: self.view.bounds.height)
         let rect = CGRect(origin: origin, size: size)
         let infoView = UIView(frame: rect)
@@ -101,14 +101,14 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.addSubview(imageView)
         
         // Mark: ContentLabel UI
-        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.maxX + 5, y: 5), size: CGSize(width: infoView.bounds.width/2 - 10, height: 100)))
-        contentLabel.numberOfLines = 0
+        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 5, y: 5), size: CGSize(width: infoView.bounds.width/2 - 10, height: 100)))
+        contentLabel.numberOfLines = 4
         contentLabel.text = marker.title
         contentLabel.sizeToFit()
         infoView.addSubview(contentLabel)
         
         // Mark: -- Detail button
-        let detailBtn = UIButton(frame: CGRect(x: 5, y: imageView.frame.maxY + 10, width: infoView.bounds.maxX - 10, height: 40))
+        let detailBtn = UIButton(frame: CGRect(x: 10, y: imageView.frame.maxY + 10, width: infoView.bounds.maxX - 20, height: 40))
         detailBtn.layer.cornerRadius = 4
         detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         detailBtn.setTitleColor(UIColor.white, for: .normal)
@@ -124,7 +124,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         self.view.addSubview(infoView)
         
         UIView.animate(withDuration: 0.3, animations: {
-            infoView.frame.origin.y = self.view.bounds.height * 0.7
+            infoView.frame.origin.y = self.view.bounds.height - 180
         }, completion: nil)
         
         buffer.append(infoView)
@@ -206,8 +206,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         if (touch.view?.tag == 1) {
             let infoView = touch.view
-            if ((infoView?.frame.origin.y)! > view.frame.maxY * 0.65) {
-                let displacement = (infoView?.frame.maxY)!*0.6 - touch.location(in: view).y
+            if ((infoView?.frame.origin.y)! > view.frame.maxY * 0.7) {
+                let displacement = (infoView?.frame.maxY)!*0.5 - touch.location(in: view).y
                 infoView?.frame.origin.y -= displacement * 0.005
             }
         }
@@ -221,7 +221,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
 
             let infoView = touch.view
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height * 0.7
+                infoView?.frame.origin.y = self.view.bounds.height - 180
             }, completion: nil)
             //infoViewTapped(infoView!)
         }
@@ -235,7 +235,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             
             let infoView = touch.view
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height * 0.7
+                infoView?.frame.origin.y = self.view.bounds.height - 180
             }, completion: nil)
         }
     }
