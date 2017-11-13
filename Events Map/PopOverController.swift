@@ -8,16 +8,37 @@
 
 import UIKit
 
-class PopOverController: UIPresentationController {
+class PopOverView: NSObject {
     
-    override var frameOfPresentedViewInContainerView: CGRect {
-        var frame: CGRect = .zero
-        frame.size = size(forChildContentContainer: presentedViewController, withParentContainerSize: (containerView?.bounds.size)!)
-        frame.origin.y = containerView!.frame.height*(1.0/4.0)
-        return frame
+    
+    
+    func showView() {
+        
+        if let window = UIApplication.shared.keyWindow {
+            let dimmingView = UIView()
+            dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+            
+            dimmingView.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(dismiss(_:))))
+            window.addSubview(dimmingView)
+            dimmingView.frame = window.frame
+            dimmingView.alpha = 0
+            UIView.animate(withDuration: 0.5, animations: {
+                dimmingView.alpha = 1
+            })
+        }
+        
     }
     
-    override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
-        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+    @objc func dismiss(_ view: UIView) {
+        UIView.animate(withDuration: 0.5, animations: {
+            view.alpha = 0
+        }) { (bool) in
+            view.removeFromSuperview()
+        }
     }
+    
+    override init() {
+        super.init()
+    }
+    
 }

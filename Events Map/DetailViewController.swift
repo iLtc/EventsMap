@@ -94,26 +94,11 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         present(activityViewController, animated: true, completion: nil)
     }
     
+    let popoverMenu = PopOverView()
+    
     func popUpView() {
         
-    }
-    
-    // Mark: get direction method using MapKit
-    @objc func getDirectionMapKit (_ sender: Any) {
-        
-        let latitude: CLLocationDegrees = (event.geo["latitude"]! as NSString).doubleValue
-        let longitude: CLLocationDegrees = (event.geo["longitude"]! as NSString).doubleValue
-        
-        let regionDistance: CLLocationDistance = 1000;
-        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
-        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
-        let placeMark = MKPlacemark(coordinate: coordinates)
-        let mapItem = MKMapItem(placemark: placeMark)
-        mapItem.name = event.title
-        mapItem.openInMaps(launchOptions: options)
-        
-        
+        popoverMenu.showView()
         """
         
         
@@ -133,6 +118,25 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
         present(directionView, animated: true, completion: nil)
         """
+    }
+    
+    // Mark: get direction method using MapKit
+    @objc func getDirectionMapKit (_ sender: Any) {
+        
+        let latitude: CLLocationDegrees = (event.geo["latitude"]! as NSString).doubleValue
+        let longitude: CLLocationDegrees = (event.geo["longitude"]! as NSString).doubleValue
+        
+        let regionDistance: CLLocationDistance = 1000;
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
+        let placeMark = MKPlacemark(coordinate: coordinates)
+        let mapItem = MKMapItem(placemark: placeMark)
+        mapItem.name = event.title
+        mapItem.openInMaps(launchOptions: options)
+        
+        
+
     }
     
     // MARK: -- get direction method using Google Maps
