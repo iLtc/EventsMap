@@ -13,17 +13,21 @@ class Event {
     public var title: String
     public var url: String
     public var date: NSDate
+    public var endDate: NSDate
+    public var isAllDay: Bool
     public var location: String
     public var description: String
     public var photos: [String] = []
     public var geo: [String: String] = [:]
     public var categories: [String] = []
     
-    init(id: String, title: String, url: String, date: NSDate, location: String, description: String){
+    init(id: String, title: String, url: String, date: NSDate, endDate: NSDate, isAllDay: Bool, location: String, description: String){
         self.id = id
         self.title = title
         self.url = url
         self.date = date
+        self.endDate = endDate
+        self.isAllDay = isAllDay
         self.location = location
         self.description = description
     }
@@ -33,6 +37,8 @@ class Event {
         self.title = ""
         self.url = ""
         self.date = NSDate()
+        self.endDate = NSDate()
+        self.isAllDay = false
         self.location = ""
         self.description = ""
     }
