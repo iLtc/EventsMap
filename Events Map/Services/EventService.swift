@@ -24,15 +24,17 @@ class EventService {
                 for (_, subJson): (String, JSON) in json {
                     
                     let dateFormatter = DateFormatter()
-                    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    let dateFromString = dateFormatter.date(from: subJson["first_date"].stringValue)
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+                    let date = dateFormatter.date(from: subJson["first_date"].stringValue)
+                    let endDate = dateFormatter.date(from: subJson["last_date"].stringValue)
                     
                     let event = Event(
                         id: subJson["eid"].stringValue,
                         title: subJson["title"].stringValue,
                         url: subJson["url"].stringValue,
-                        date: dateFromString! as NSDate,
+                        date: date! as NSDate,
+                        endDate: endDate! as NSDate,
+                        isAllDay: subJson["all_day"] == "true",
                         location: subJson["location"].stringValue,
                         description: subJson["description"].stringValue
                     )
