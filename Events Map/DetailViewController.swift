@@ -94,6 +94,10 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         present(activityViewController, animated: true, completion: nil)
     }
     
+    func popUpView() {
+        
+    }
+    
     // Mark: get direction method using MapKit
     @objc func getDirectionMapKit (_ sender: Any) {
         
@@ -133,11 +137,14 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
     
     // MARK: -- get direction method using Google Maps
     func getDirectionGoogle (_ sender: Any) {
+        let geoLocation = event.geo["latitude"]! + "," + event.geo["longitude"]!
+        let location = event.location.replacingOccurrences(of: " ", with: "+")
         
         if (UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!)) {
-            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(String(describing: event.geo["latitude"]))&zoom=14&view=traffic,\(String(describing: event.geo["longitude"]))")!)
+            UIApplication.shared.open(URL(string: "comgooglemaps://?daddr="+location+"&center="+geoLocation+"&zoom=14&view=traffic")!)
         } else {
-            UIApplication.shared.open(URL(string: "https://www.google.com/maps/@\(String(describing: event.geo["latitude"])),\(String(describing: event.geo["longitude"]))z")!)
+            let appID = "585027354"
+            UIApplication.shared.open(URL(string: "itms-apps://itunes.apple.com/app/id" + appID)!)
         }
     }
     
@@ -194,10 +201,16 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         self.titleView.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         
         // set imageView UI
-        let asset = NSDataAsset(name: "LoadingData")
+        let asset = NSDataAsset(name: "Loading")
         let gifImage = UIImage.gif(data: (asset?.data)!)
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.width * 0.67))
         imageView.image = gifImage
+        //let toImage = UIImage.gif(url: event.photos[0])
+        //UIView.transition(with: imageView,
+        //                          duration:5,
+        //                          options: .transitionCrossDissolve,
+        //                          animations: { imageView.image = toImage },
+        //                          completion: nil)
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
         imageHeight = imageView.bounds.maxY
@@ -205,7 +218,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         self.imageCell.addSubview(imageView)
         
         // set titleLabel UI (title)
-        let titleLabel = UILabel(frame: CGRect(x: 15, y: 15, width: self.view.bounds.width - 30, height: 0))
+        let titleLabel = UILabel(frame: CGRect(x: 20, y: 15, width: self.view.bounds.width - 30, height: 0))
         titleLabel.text = event.title
         titleLabel.font = UIFont(name: "Arial", size: 25.0)
         titleLabel.textColor = UIColor.white
@@ -226,9 +239,11 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         dateLabel.textColor = UIColor(red: 50/255.0, green: 50/255.0, blue: 50/255.0, alpha: 1)
         dateLabel.sizeToFit()
         dateHeight = dateLabel.bounds.maxY + 30
+        let dateButton = makeTouchBtn(subView: dateLabel, rect: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: dateHeight), tag: 1)
         self.dateCell.selectionStyle = .none
         self.dateCell.isUserInteractionEnabled = true
-        self.dateCell.addSubview(dateLabel)
+        self.dateCell.addSubview(dateButton)
+        
         
         // set addressLabel UI (address)
         let addressLabel = UILabel(frame: CGRect(x: 15, y: 15, width: self.view.bounds.width - 30, height: 0))
@@ -239,9 +254,10 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         addressLabel.textColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.5)
         addressLabel.sizeToFit()
         addressHeight = addressLabel.bounds.maxY + 30
+        let addressButoon = makeTouchBtn(subView: addressLabel, rect: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: addressHeight), tag: 2)
         self.addressCell.selectionStyle = .none
         self.addressCell.isUserInteractionEnabled = true
-        self.addressCell.addSubview(addressLabel)
+        self.addressCell.addSubview(addressButoon)
         
         // set ContentLabel UI (description)
         let contentLabel = UILabel(frame: CGRect(x: 15, y: 10, width: self.view.bounds.width - 30, height: 0))
@@ -295,50 +311,46 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
     }
     
     // MARK: -- Touch Event
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        let touch:UITouch = touches.first as UITouch!
+    @objc func btnTouchDown(_ sender: UIButton) {
+        UIButton.animate(withDuration: 0.1) {
+            sender.backgroundColor = .lightGray
+        }
+    }
+    
+    @objc func touchUp(_ sender: UIButton) {
+        UIButton.animate(withDuration: 0.1) {
+            sender.backgroundColor = .white
+        }
+        switch (sender.tag) {
+        case 0:
+            break
+        case 1:
+            saveCalendarAlert(sender)
+        case 2:
+            getDirectionGoogle(sender)
+        default:
+            break
+        }
         
-        switch (touch.view?.tag) {
-        case 1?:
-            let touchView = touch.view
-            touchView?.backgroundColor = .lightGray
-        case 0?:
-            let touchView = touch.view
-            touchView?.backgroundColor = .lightGray
-        default: break
+    }
+    
+    @objc func touchCancelled(_ sender: UIButton) {
+        UIButton.animate(withDuration: 0.1) {
+            sender.backgroundColor = .white
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        let touch:UITouch = touches.first as UITouch!
-        
-        switch (touch.view?.tag) {
-        case 1?:
-            let touchView = touch.view
-            touchView?.backgroundColor = .white
-        case 0?:
-            let touchView = touch.view
-            touchView?.backgroundColor = .white
-        default: break
-        }
+    // MARK: -- Make touch button
+    func makeTouchBtn(subView: UIView, rect: CGRect, tag: Int) -> UIButton {
+        let button = UIButton(frame: rect)
+        button.addSubview(subView)
+        button.isUserInteractionEnabled = true
+        button.addTarget(self, action: #selector(btnTouchDown(_:)), for: UIControlEvents.touchDown)
+        button.tag = tag
+        button.addTarget(self, action: #selector(touchUp(_:)), for: UIControlEvents.touchUpInside)
+        button.addTarget(self, action: #selector(touchCancelled(_:)), for: UIControlEvents.touchDragExit)
+        return button
     }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        let touch:UITouch = touches.first as UITouch!
-        switch (touch.view?.tag) {
-        case 1?:
-            let touchView = touch.view
-            touchView?.backgroundColor = .white
-        case 0?:
-            let touchView = touch.view
-            touchView?.backgroundColor = .white
-        default: break
-        }
-    }
-    
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section == 1) {
