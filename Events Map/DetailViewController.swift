@@ -102,8 +102,9 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
         let selectionView: UICollectionView = {
             let layout = UICollectionViewLayout()
-            let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200), collectionViewLayout: layout)
-            cv.backgroundColor = UIColor(white: 1, alpha: 0.7)
+            let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 150), collectionViewLayout: layout)
+            cv.backgroundColor = UIColor(white: 1, alpha: 1)
+            cv.layer.cornerRadius = 8
             return cv
         }()
         
