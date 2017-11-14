@@ -28,7 +28,15 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         manger.requestWhenInUseAuthorization()
         manger.startUpdatingLocation()
         
-
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem?.image = UIImage(named: "User")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
+        self.navigationItem.rightBarButtonItem?.title = "Filter"
+        
+        let titleView = UISegmentedControl(items: ["Map", "List"])
+        titleView.selectedSegmentIndex = 0
+        self.navigationItem.titleView = titleView
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -151,6 +159,17 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        //Mark: remove buffer
+        removeView()
+        
+        //Mark: move camera
+        for view in self.view.subviews {
+            if view.restorationIdentifier == "MapView" {
+                let mapView = view as! GMSMapView
+                mapView.animate(toLocation: coordinate)
+            }
+        }
+        
         GMSGeocoder().reverseGeocodeCoordinate(coordinate) { response, error in
             if let address = response?.firstResult() {
                 let lines = address.lines!

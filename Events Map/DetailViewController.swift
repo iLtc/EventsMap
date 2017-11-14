@@ -54,7 +54,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         
         let starBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .done, target: self, action: nil)
         let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(saveCalendarAlert(_:)))
-        let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: #selector(popUpView))
+        let navigationBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Explore") , style: .done, target: self, action: #selector(popUpView))
         let shareBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
         let space: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
