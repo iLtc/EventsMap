@@ -79,15 +79,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         self.event = event
         
         //Mark: move camera
-        let la = Double(marker.position.latitude)
-        let lo = Double(marker.position.longitude)
-        
         for view in self.view.subviews {
             if view.restorationIdentifier == "MapView" {
                 let mapView = view as! GMSMapView
-                let newCamera = GMSCameraPosition.camera(withLatitude: la,
-                                                         longitude: lo,
-                                                         zoom: mapView.camera.zoom)
                 mapView.animate(toLocation: marker.position)
             }
         }
