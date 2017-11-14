@@ -1,6 +1,0 @@
-framework module Pods_Events_Map {
-  umbrella header "Pods-Events Map-umbrella.h"
-
-  export *
-  module * { export * }
-}
