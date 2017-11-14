@@ -2,7 +2,7 @@
 //  DetailViewController.swift
 //  Events Map
 //
-//  Created by uics3 on 11/7/17.
+//  Created by Tony Chen on 11/7/17.
 //  Copyright © 2017 The University of Iowa. All rights reserved.
 //
 
@@ -180,10 +180,10 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
 
     // Mark: add to calendar alert
     @objc func saveCalendarAlert(_ sender: Any) {
-        let alertController = UIAlertController(title: "Calendar", message: "Add this event to calendar.", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        let alertController = UIAlertController(title: "Events Map", message: "Add this event to calendar.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
-        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (action) in
+        let confirmAction = UIAlertAction(title: "Add", style: .default) { (action) in
             self.addCalendarEvent(action)
         }
         alertController.addAction(confirmAction)
@@ -261,13 +261,17 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         titleHeight = titleLabel.bounds.maxY + 30
         self.titleView.addSubview(titleLabel)
         
-        // set dateLabel UI (date)
-        let dateLabel = UILabel(frame: CGRect(x: 15, y: 15, width: self.view.bounds.width - 30, height: 0))
+        // set dateCell UI (date)
+        let calendarIconView = UIImageView(image: UIImage(named: "Calendar"))
+        
+        calendarIconView.frame = CGRect(x: 15, y: 15, width: 30, height: 30)
+        
+        let dateLabel = UILabel(frame: CGRect(x: 15, y: 15, width: self.view.bounds.width - calendarIconView.frame.width - 30, height: 0))
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM dd,yyyy HH:mm"
         let eventDate = formatter.string(from: self.event.date as Date)
         dateLabel.text = eventDate
-        dateLabel.numberOfLines = 1
+        dateLabel.numberOfLines = 0
         dateLabel.font = UIFont(name: "Arial", size: 15.0)
         dateLabel.textColor = UIColor(red: 50/255.0, green: 50/255.0, blue: 50/255.0, alpha: 1)
         dateLabel.sizeToFit()
