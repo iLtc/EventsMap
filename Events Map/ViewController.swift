@@ -17,6 +17,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     var carema = GMSCameraPosition()
     var buffer: [UIView] = []
     var event: Event = Event()
+    var address = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,9 +151,59 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
-        print("You long pressed at \(coordinate.latitude), \(coordinate.longitude)")
-        
-
+        GMSGeocoder().reverseGeocodeCoordinate(coordinate) { response, error in
+            if let address = response?.firstResult() {
+                let lines = address.lines!
+                
+                let addressText = lines.joined(separator: ", ")
+                self.address = addressText
+                
+                let edge = CGFloat(10)
+                let size = CGSize(width: self.view.bounds.width-2*edge, height: 100)
+                let origin = CGPoint(x: edge, y: self.view.bounds.height)
+                let rect = CGRect(origin: origin, size: size)
+                let infoView = UIView(frame: rect)
+                
+                // Mark: infoView UI style
+                infoView.backgroundColor = .white
+                infoView.layer.cornerRadius = 4
+                infoView.layer.shadowRadius = 4
+                infoView.layer.shadowColor = UIColor.black.cgColor
+                infoView.layer.shadowOpacity = 0.5
+                infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
+                infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
+                infoView.layer.shouldRasterize = true
+                infoView.sizeToFit()
+                infoView.tag = 1
+                
+                // Mark: ContentLabel UI
+                let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: 5, y: 5), size: CGSize(width: infoView.bounds.width - 20, height: 100)))
+                contentLabel.numberOfLines = 4
+                contentLabel.text = addressText
+                contentLabel.sizeToFit()
+                infoView.addSubview(contentLabel)
+                
+                // Mark: -- Detail button
+                let detailBtn = UIButton(frame: CGRect(x: 10, y: 50, width: infoView.bounds.maxX - 20, height: 40))
+                detailBtn.layer.cornerRadius = 4
+                detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+                detailBtn.setTitleColor(UIColor.white, for: .normal)
+                detailBtn.setTitle("Add Event", for: .normal)
+                detailBtn.isUserInteractionEnabled = true
+                detailBtn.addTarget(self, action: #selector(self.btnPressedDown(_:)), for: UIControlEvents.touchDown)
+                detailBtn.addTarget(self, action: #selector(self.addViewTapped(_:)), for: UIControlEvents.touchUpInside)
+                infoView.addSubview(detailBtn)
+                
+                self.view.addSubview(infoView)
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    infoView.frame.origin.y = self.view.bounds.height - 110
+                }, completion: nil)
+                
+                self.buffer.append(infoView)
+            }
+            
+        }
     }
     
     // Mark: ButtonPressed down action
@@ -170,6 +221,17 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         }
         let vc = DetailViewController()
         vc.event = self.event
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    // Mark: AddView tap action
+    @objc func addViewTapped(_ sender: UIButton) {
+        UIButton.animate(withDuration: 0.1) {
+            sender.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+        }
+        let vc = AddEventViewController()
+        vc.address = self.address
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
