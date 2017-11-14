@@ -2,5 +2,6 @@
 /.build
 /Packages
 /*.xcodeproj
-Events Map.xcodeproj/project.pbxproj
+Events\ Map.xcodeproj/
+Events\ Map.xcworkspace/
 Pods
