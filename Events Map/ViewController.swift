@@ -41,6 +41,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
         mapView.delegate = self
+        mapView.restorationIdentifier = "MapView"
         EventService.instance.sync(addEvents)
         self.view.addSubview(mapView)
 
@@ -76,6 +77,22 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     func addInfoView(_ marker: GMSMarker) {
         let event = marker.userData as! Event
         self.event = event
+        
+        //Mark: move camera
+        let la = Double(marker.position.latitude)
+        let lo = Double(marker.position.longitude)
+        
+        for view in self.view.subviews {
+            if view.restorationIdentifier == "MapView" {
+                let mapView = view as! GMSMapView
+                let newCamera = GMSCameraPosition.camera(withLatitude: la,
+                                                         longitude: lo,
+                                                         zoom: mapView.camera.zoom)
+                mapView.animate(toLocation: marker.position)
+            }
+        }
+        
+        
         let edge = CGFloat(10)
         let size = CGSize(width: self.view.bounds.width-2*edge, height: 170)
         let origin = CGPoint(x: edge, y: self.view.bounds.height)
