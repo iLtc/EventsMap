@@ -19,6 +19,7 @@
 		244E8E841FB2AC8C0043996B /* download-image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244E8E831FB2AC8C0043996B /* download-image.swift */; };
 		24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A06A671FB00C7D00F433CC /* string-truncate.swift */; };
 		6C9B71F5AE74F50A72F40002 /* Pods_Events_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10A9A14C475A39F661E72B86 /* Pods_Events_Map.framework */; };
+		C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54A952C1FB810B400206D11 /* PopOverController.swift */; };
 		C5E7C7981FB2D46300DFAF8D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E7C7971FB2D46300DFAF8D /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +53,7 @@
 		24A06A671FB00C7D00F433CC /* string-truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "string-truncate.swift"; sourceTree = "<group>"; };
 		364B4EDF7B0BBB5D55635A9C /* Pods-Events Map.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.debug.xcconfig"; sourceTree = "<group>"; };
 		687E7DC15DAC17C76C4086E5 /* Pods-Events Map.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.release.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.release.xcconfig"; sourceTree = "<group>"; };
+		C54A952C1FB810B400206D11 /* PopOverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverController.swift; sourceTree = "<group>"; };
 		C5E7C7971FB2D46300DFAF8D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,7 @@
 				243887A71FAF85E6000C012C /* Models */,
 				242505EC1FA2B21E006E0408 /* AppDelegate.swift */,
 				C5E7C7971FB2D46300DFAF8D /* DetailViewController.swift */,
+				C54A952C1FB810B400206D11 /* PopOverController.swift */,
 				242505EE1FA2B21E006E0408 /* ViewController.swift */,
 				242505F01FA2B21E006E0408 /* Main.storyboard */,
 				242505F31FA2B21E006E0408 /* Assets.xcassets */,
@@ -227,11 +230,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Events Map/Pods-Events Map-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				244E8E841FB2AC8C0043996B /* download-image.swift in Sources */,
+				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
 				243887AC1FAF88A0000C012C /* EventService.swift in Sources */,
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
