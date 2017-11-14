@@ -8,11 +8,19 @@
 
 import UIKit
 import EventKit
-import MapKit
 import SwiftGifOrigin
 
-class DetailViewController: UITableViewController, UIToolbarDelegate {
+class Setting: NSObject {
+    let name: String
+    let imageName: String
     
+    init(name: String, imageName: String) {
+        self.name = name
+        self.imageName = imageName
+    }
+}
+
+class DetailViewController: UITableViewController, UIToolbarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate{
     
     var event: Event = Event()
     //var scroll: UIScrollView = UIScrollView()
@@ -46,7 +54,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         
         let starBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .done, target: self, action: nil)
         let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(saveCalendarAlert(_:)))
-        let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: #selector(getDirectionMapKit(_:)))
+        let navigationBtn: UIBarButtonItem = UIBarButtonItem(title: "navi" , style: .plain, target: self, action: #selector(popUpView))
         let shareBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
         let space: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
@@ -62,6 +70,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.navigationItem.title = "Event Detail"
         self.navigationController?.navigationBar.topItem?.title = "Map"
 
@@ -94,21 +103,59 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         present(activityViewController, animated: true, completion: nil)
     }
     
+    let cellIdentifier = "mapCell"
     
+    let settings: [Setting] = {
+        return [Setting(name: "Google Maps", imageName: "GoogleMaps"), Setting(name: "Maps", imageName: "AppleMaps")]
+    } ()
+    // MARK: Collection View
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return settings.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! MapsCell
+        cell.setting = settings[indexPath.item]
+        cell.event = self.event
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width / CGFloat(settings.count) - 30, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(30, 50, 20, 50)
+    }
     
     let popoverMenu = PopOverView()
     
-    func popUpView() {
+    @objc func popUpView() {
+        
+        let titleLabel: UILabel = {
+            let label = UILabel()
+            label.text = "Get Directions"
+            label.font = UIFont.boldSystemFont(ofSize: 20)
+            return label
+        }()
         
         let selectionView: UICollectionView = {
-            let layout = UICollectionViewLayout()
-            let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 150), collectionViewLayout: layout)
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 170), collectionViewLayout: layout)
             cv.backgroundColor = UIColor(white: 1, alpha: 1)
             cv.layer.cornerRadius = 8
             return cv
         }()
         
+        selectionView.addSubview(titleLabel)
+        titleLabel.frame = CGRect(x: 20, y: 10, width: view.frame.width, height: 30)
+        selectionView.dataSource = self
+        selectionView.delegate = self
+        selectionView.register(MapsCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        
         popoverMenu.presentView(selectionView)
+        
         """
         
         
@@ -130,38 +177,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         """
     }
     
-    // Mark: get direction method using MapKit
-    @objc func getDirectionMapKit (_ sender: Any) {
-        
-        let latitude: CLLocationDegrees = (event.geo["latitude"]! as NSString).doubleValue
-        let longitude: CLLocationDegrees = (event.geo["longitude"]! as NSString).doubleValue
-        
-        let regionDistance: CLLocationDistance = 1000;
-        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
-        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
-        let placeMark = MKPlacemark(coordinate: coordinates)
-        let mapItem = MKMapItem(placemark: placeMark)
-        mapItem.name = event.title
-        mapItem.openInMaps(launchOptions: options)
-        
-        
 
-    }
-    
-    // MARK: -- get direction method using Google Maps
-    func getDirectionGoogle (_ sender: Any) {
-        let geoLocation = event.geo["latitude"]! + "," + event.geo["longitude"]!
-        let location = event.location.replacingOccurrences(of: " ", with: "+")
-        
-        if (UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!)) {
-            UIApplication.shared.open(URL(string: "comgooglemaps://?daddr="+location+"&center="+geoLocation+"&zoom=14&view=traffic")!)
-        } else {
-            let appID = "585027354"
-            UIApplication.shared.open(URL(string: "itms-apps://itunes.apple.com/app/id" + appID)!)
-        }
-    }
-    
     // Mark: add to calendar alert
     @objc func saveCalendarAlert(_ sender: Any) {
         let alertController = UIAlertController(title: "Calendar", message: "Add this event to calendar.", preferredStyle: .alert)
