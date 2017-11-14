@@ -11,32 +11,44 @@ import UIKit
 class PopOverView: NSObject {
     
     
+    let dimmingView = UIView()
+    var showView: UIView = UIView()
     
-    func showView() {
+    func presentView(_ presentView: UIView) {
         
         if let window = UIApplication.shared.keyWindow {
-            let dimmingView = UIView()
+            
             dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
             
-            dimmingView.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(dismiss(_:))))
+            dimmingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismiss)))
             window.addSubview(dimmingView)
+            showView = presentView
+            window.addSubview(showView)
+            showView.frame = CGRect(x: 0, y: window.frame.height, width: presentView.frame.width, height: presentView.frame.height)
+            
+            
             dimmingView.frame = window.frame
             dimmingView.alpha = 0
-            UIView.animate(withDuration: 0.5, animations: {
-                dimmingView.alpha = 1
-            })
+ 
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .transitionCrossDissolve, animations: {
+                self.dimmingView.alpha = 1
+                self.showView.frame = CGRect(x: 0, y: (window.frame.height - self.showView.frame.height), width: self.showView.frame.width, height: self.showView.frame.height)
+            }, completion: nil)
+            
+            
         }
         
     }
     
-    @objc func dismiss(_ view: UIView) {
-        UIView.animate(withDuration: 0.5, animations: {
-            view.alpha = 0
-        }) { (bool) in
-            view.removeFromSuperview()
-        }
+    @objc func dismiss() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .transitionCrossDissolve, animations: {
+            self.dimmingView.alpha = 0
+            if let window = UIApplication.shared.keyWindow {
+                self.showView.frame = CGRect(x: 0, y: window.frame.height, width: self.showView.frame.width, height: self.showView.frame.height)
+            }
+        }, completion: nil)
     }
-    
+
     override init() {
         super.init()
     }

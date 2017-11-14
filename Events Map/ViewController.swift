@@ -207,7 +207,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         if (touch.view?.tag == 1) {
             let infoView = touch.view
             if ((infoView?.frame.origin.y)! > view.frame.maxY * 0.7) {
-                let displacement = (infoView?.frame.maxY)!*0.5 - touch.location(in: view).y
+                let displacement = (infoView?.frame.midY)! - touch.location(in: view).y
                 infoView?.frame.origin.y -= displacement * 0.005
             }
         }

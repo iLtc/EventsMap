@@ -94,11 +94,20 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         present(activityViewController, animated: true, completion: nil)
     }
     
+    
+    
     let popoverMenu = PopOverView()
     
     func popUpView() {
         
-        popoverMenu.showView()
+        let selectionView: UICollectionView = {
+            let layout = UICollectionViewLayout()
+            let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200), collectionViewLayout: layout)
+            cv.backgroundColor = UIColor(white: 1, alpha: 0.7)
+            return cv
+        }()
+        
+        popoverMenu.presentView(selectionView)
         """
         
         
@@ -222,13 +231,16 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         self.imageCell.addSubview(imageView)
         
         // set titleLabel UI (title)
-        let titleLabel = UILabel(frame: CGRect(x: 20, y: 15, width: self.view.bounds.width - 30, height: 0))
-        titleLabel.text = event.title
-        titleLabel.font = UIFont(name: "Arial", size: 25.0)
-        titleLabel.textColor = UIColor.white
-        titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.sizeToFit()
+        let titleLabel: UILabel = {
+            let label = UILabel(frame: CGRect(x: 20, y: 15, width: self.view.bounds.width - 30, height: 0))
+            label.text = event.title
+            label.font = UIFont(name: "Arial", size: 25.0)
+            label.textColor = UIColor.white
+            label.numberOfLines = 0
+            label.lineBreakMode = .byWordWrapping
+            label.sizeToFit()
+            return label
+        }()
         titleHeight = titleLabel.bounds.maxY + 30
         self.titleView.addSubview(titleLabel)
         
@@ -331,7 +343,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate {
         case 1:
             saveCalendarAlert(sender)
         case 2:
-            getDirectionGoogle(sender)
+            popUpView()
         default:
             break
         }
