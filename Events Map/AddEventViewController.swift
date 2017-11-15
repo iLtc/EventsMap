@@ -8,11 +8,13 @@
 
 import UIKit
 
-class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
+    
     var address: String?
     var pickedImage: UIImage?
     
+    @IBOutlet weak var eventTitle: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
     override func viewDidLoad() {
@@ -30,11 +32,20 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         imageView.layer.cornerRadius = 7
 
         addressField.text = address
+        
+        eventTitle.delegate = self
+        addressField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        eventTitle.resignFirstResponder()
+        addressField.resignFirstResponder()
+        return true
     }
     
     @IBAction func pickPhoto(_ sender: Any) {
