@@ -30,6 +30,9 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.darkGray.cgColor
         imageView.layer.cornerRadius = 7
+        
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pickPhoto(_:))))
+        imageView.isUserInteractionEnabled = true
 
         addressField.text = address
         
@@ -48,8 +51,7 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         return true
     }
     
-    @IBAction func pickPhoto(_ sender: Any) {
-        print(2)
+    @objc func pickPhoto(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
