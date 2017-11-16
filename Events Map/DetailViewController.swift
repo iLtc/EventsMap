@@ -156,26 +156,6 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         selectionView.register(MapsCell.self, forCellWithReuseIdentifier: cellIdentifier)
         
         popoverMenu.presentView(selectionView)
-        
-        """
-        
-        
-        let directionView = UIViewController()
-        
-        directionView.modalPresentationStyle = UIModalPresentationStyle.popover
-        directionView.preferredContentSize = CGSize(width: view.bounds.width - 5, height: view.bounds.height * 0.4)
-        directionView.view.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.7)
-        
-        if let popoverController = directionView.popoverPresentationController {
-            popoverController.barButtonItem = (sender as! UIBarButtonItem)
-            popoverController.sourceView = sender as? UIView
-            popoverController.sourceRect = CGRect(x: 5, y: view.bounds.height * 0.6, width: view.bounds.width - 5, height: view.bounds.height * 0.4)
-            popoverController.delegate = self as? UIPopoverPresentationControllerDelegate
-            popoverController.sourceView?.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.7)
-        }
-        
-        present(directionView, animated: true, completion: nil)
-        """
     }
     
 
