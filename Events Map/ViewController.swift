@@ -115,15 +115,39 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         // Mark: imageView UI
         let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 120, height: 80))
+
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 8
         infoView.addSubview(imageView)
         
+        // Mark: DateLabel UI
+        let dateLabel = UILabel(frame: CGRect(origin: CGPoint(x: infoView.bounds.width/3, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 0)))
+        dateLabel.font = UIFont.systemFont(ofSize: 12)
+        dateLabel.textColor = .red
+        let startDate = self.event.date as Date
+        let endDate = self.event.endDate as Date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE, MMM dd HH:mm"
+        let endFormatter = DateFormatter()
+        endFormatter.dateFormat = "HH:mm"
+        var eventStartDate = String()
+        var eventEndDate = String()
+        if (Calendar.current.isDate(startDate, inSameDayAs: endDate)) {
+            eventStartDate = formatter.string(from: startDate)
+            eventEndDate = endFormatter.string(from: endDate)
+        } else {
+            eventStartDate = formatter.string(from: startDate)
+            eventEndDate = formatter.string(from: endDate)
+            
+        }
+        dateLabel.text = eventStartDate + " - " + eventEndDate
+        dateLabel.sizeToFit()
+        infoView.addSubview(dateLabel)
+        
         // Mark: ContentLabel UI
-        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 10, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 100)))
+        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: infoView.bounds.width/3, y: 20 + dateLabel.bounds.height), size: CGSize(width: infoView.bounds.width/1.5 - 10, height: 0)))
         contentLabel.font = UIFont.systemFont(ofSize: 15)
-        contentLabel.numberOfLines = 4
+        contentLabel.numberOfLines = 3
         contentLabel.text = marker.title
         contentLabel.sizeToFit()
         infoView.addSubview(contentLabel)
@@ -139,13 +163,13 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         detailBtn.addTarget(self, action: #selector(infoViewTapped(_:)), for: UIControlEvents.touchUpInside)
         infoView.addSubview(detailBtn)
         
-        // Mark: DateLabel UI
-        let dateLabel = UILabel()
         
+        
+        infoView.frame.size = CGSize(width: self.view.bounds.width - 20, height: imageView.frame.height + detailBtn.frame.height + 30)
         self.view.addSubview(infoView)
         
         UIView.animate(withDuration: 0.3, animations: {
-            infoView.frame.origin.y = self.view.bounds.height - 180
+            infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height - 10
         }, completion: nil)
         
         buffer.append(infoView)
@@ -155,7 +179,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         // Tap InfoView trigger
         //let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(sender:)))
         infoView.isUserInteractionEnabled = true
-        infoView.sizeToFit()
     }
     
     
@@ -197,7 +220,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView.tag = 1
                 
                 // Mark: ContentLabel UI
-                let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: 10, y: 5), size: CGSize(width: infoView.bounds.width - 20, height: 100)))
+                let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: 10, y: 10), size: CGSize(width: infoView.bounds.width - 20, height: 100)))
                 contentLabel.font = UIFont.systemFont(ofSize: 15)
                 contentLabel.numberOfLines = 4
                 contentLabel.text = addressText
@@ -205,7 +228,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView.addSubview(contentLabel)
                 
                 // Mark: -- Detail button
-                let detailBtn = UIButton(frame: CGRect(x: 10, y: contentLabel.frame.height + 10, width: infoView.bounds.maxX - 20, height: 40))
+                let detailBtn = UIButton(frame: CGRect(x: 10, y: contentLabel.frame.height + 20, width: infoView.bounds.maxX - 20, height: 40))
                 detailBtn.layer.cornerRadius = 4
                 detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
                 detailBtn.setTitleColor(UIColor.white, for: .normal)
@@ -216,9 +239,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView.addSubview(detailBtn)
                 
                 self.view.addSubview(infoView)
-                infoView.sizeToFit()
+                infoView.frame.size = CGSize(width: self.view.bounds.width - 20, height: contentLabel.frame.height + detailBtn.frame.height + 30)
                 UIView.animate(withDuration: 0.3, animations: {
-                    infoView.frame.origin.y = self.view.bounds.height - 110
+                    infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height - 10
                 }, completion: nil)
                 
                 self.buffer.append(infoView)
@@ -315,7 +338,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
 
             let infoView = touch.view
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height - 180
+                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)! - 10
             }, completion: nil)
             //infoViewTapped(infoView!)
         }
@@ -329,7 +352,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             
             let infoView = touch.view
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height - 180
+                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)! - 10
             }, completion: nil)
         }
     }
