@@ -133,6 +133,10 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
     
     @objc func popUpView() {
         
+        let popUpView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
+        
+        popUpView.backgroundColor = .white
+        popUpView.layer.cornerRadius = 8
         let titleLabel: UILabel = {
             let label = UILabel()
             label.text = "Get Directions"
@@ -140,22 +144,25 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
             return label
         }()
         
+        popUpView.addSubview(titleLabel)
+        
         let selectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
-            let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 170), collectionViewLayout: layout)
-            cv.backgroundColor = UIColor(white: 1, alpha: 1)
-            cv.layer.cornerRadius = 8
+            let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 130), collectionViewLayout: layout)
+            cv.backgroundColor = UIColor.clear
             return cv
         }()
-        
-        selectionView.addSubview(titleLabel)
-        titleLabel.frame = CGRect(x: 20, y: 10, width: view.frame.width, height: 30)
         selectionView.dataSource = self
         selectionView.delegate = self
         selectionView.register(MapsCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        popUpView.addSubview(selectionView)
         
-        popoverMenu.presentView(selectionView)
+        titleLabel.frame = CGRect(x: 20, y: 10, width: view.frame.width, height: 30)
+        selectionView.frame.origin = CGPoint(x: 20, y: 30)
+        popUpView.sizeToFit()
+        
+        popoverMenu.presentView(popUpView)
     }
     
 
@@ -187,7 +194,8 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
                 newEvent.location = self.event.location
                 newEvent.notes = self.event.description
                 newEvent.startDate = self.event.date as Date!
-                newEvent.endDate = newEvent.startDate.addingTimeInterval(30 * 60)
+                newEvent.endDate = self.event.endDate as Date!
+                newEvent.isAllDay = self.event.isAllDay
                 
                 do {
                     try eventStore.save(newEvent, span: .thisEvent, commit: true)

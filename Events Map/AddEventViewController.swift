@@ -10,7 +10,6 @@ import UIKit
 
 class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
-    
     var address: String?
     var pickedImage: UIImage?
     
@@ -38,6 +37,8 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
 
         addressField.text = address
         
+        
+        // MARK: - Set delegate
         eventTitle.delegate = self
         addressField.delegate = self
         descripInput.delegate = self
@@ -48,6 +49,7 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Override the return on keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         eventTitle.resignFirstResponder()
         addressField.resignFirstResponder()
@@ -62,6 +64,18 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         return true
     }
     
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        var pointInSuperView:CGPoint = (textView.superview?.convert(textView.frame.origin, to: view))!
+//        var contentOffset:CGPoint =
+
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        print("BeginEditing")
+        let range = NSMakeRange(textView.text.count - 1, 0)
+        textView.scrollRangeToVisible(range)
+    }
     
     @objc func pickPhoto(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
