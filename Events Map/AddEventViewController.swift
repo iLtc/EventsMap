@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
     
     var address: String?
@@ -17,8 +17,10 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var eventTitle: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
+    @IBOutlet weak var descripInput: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         self.navigationItem.title = "Add Event"
         self.navigationController?.navigationBar.topItem?.title = "Map"
@@ -38,6 +40,7 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         
         eventTitle.delegate = self
         addressField.delegate = self
+        descripInput.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,6 +53,15 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         addressField.resignFirstResponder()
         return true
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            descripInput.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
     
     @objc func pickPhoto(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
