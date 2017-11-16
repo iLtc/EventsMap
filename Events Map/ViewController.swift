@@ -111,17 +111,18 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
         infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
         infoView.layer.shouldRasterize = true
-        infoView.sizeToFit()
         infoView.tag = 1
         
         // Mark: imageView UI
-        let imageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 150, height: 100))
+        let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 120, height: 80))
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
         infoView.addSubview(imageView)
         
         // Mark: ContentLabel UI
-        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 5, y: 5), size: CGSize(width: infoView.bounds.width/2 - 10, height: 100)))
+        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 10, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 100)))
+        contentLabel.font = UIFont.systemFont(ofSize: 15)
         contentLabel.numberOfLines = 4
         contentLabel.text = marker.title
         contentLabel.sizeToFit()
@@ -154,7 +155,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         // Tap InfoView trigger
         //let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(sender:)))
         infoView.isUserInteractionEnabled = true
-        
+        infoView.sizeToFit()
     }
     
     
@@ -178,7 +179,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 self.address = addressText
                 
                 let edge = CGFloat(10)
-                let size = CGSize(width: self.view.bounds.width-2*edge, height: 100)
+                let size = CGSize(width: self.view.bounds.width-2*edge, height: 120)
                 let origin = CGPoint(x: edge, y: self.view.bounds.height)
                 let rect = CGRect(origin: origin, size: size)
                 let infoView = UIView(frame: rect)
@@ -192,29 +193,30 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
                 infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
                 infoView.layer.shouldRasterize = true
-                infoView.sizeToFit()
+                
                 infoView.tag = 1
                 
                 // Mark: ContentLabel UI
-                let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: 5, y: 5), size: CGSize(width: infoView.bounds.width - 20, height: 100)))
+                let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: 10, y: 5), size: CGSize(width: infoView.bounds.width - 20, height: 100)))
+                contentLabel.font = UIFont.systemFont(ofSize: 15)
                 contentLabel.numberOfLines = 4
                 contentLabel.text = addressText
                 contentLabel.sizeToFit()
                 infoView.addSubview(contentLabel)
                 
                 // Mark: -- Detail button
-                let detailBtn = UIButton(frame: CGRect(x: 10, y: 50, width: infoView.bounds.maxX - 20, height: 40))
+                let detailBtn = UIButton(frame: CGRect(x: 10, y: contentLabel.frame.height + 10, width: infoView.bounds.maxX - 20, height: 40))
                 detailBtn.layer.cornerRadius = 4
                 detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
                 detailBtn.setTitleColor(UIColor.white, for: .normal)
-                detailBtn.setTitle("Add Event", for: .normal)
+                detailBtn.setTitle("New Event", for: .normal)
                 detailBtn.isUserInteractionEnabled = true
                 detailBtn.addTarget(self, action: #selector(self.btnPressedDown(_:)), for: UIControlEvents.touchDown)
                 detailBtn.addTarget(self, action: #selector(self.addViewTapped(_:)), for: UIControlEvents.touchUpInside)
                 infoView.addSubview(detailBtn)
                 
                 self.view.addSubview(infoView)
-                
+                infoView.sizeToFit()
                 UIView.animate(withDuration: 0.3, animations: {
                     infoView.frame.origin.y = self.view.bounds.height - 110
                 }, completion: nil)
