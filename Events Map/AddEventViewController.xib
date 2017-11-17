@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddEventViewController" customModule="Events_Map" customModuleProvider="target">
             <connections>
                 <outlet property="addressField" destination="LAF-eT-MJu" id="g2v-DP-a4O"/>
+                <outlet property="dateInput" destination="XoY-TI-8VO" id="f0L-KP-csG"/>
                 <outlet property="descripInput" destination="xHl-hh-Ghk" id="Grc-Jo-hAM"/>
                 <outlet property="eventTitle" destination="vej-0v-KVx" id="yfX-Z5-kvA"/>
                 <outlet property="imageView" destination="hFw-ni-bNL" id="Ngg-v4-ipp"/>
@@ -53,9 +54,19 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     <dataDetectorType key="dataDetectorTypes" address="YES" calendarEvent="YES"/>
                 </textView>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start Date" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XoY-TI-8VO">
+                    <rect key="frame" x="16" y="502" width="343" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="pickDate:" destination="-1" eventType="editingDidBegin" id="y3e-fZ-uC3"/>
+                    </connections>
+                </textField>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="XoY-TI-8VO" firstAttribute="leading" secondItem="xHl-hh-Ghk" secondAttribute="leading" id="42N-gU-Tir"/>
                 <constraint firstItem="LAF-eT-MJu" firstAttribute="top" secondItem="hFw-ni-bNL" secondAttribute="bottom" constant="16" id="4pp-TX-bl5"/>
                 <constraint firstItem="vej-0v-KVx" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="BNs-r9-MBr"/>
                 <constraint firstItem="xHl-hh-Ghk" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Beb-KO-iNI"/>
@@ -65,8 +76,10 @@
                 <constraint firstItem="hFw-ni-bNL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="dTs-lM-dmb"/>
                 <constraint firstItem="xHl-hh-Ghk" firstAttribute="top" secondItem="LAF-eT-MJu" secondAttribute="bottom" constant="16" id="dnd-1v-fm4"/>
                 <constraint firstItem="LAF-eT-MJu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="er6-bB-wLX"/>
+                <constraint firstItem="XoY-TI-8VO" firstAttribute="top" secondItem="xHl-hh-Ghk" secondAttribute="bottom" constant="8" symbolic="YES" id="i3X-4s-Ve7"/>
                 <constraint firstItem="hFw-ni-bNL" firstAttribute="top" secondItem="vej-0v-KVx" secondAttribute="bottom" constant="16" id="nuV-3c-j8D"/>
                 <constraint firstItem="vej-0v-KVx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="q7t-qm-Ph4"/>
+                <constraint firstItem="XoY-TI-8VO" firstAttribute="trailing" secondItem="xHl-hh-Ghk" secondAttribute="trailing" id="s1F-fX-axP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="xHl-hh-Ghk" secondAttribute="trailing" constant="16" id="wFh-R2-961"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
