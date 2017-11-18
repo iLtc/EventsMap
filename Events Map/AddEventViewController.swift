@@ -15,14 +15,15 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     var address: String?
     var pickedImage: UIImage?
     
-    @IBOutlet weak var dateInput: UITextField!
     @IBOutlet weak var eventTitle: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
+    @IBOutlet weak var dateInput: UITextField!
+    @IBOutlet weak var endDateInput: UITextField!
     @IBOutlet weak var descripInput: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         self.navigationItem.title = "Add Event"
         self.navigationController?.navigationBar.topItem?.title = "Map"
@@ -39,8 +40,6 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         imageView.isUserInteractionEnabled = true
 
         addressField.text = address
-        
-//        dateInput.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pickDate)))
         
         // MARK: - Set delegate
         eventTitle.delegate = self
@@ -81,7 +80,6 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         textView.scrollRangeToVisible(range)
     }
     
-
     @IBAction func pickDate(_ sender: UITextField) {
         
         let toolbar = UIToolbar()
@@ -142,9 +140,6 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         
         pickedImage = image
-        /*if let subView = imageView.subviews.first {
-            subView.removeFromSuperview()
-        }*/
         
         imageView.image = pickedImage
         imageView.contentMode = .scaleAspectFill
