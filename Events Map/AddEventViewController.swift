@@ -10,21 +10,17 @@ import UIKit
 
 class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
-    var startDate = NSDate()
-    let datePicker = UIDatePicker()
     var address: String?
     var pickedImage: UIImage?
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var eventTitle: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
-    @IBOutlet weak var dateInput: UITextField!
-    @IBOutlet weak var endDateInput: UITextField!
     @IBOutlet weak var descripInput: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.title = "Add Event"
         self.navigationController?.navigationBar.topItem?.title = "Map"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem()
@@ -80,28 +76,6 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         textView.scrollRangeToVisible(range)
     }
     
-    @IBAction func pickDate(_ sender: UITextField) {
-        
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        
-        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
-        toolbar.setItems([done], animated: true)
-        
-        dateInput.inputAccessoryView = toolbar
-        dateInput.inputView = datePicker
-        
-        datePicker.datePickerMode = .dateAndTime
-    }
-    
-    @objc func donePressed() {
-        startDate = datePicker.date as NSDate
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM dd HH:mm"
-        dateInput.text = formatter.string(from: datePicker.date)
-        self.view.endEditing(true)
-            
-    }
     
     @objc func pickPhoto(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

@@ -12,11 +12,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddEventViewController" customModule="Events_Map" customModuleProvider="target">
             <connections>
                 <outlet property="addressField" destination="0hZ-vP-FZa" id="bR2-uq-ADO"/>
-                <outlet property="dateInput" destination="Yb4-Nt-7cZ" id="9gR-71-Db6"/>
                 <outlet property="descripInput" destination="f2d-JP-HU4" id="6lV-An-Uu9"/>
-                <outlet property="endDateInput" destination="u3r-J0-YYb" id="WJR-7m-dc3"/>
                 <outlet property="eventTitle" destination="77q-5K-w5y" id="DUC-Du-VaI"/>
                 <outlet property="imageView" destination="x5y-02-yKM" id="N2H-XG-dwO"/>
+                <outlet property="scrollView" destination="weF-JW-Lqo" id="3CH-2p-eVq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -50,23 +49,17 @@
                                         <constraint firstAttribute="height" constant="200" id="VlB-L0-P8k"/>
                                     </constraints>
                                 </imageView>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Start Time" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yb4-Nt-7cZ">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Start Time" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yb4-Nt-7cZ" customClass="DatePick" customModule="Events_Map" customModuleProvider="target">
                                     <rect key="frame" x="16" y="324" width="343" height="24"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                     <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <action selector="pickDate:" destination="-1" eventType="editingDidEnd" id="UgC-UC-C8z"/>
-                                    </connections>
                                 </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="End Time" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u3r-J0-YYb">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="End Time" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u3r-J0-YYb" customClass="DatePick" customModule="Events_Map" customModuleProvider="target">
                                     <rect key="frame" x="16" y="364" width="343" height="24"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                     <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <action selector="pickDate:" destination="-1" eventType="editingDidEnd" id="mQm-tB-eTv"/>
-                                    </connections>
                                 </textField>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="f2d-JP-HU4">
                                     <rect key="frame" x="16" y="404" width="343" height="200"/>
