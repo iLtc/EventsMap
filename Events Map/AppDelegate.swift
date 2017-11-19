@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let flowLayout = UICollectionViewFlowLayout()
-        let mainViewController = ViewController(collectionViewLayout: flowLayout)
+        
+        let mainViewController = MasterViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         if #available(iOS 11.0, *) {
             navigationController.navigationBar.prefersLargeTitles = true

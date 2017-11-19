@@ -28,16 +28,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         manger.requestWhenInUseAuthorization()
         manger.startUpdatingLocation()
         
-        self.navigationItem.largeTitleDisplayMode = .never
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem()
-        self.navigationItem.leftBarButtonItem?.image = UIImage(named: "User")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
-        self.navigationItem.rightBarButtonItem?.title = "Filter"
-        
-        let titleView = UISegmentedControl(items: ["Map", "List"])
-        titleView.selectedSegmentIndex = 0
-        self.navigationItem.titleView = titleView
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -361,13 +351,3 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     
 }
 
-
-extension ViewController: UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        <#code#>
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        <#code#>
-    }
-}
