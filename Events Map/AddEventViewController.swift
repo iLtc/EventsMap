@@ -18,15 +18,25 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
     @IBOutlet weak var descripInput: UITextView!
-    
+    @IBOutlet weak var endDateInput: DatePick!
+    let addEndDate = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Add Event"
         self.navigationController?.navigationBar.topItem?.title = "Map"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem()
+
         self.navigationItem.rightBarButtonItem?.title = "Save"
         
         self.navigationItem.largeTitleDisplayMode = .always
+        
+        addEndDate.frame = endDateInput.frame
+        addEndDate.backgroundColor = UIColor.lightGray
+        addEndDate.titleLabel?.textColor = UIColor.black
+        addEndDate.alpha = 1
+        addEndDate.titleLabel?.text = "Add End Date"
+        addEndDate.addTarget(self, action: #selector(showEndDate(_:)), for: .touchUpInside)
+        view.bringSubview(toFront: addEndDate)
         
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.darkGray.cgColor
@@ -76,6 +86,12 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         textView.scrollRangeToVisible(range)
     }
     
+    @objc func showEndDate(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.5) {
+            sender.alpha = 0
+            self.endDateInput.alpha = 1
+        }
+    }
     
     @objc func pickPhoto(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="addressField" destination="0hZ-vP-FZa" id="bR2-uq-ADO"/>
                 <outlet property="descripInput" destination="f2d-JP-HU4" id="6lV-An-Uu9"/>
+                <outlet property="endDateInput" destination="u3r-J0-YYb" id="fv7-dQ-JQn"/>
                 <outlet property="eventTitle" destination="77q-5K-w5y" id="DUC-Du-VaI"/>
                 <outlet property="imageView" destination="x5y-02-yKM" id="N2H-XG-dwO"/>
                 <outlet property="scrollView" destination="weF-JW-Lqo" id="3CH-2p-eVq"/>
