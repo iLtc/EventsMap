@@ -21,13 +21,14 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.largeTitleDisplayMode = .never
+        
         collectionView?.backgroundColor = UIColor(red: 237/255.0, green: 234/255.0, blue: 227/255.0, alpha: 1)
         manger.delegate = self
         manger.desiredAccuracy = kCLLocationAccuracyBest
         manger.requestWhenInUseAuthorization()
         manger.startUpdatingLocation()
         
+        self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.leftBarButtonItem = UIBarButtonItem()
         self.navigationItem.leftBarButtonItem?.image = UIImage(named: "User")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem()
@@ -117,11 +118,11 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 120, height: 80))
 
         imageView.downloadedFrom(url: URL(string: event.photos[0])!)
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         infoView.addSubview(imageView)
         
         // Mark: DateLabel UI
-        let dateLabel = UILabel(frame: CGRect(origin: CGPoint(x: infoView.bounds.width/3, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 0)))
+        let dateLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 15, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 0)))
         dateLabel.font = UIFont.systemFont(ofSize: 12)
         dateLabel.textColor = .red
         let startDate = self.event.date as Date
@@ -145,7 +146,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.addSubview(dateLabel)
         
         // Mark: ContentLabel UI
-        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: infoView.bounds.width/3, y: 20 + dateLabel.bounds.height), size: CGSize(width: infoView.bounds.width/1.5 - 10, height: 0)))
+        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 15, y: 20 + dateLabel.bounds.height), size: CGSize(width: infoView.bounds.width/1.5 - 10, height: 0)))
         contentLabel.font = UIFont.systemFont(ofSize: 15)
         contentLabel.numberOfLines = 3
         contentLabel.text = marker.title
@@ -355,5 +356,18 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)! - 10
             }, completion: nil)
         }
+    }
+    
+    
+}
+
+
+extension ViewController: UIPageViewControllerDataSource {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        <#code#>
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        <#code#>
     }
 }

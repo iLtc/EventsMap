@@ -133,10 +133,15 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
     
     @objc func popUpView() {
         
-        let popUpView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
+        let popUpView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 170))
         
-        popUpView.backgroundColor = .white
-        popUpView.layer.cornerRadius = 8
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = popUpView.frame
+        
+        popUpView.backgroundColor = .clear
+        popUpView.addSubview(blurEffectView)
+        
         let titleLabel: UILabel = {
             let label = UILabel()
             label.text = "Get Directions"
@@ -159,8 +164,9 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         popUpView.addSubview(selectionView)
         
         titleLabel.frame = CGRect(x: 20, y: 10, width: view.frame.width, height: 30)
-        selectionView.frame.origin = CGPoint(x: 20, y: 30)
+        selectionView.frame.origin = CGPoint(x: 0, y: 30)
         popUpView.sizeToFit()
+        blurEffectView.sizeToFit()
         
         popoverMenu.presentView(popUpView)
     }
