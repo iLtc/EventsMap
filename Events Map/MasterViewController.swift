@@ -9,10 +9,29 @@
 import UIKit
 
 class MasterViewController: UIPageViewController {
-
+    
+    var mapVC: UIViewController?
+    var listVC: UIViewController?
+    
+    let titleView = UISegmentedControl(items: ["Map", "List"])
+    
+    func setVCforIndex(_ index: Int) {
+        setViewControllers([index == 0 ? mapVC! : listVC!], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem?.image = UIImage(named: "User")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
+        self.navigationItem.rightBarButtonItem?.title = "Filter"
+        self.navigationItem.titleView = titleView
+        
+        titleView.selectedSegmentIndex = 0
+        mapVC = ViewController()
+        listVC = UITableViewController()
+        setVCforIndex(0)
         // Do any additional setup after loading the view.
     }
 
@@ -21,6 +40,9 @@ class MasterViewController: UIPageViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func switchVC(_ sender: UISegmentedControl) {
+        
+    }
 
     /*
     // MARK: - Navigation
