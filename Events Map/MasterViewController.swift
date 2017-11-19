@@ -13,12 +13,13 @@ class MasterViewController: UIPageViewController {
     var mapVC: UIViewController?
     var listVC: UIViewController?
     
+    // SegmentControl
     let titleView = UISegmentedControl(items: ["Map", "List"])
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // MARK: navigation item settings
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.leftBarButtonItem = UIBarButtonItem()
         self.navigationItem.leftBarButtonItem?.image = UIImage(named: "User")
@@ -28,12 +29,14 @@ class MasterViewController: UIPageViewController {
         
         titleView.selectedSegmentIndex = 0
         titleView.addTarget(self, action: #selector(switchVC(_:)), for: .valueChanged)
-        
+        // MapViewController
         let flowLayout = UICollectionViewFlowLayout()
         mapVC = ViewController(collectionViewLayout: flowLayout)
+        // ListViewController (Wait for editting)
         listVC = UITableViewController()
+        // set default index
         setVCforIndex(0)
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,24 +44,17 @@ class MasterViewController: UIPageViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Swith VC function, animation can be turned off
     func setVCforIndex(_ index: Int) {
         setViewControllers([index == 0 ? mapVC! : listVC!], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil)
     }
     
+    // MARK: SegmentedControl valueChanged method
     @objc func switchVC(_ sender: UISegmentedControl) {
         setVCforIndex(sender.selectedSegmentIndex)
         
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
