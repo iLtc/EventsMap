@@ -74,9 +74,7 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        var pointInSuperView:CGPoint = (textView.superview?.convert(textView.frame.origin, to: view))!
-//        var contentOffset:CGPoint =
-
+        
         return true
     }
     

@@ -16,16 +16,29 @@ class MasterViewController: UIPageViewController {
     // SegmentControl
     let titleView = UISegmentedControl(items: ["Map", "List"])
     
+    override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
+        super.init(transitionStyle: .scroll, navigationOrientation: .vertical, options: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // MARK: navigation item settings
         self.navigationItem.largeTitleDisplayMode = .never
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem()
-        self.navigationItem.leftBarButtonItem?.image = UIImage(named: "User")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
-        self.navigationItem.rightBarButtonItem?.title = "Filter"
+        
+        let userBarBtn = UIBarButtonItem(image: UIImage(named: "User"), style: .plain, target: self, action: #selector(showUser))
+        self.navigationItem.leftBarButtonItem = userBarBtn
+
+        
+        let filterBarBtn = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = filterBarBtn
         self.navigationItem.titleView = titleView
+        
+//        self.modalTransitionStyle
         
         titleView.selectedSegmentIndex = 0
         titleView.addTarget(self, action: #selector(switchVC(_:)), for: .valueChanged)
@@ -44,9 +57,24 @@ class MasterViewController: UIPageViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @objc func showUser() {
+        // Custom transition
+        let transition:CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromTop
+        self.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        // Push UserTableViewController
+        let vc = UserTableViewController()
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
     // MARK: Swith VC function, animation can be turned off
     func setVCforIndex(_ index: Int) {
-        setViewControllers([index == 0 ? mapVC! : listVC!], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil)
+        setViewControllers([index == 0 ? mapVC! : listVC!], direction: UIPageViewControllerNavigationDirection.init(rawValue: index)!, animated: true, completion: nil)
+        
     }
     
     // MARK: SegmentedControl valueChanged method
