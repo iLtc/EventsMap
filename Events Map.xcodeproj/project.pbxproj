@@ -16,6 +16,9 @@
 		243887AC1FAF88A0000C012C /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243887AB1FAF88A0000C012C /* EventService.swift */; };
 		243887AE1FAF89C7000C012C /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 243887AD1FAF89C7000C012C /* Config.plist */; };
 		243887B21FAF8A7A000C012C /* ConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243887B11FAF8A7A000C012C /* ConfigService.swift */; };
+		244520531FC3756600D1B956 /* DatePick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244520521FC3756500D1B956 /* DatePick.swift */; };
+		244520551FC3759600D1B956 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244520541FC3759600D1B956 /* MasterViewController.swift */; };
+		244520571FC375AC00D1B956 /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244520561FC375AC00D1B956 /* UserTableViewController.swift */; };
 		244E8E841FB2AC8C0043996B /* download-image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244E8E831FB2AC8C0043996B /* download-image.swift */; };
 		245404071FBAC9F600206838 /* AddEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245404051FBAC9F600206838 /* AddEventViewController.swift */; };
 		245404081FBAC9F600206838 /* AddEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 245404061FBAC9F600206838 /* AddEventViewController.xib */; };
@@ -52,6 +55,9 @@
 		243887AB1FAF88A0000C012C /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		243887AD1FAF89C7000C012C /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		243887B11FAF8A7A000C012C /* ConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigService.swift; sourceTree = "<group>"; };
+		244520521FC3756500D1B956 /* DatePick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePick.swift; sourceTree = "<group>"; };
+		244520541FC3759600D1B956 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		244520561FC375AC00D1B956 /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewController.swift; sourceTree = "<group>"; };
 		244E8E831FB2AC8C0043996B /* download-image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "download-image.swift"; sourceTree = "<group>"; };
 		245404051FBAC9F600206838 /* AddEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewController.swift; sourceTree = "<group>"; };
 		245404061FBAC9F600206838 /* AddEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEventViewController.xib; sourceTree = "<group>"; };
@@ -96,6 +102,9 @@
 		242505EB1FA2B21E006E0408 /* Events Map */ = {
 			isa = PBXGroup;
 			children = (
+				244520561FC375AC00D1B956 /* UserTableViewController.swift */,
+				244520541FC3759600D1B956 /* MasterViewController.swift */,
+				244520521FC3756500D1B956 /* DatePick.swift */,
 				24A06A661FB00C6100F433CC /* Others */,
 				243887A81FAF85F4000C012C /* Services */,
 				243887A71FAF85E6000C012C /* Models */,
@@ -302,13 +311,16 @@
 				2454040A1FBB4F2300206838 /* MapsCell.swift in Sources */,
 				245404071FBAC9F600206838 /* AddEventViewController.swift in Sources */,
 				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
+				244520571FC375AC00D1B956 /* UserTableViewController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
 				243887AC1FAF88A0000C012C /* EventService.swift in Sources */,
+				244520531FC3756600D1B956 /* DatePick.swift in Sources */,
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
 				243887AA1FAF8635000C012C /* EventModel.swift in Sources */,
 				242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */,
 				243887B21FAF8A7A000C012C /* ConfigService.swift in Sources */,
 				C5E7C7981FB2D46300DFAF8D /* DetailViewController.swift in Sources */,
+				244520551FC3759600D1B956 /* MasterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
