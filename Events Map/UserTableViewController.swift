@@ -10,8 +10,10 @@ import UIKit
 
 class UserTableViewController: UITableViewController {
         
+    @IBOutlet weak var UserImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserImage.layer.cornerRadius = UserImage.bounds.height/2
         
         self.navigationItem.title = "User"
         self.navigationController?.navigationBar.topItem?.title = "Map"
@@ -35,14 +37,68 @@ class UserTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 1
     }
-
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch (indexPath.section) {
+        case 0:
+            let cell = UITableViewCell()
+            cell.accessoryType = .disclosureIndicator
+            cell.textLabel?.text = "Login / Sign Up"
+            return cell
+        case 1:
+            let cell = UITableViewCell()
+            cell.accessoryType = .disclosureIndicator
+            cell.textLabel?.text = "Your Events"
+            return cell
+        case 2:
+            let cell = UITableViewCell()
+            cell.accessoryType = .disclosureIndicator
+            cell.textLabel?.text = "Settings"
+            return cell
+        default:
+            fatalError("Error section")
+        }
+        
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return CGFloat.leastNormalMagnitude
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            popLoginView()
+            tableView.deselectRow(at: indexPath, animated: true)
+        case 1:
+            break
+        case 2:
+            // Push SettingsVC
+            let vc = SettingsViewController(style: .grouped)
+            navigationController?.pushViewController(vc, animated: true)
+        default:
+            fatalError("Error section")
+        }
+    }
+    
+    
+    let popoverMenu = PopOverView()
+    
+    func popLoginView() {
+        let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 220))
+        popoverMenu.presentView(loginView)
+        
+    }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
