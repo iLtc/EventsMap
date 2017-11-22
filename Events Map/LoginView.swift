@@ -7,11 +7,23 @@
 //
 
 import UIKit
+import FacebookLogin
+import FacebookCore
+import FBSDKLoginKit
 
 class LoginView: UIView {
+    var dict : [String : AnyObject]!
+    var profile: Profile = Profile()
+    
+    let popoverMenu = PopOverView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        if let accessToken = FBSDKAccessToken.current(){
+            getFBUserData()
+        }
+        
         let blurEffect = UIBlurEffect(style: .extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = frame
@@ -56,10 +68,11 @@ class LoginView: UIView {
             button.isUserInteractionEnabled = true
             button.addTarget(self, action: #selector(fbLogin(_:)), for: .touchUpInside)
             button.titleLabel?.textColor = .white
-            button.setBackgroundColor(color: UIColor(red:0.31, green:0.50, blue:0.82, alpha:1.0), forState: .highlighted)
+            button.clipsToBounds = true
+            button.setBackgroundColor(color: UIColor(red:0.43, green:0.52, blue:0.71, alpha:1.0), forState: .highlighted)
             return button
         }()
-        
+
         self.addSubview(facebookBtn)
         UIButton.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
             facebookBtn.frame.origin.y = titleLabel.frame.height + 40
@@ -90,6 +103,7 @@ class LoginView: UIView {
         
         self.sizeToFit()
         blurEffectView.sizeToFit()
+        popoverMenu.presentView(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -97,7 +111,34 @@ class LoginView: UIView {
     }
     
     @objc func fbLogin(_ sender: UIButton) {
+        let loginManager = LoginManager()
+        loginManager.logIn(readPermissions: [ .publicProfile], viewController: nil, completion: { (loginResult) in
+            switch loginResult {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled login.")
+            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+                print("Logged in!")
+            }
+        })
+        popoverMenu.dismiss()
+    }
+    
+    func getFBUserData(){
         
+        if((FBSDKAccessToken.current()) != nil){
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
+                if (error == nil){
+                    self.dict = result as! [String : AnyObject]
+                    self.profile.id = self.dict["id"] as! String
+                    self.profile.name = self.dict["name"] as! String
+                    let data = self.dict["picture"]!["data"] as! [String : String]
+                    self.profile.picURL = data["url"] as! String
+                    
+                }
+            })
+        }
     }
     
     /*
@@ -117,7 +158,6 @@ extension UIButton {
         UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
         let colorImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
         self.setBackgroundImage(colorImage, for: forState)
     }}
 

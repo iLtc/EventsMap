@@ -6,4 +6,6 @@ target ‘Events Map’ do
   pod 'Alamofire', '~> 4.5'
   pod 'SwiftyJSON'
   pod 'SwiftGifOrigin'
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
 end

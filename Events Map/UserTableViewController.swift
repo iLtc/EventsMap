@@ -9,10 +9,12 @@
 import UIKit
 
 class UserTableViewController: UITableViewController {
-        
+    
+    var userProfile: Profile = Profile()
     @IBOutlet weak var UserImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         UserImage.layer.cornerRadius = UserImage.bounds.height/2
         
         self.navigationItem.title = "User"
@@ -91,13 +93,13 @@ class UserTableViewController: UITableViewController {
         }
     }
     
-    
-    let popoverMenu = PopOverView()
-    
     func popLoginView() {
         let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 220))
-        popoverMenu.presentView(loginView)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print(userProfile)
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

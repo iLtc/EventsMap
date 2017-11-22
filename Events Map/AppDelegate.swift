@@ -9,6 +9,8 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSServices.provideAPIKey("AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ")
         GMSPlacesClient.provideAPIKey("AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ")
         
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
@@ -46,11 +49,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(host)
         }
         
-        return true
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
 
     func applicationWillResignActive(_ application: UIApplication) {
+        FBSDKAppEvents.activateApp()
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }

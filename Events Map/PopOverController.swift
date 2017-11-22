@@ -48,7 +48,10 @@ class PopOverView: NSObject {
             if let window = UIApplication.shared.keyWindow {
                 self.showView.frame = CGRect(x: 0, y: window.frame.height, width: self.showView.frame.width, height: self.showView.frame.height)
             }
-        }, completion: nil)
+        }, completion: { (bool) in
+            self.showView.removeFromSuperview()
+        })
+        
     }
 
     override init() {

@@ -5,22 +5,29 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>edu.uiowa.Events-Map</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>EventsMap</string>
+				<string>fb444439642616561</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>io.iltc.Events-Map</string>
 		</dict>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Take photos for your event</string>
-	<key>CFBundleDisplayName</key>
-	<string></string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<key>FacebookAppID</key>
+	<string>444439642616561</string>
+	<key>FacebookDisplayName</key>
+	<string>Events Map</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+        <string>fbapi</string>
+        <string>fbauth2</string>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string></string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -35,15 +42,14 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>googlechromes</string>
-		<string>comgooglemaps</string>
-	</array>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Save the event to your calendar</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take photos for your event</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Show your location on the map</string>
 	<key>UILaunchStoryboardName</key>
