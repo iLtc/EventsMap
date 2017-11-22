@@ -34,7 +34,7 @@ class MasterViewController: UIPageViewController {
         self.navigationItem.leftBarButtonItem = userBarBtn
 
         
-        let filterBarBtn = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: nil)
+        let filterBarBtn = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(showFilter))
         self.navigationItem.rightBarButtonItem = filterBarBtn
         self.navigationItem.titleView = titleView
         
@@ -67,6 +67,20 @@ class MasterViewController: UIPageViewController {
         self.navigationController!.view.layer.add(transition, forKey: kCATransition)
         // Push UserTableViewController
         let vc = UserTableViewController()
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+    @objc func showFilter() {
+        // Custom transition
+        let transition:CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromTop
+        self.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        // Push UserTableViewController
+        let vc = FilterViewController()
         navigationController?.pushViewController(vc, animated: true)
         
     }
