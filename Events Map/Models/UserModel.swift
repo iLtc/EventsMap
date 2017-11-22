@@ -33,8 +33,4 @@ class User {
         self.picURL = ""
         self.platform = .facebook
     }
-    
-    func save() {
-        
-    }
 }
