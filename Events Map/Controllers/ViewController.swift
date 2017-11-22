@@ -42,7 +42,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         mapView.isMyLocationEnabled = true
         mapView.delegate = self
         mapView.restorationIdentifier = "MapView"
-        EventService.instance.sync(addEvents)
+        EventService.instance.getEvents(addEvents)
         self.view.addSubview(mapView)
 
     }
@@ -275,8 +275,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         super.didReceiveMemoryWarning()
     }
 
-    func addEvents() {
-        let events = EventService.instance.getEvents()
+    func addEvents(events: [Event]) {
         for event in events {
             if event.geo["latitude"] == "" {
                 continue
