@@ -22,10 +22,11 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>edu.uiowa.Events-Map</string>
+			<string>edu.uiowa.EventsMap</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb444439642616561</string>
+				<string>EventsMap</string>
 			</array>
 		</dict>
 	</array>
