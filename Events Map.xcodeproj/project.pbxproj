@@ -68,7 +68,7 @@
 		245404091FBB4F2200206838 /* MapsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsCell.swift; sourceTree = "<group>"; };
 		24A06A671FB00C7D00F433CC /* string-truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "string-truncate.swift"; sourceTree = "<group>"; };
 		2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/LoginView.swift"; sourceTree = SOURCE_ROOT; };
+		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
 		364B4EDF7B0BBB5D55635A9C /* Pods-Events Map.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.debug.xcconfig"; sourceTree = "<group>"; };
@@ -110,27 +110,19 @@
 		242505EB1FA2B21E006E0408 /* Events Map */ = {
 			isa = PBXGroup;
 			children = (
+				247BA06B1FC6179A00CBFDC6 /* Xibs */,
+				247BA06A1FC6171700CBFDC6 /* Controllers */,
+				247BA0691FC6170C00CBFDC6 /* Views */,
 				24A06A661FB00C6100F433CC /* Others */,
 				243887A81FAF85F4000C012C /* Services */,
 				243887A71FAF85E6000C012C /* Models */,
 				242505EC1FA2B21E006E0408 /* AppDelegate.swift */,
-				245404091FBB4F2200206838 /* MapsCell.swift */,
-				C5E7C7971FB2D46300DFAF8D /* DetailViewController.swift */,
-				C54A952C1FB810B400206D11 /* PopOverController.swift */,
-				242505EE1FA2B21E006E0408 /* ViewController.swift */,
-				244520541FC3759600D1B956 /* MasterViewController.swift */,
-				244520521FC3756500D1B956 /* DatePick.swift */,
 				242505F01FA2B21E006E0408 /* Main.storyboard */,
-				2D9816D71FC4E86100CDBF44 /* LoginView.swift */,
-				2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
-				244520561FC375AC00D1B956 /* UserTableViewController.swift */,
 				242505F31FA2B21E006E0408 /* Assets.xcassets */,
 				242505F51FA2B21E006E0408 /* LaunchScreen.storyboard */,
 				242505F81FA2B21E006E0408 /* Info.plist */,
 				243887AD1FAF89C7000C012C /* Config.plist */,
-				245404051FBAC9F600206838 /* AddEventViewController.swift */,
-				245404061FBAC9F600206838 /* AddEventViewController.xib */,
 			);
 			path = "Events Map";
 			sourceTree = "<group>";
@@ -151,6 +143,38 @@
 				243887B11FAF8A7A000C012C /* ConfigService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		247BA0691FC6170C00CBFDC6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				245404091FBB4F2200206838 /* MapsCell.swift */,
+				244520521FC3756500D1B956 /* DatePick.swift */,
+				2D9816D71FC4E86100CDBF44 /* LoginView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		247BA06A1FC6171700CBFDC6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C5E7C7971FB2D46300DFAF8D /* DetailViewController.swift */,
+				C54A952C1FB810B400206D11 /* PopOverController.swift */,
+				242505EE1FA2B21E006E0408 /* ViewController.swift */,
+				244520541FC3759600D1B956 /* MasterViewController.swift */,
+				244520561FC375AC00D1B956 /* UserTableViewController.swift */,
+				245404051FBAC9F600206838 /* AddEventViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		247BA06B1FC6179A00CBFDC6 /* Xibs */ = {
+			isa = PBXGroup;
+			children = (
+				2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */,
+				245404061FBAC9F600206838 /* AddEventViewController.xib */,
+			);
+			path = Xibs;
 			sourceTree = "<group>";
 		};
 		24A06A661FB00C6100F433CC /* Others */ = {
