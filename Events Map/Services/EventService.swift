@@ -56,4 +56,26 @@ class EventService {
             callback(events)
         }
     }
+    
+/*:
+ EventService.instance.getAllCategories() { categories in
+     for category in categories {
+        print(category)
+     }
+ }
+ */
+    func getAllCategories(_ callback: @escaping (([String]) -> Void)) {
+        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/categories").responseJSON { response in
+            var categories: [String] = []
+            
+            if let result = response.result.value {
+                let json = JSON(result)
+                
+                for (_, subJson): (String, JSON) in json["categories"] {
+                    categories.append(subJson.stringValue)
+                }
+            }
+            callback(categories)
+        }
+    }
 }
