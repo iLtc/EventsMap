@@ -13,11 +13,10 @@ import SwiftyJSON
 class EventService {
     static var instance = EventService()
     
-    private var events: [ Event ] = []
-    private(set) var isReady = false
-    
-    func sync(_ callback: @escaping (() -> Void)) {
+    func getEvents(_ callback: @escaping (([Event]) -> Void)) {
         Alamofire.request(ConfigService.instance.get("EventsServerHost")).responseJSON { response in
+            var events: [Event] = []
+            
             if let result = response.result.value {
                 let json = JSON(result)
                 
@@ -50,22 +49,11 @@ class EventService {
                         event.categories.append(category.stringValue)
                     }
                     
-                    self.events.append(event)
+                    events.append(event)
                 }
             }
             
-            self.isReady = true
-            callback()
+            callback(events)
         }
     }
-    
-    func getEvents() -> [Event] {
-        if isReady {
-            return self.events
-        } else {
-            return []
-        }
-    }
-    
-    
 }
