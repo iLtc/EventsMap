@@ -10,7 +10,7 @@ import UIKit
 
 class UserTableViewController: UITableViewController {
     
-    var userProfile: Profile = Profile()
+    var user: User = User()
     @IBOutlet weak var UserImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +99,7 @@ class UserTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print(userProfile)
+        print(user)
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

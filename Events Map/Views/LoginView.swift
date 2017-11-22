@@ -13,16 +13,12 @@ import FBSDKLoginKit
 
 class LoginView: UIView {
     var dict : [String : AnyObject]!
-    var profile: Profile = Profile()
+    var user: User = User()
     
     let popoverMenu = PopOverView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        if let accessToken = FBSDKAccessToken.current(){
-            getFBUserData()
-        }
         
         let blurEffect = UIBlurEffect(style: .extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -118,8 +114,9 @@ class LoginView: UIView {
                 print(error)
             case .cancelled:
                 print("User cancelled login.")
-            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+            case .success(_, _, _):
                 print("Logged in!")
+                self.getFBUserData()
             }
         })
         popoverMenu.dismiss()
@@ -131,11 +128,13 @@ class LoginView: UIView {
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil){
                     self.dict = result as! [String : AnyObject]
-                    self.profile.id = self.dict["id"] as! String
-                    self.profile.name = self.dict["name"] as! String
+                    self.user.id = self.dict["id"] as! String
+                    self.user.name = self.dict["name"] as! String
                     let data = self.dict["picture"]!["data"] as! [String : String]
-                    self.profile.picURL = data["url"] as! String
+                    self.user.picURL = data["url"] as String!
+                    self.user.platform = .facebook
                     
+                    self.user.save()
                 }
             })
         }
