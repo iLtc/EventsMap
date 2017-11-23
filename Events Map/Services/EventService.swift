@@ -91,4 +91,22 @@ class EventService {
     func setCategories(categories: [String]) {
         defaults.set(categories, forKey: "CurrentCategories")
     }
+    
+    func like(_ event: Event) -> Bool {
+        if let user = UserService.instance.getCurrentUser() {
+            let parameters = ["id": user.id]
+            Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/like", method: .post, parameters: parameters)
+            return true
+        }else{
+            // TODO: Pop up login
+            return false
+        }
+    }
+    
+    func unlike(_ event: Event) {
+        if let user = UserService.instance.getCurrentUser() {
+            let parameters = ["id": user.id]
+            Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/unlike", method: .post, parameters: parameters)
+        }
+    }
 }
