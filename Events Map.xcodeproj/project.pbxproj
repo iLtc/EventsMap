@@ -26,6 +26,8 @@
 		2454040A1FBB4F2300206838 /* MapsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245404091FBB4F2200206838 /* MapsCell.swift */; };
 		24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A06A671FB00C7D00F433CC /* string-truncate.swift */; };
 		2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */; };
+		2D1ABD0F1FC635FA004DAF67 /* Elder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2D1ABD0E1FC635FA004DAF67 /* Elder.jpg */; };
+		2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */; };
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
@@ -71,6 +73,8 @@
 		24A06A671FB00C7D00F433CC /* string-truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "string-truncate.swift"; sourceTree = "<group>"; };
 		24CFC58A1FC61944003C9BA3 /* Events Map.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Events Map.entitlements"; sourceTree = "<group>"; };
 		2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		2D1ABD0E1FC635FA004DAF67 /* Elder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Elder.jpg; path = "Events Map/Elder.jpg"; sourceTree = SOURCE_ROOT; };
+		2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 				24A06A661FB00C6100F433CC /* Others */,
 				243887A81FAF85F4000C012C /* Services */,
 				243887A71FAF85E6000C012C /* Models */,
+				2D1ABD0E1FC635FA004DAF67 /* Elder.jpg */,
 				242505EC1FA2B21E006E0408 /* AppDelegate.swift */,
 				242505F01FA2B21E006E0408 /* Main.storyboard */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
@@ -171,6 +176,7 @@
 				244520541FC3759600D1B956 /* MasterViewController.swift */,
 				244520561FC375AC00D1B956 /* UserTableViewController.swift */,
 				245404051FBAC9F600206838 /* AddEventViewController.swift */,
+				2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -249,6 +255,9 @@
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -324,6 +333,7 @@
 				243887AE1FAF89C7000C012C /* Config.plist in Resources */,
 				242505F71FA2B21E006E0408 /* LaunchScreen.storyboard in Resources */,
 				242505F41FA2B21E006E0408 /* Assets.xcassets in Resources */,
+				2D1ABD0F1FC635FA004DAF67 /* Elder.jpg in Resources */,
 				242505F21FA2B21E006E0408 /* Main.storyboard in Resources */,
 				2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */,
 				245404081FBAC9F600206838 /* AddEventViewController.xib in Resources */,
@@ -348,6 +358,7 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/paper-onboarding/paper_onboarding.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -359,6 +370,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/paper_onboarding.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -423,6 +435,7 @@
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
 				8CAEF06C1FC6259E0054210B /* FilterViewController.swift in Sources */,
 				243887AA1FAF8635000C012C /* EventModel.swift in Sources */,
+				2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */,
 				242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */,
 				243887B21FAF8A7A000C012C /* ConfigService.swift in Sources */,
 				C5E7C7981FB2D46300DFAF8D /* DetailViewController.swift in Sources */,
