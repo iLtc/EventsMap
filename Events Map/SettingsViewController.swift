@@ -10,6 +10,9 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
+    var appDelegate = UIApplication.shared.delegate as? AppDelegate
+    let notiSwitch: UISwitch = UISwitch()
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
         tableView.separatorStyle = .none
@@ -22,6 +25,9 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        notiSwitch.setOn((appDelegate?.isNotify)!, animated: true)
+        
+        notiSwitch.addTarget(self, action: #selector(switchIsChanged(_:)), for: .valueChanged)
         self.navigationItem.title = "User"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -53,7 +59,8 @@ class SettingsViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let cell = UITableViewCell()
-                cell.accessoryView = UISwitch()
+                cell.accessoryView = notiSwitch
+                cell.selectionStyle = .none
                 cell.textLabel?.text = "Notifications"
                 return cell
             case 1:
@@ -87,6 +94,16 @@ class SettingsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 5
+    }
+    
+    @objc func switchIsChanged(_ sender: UISwitch) {
+        if (sender.isOn) {
+            // Add notifications to all liked events
+//            appDelegate?.scheduleNotification(Event())
+            
+        } else {
+            appDelegate?.disableNotification()
+        }
     }
 
     /*

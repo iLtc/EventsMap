@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import paper_onboarding
 
 class MasterViewController: UIPageViewController {
+    
+    
     
     var mapVC: UIViewController?
     var listVC: UIViewController?
@@ -26,7 +29,8 @@ class MasterViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.navigationController?.isNavigationBarHidden = false
         // MARK: navigation item settings
         self.navigationItem.largeTitleDisplayMode = .never
         
