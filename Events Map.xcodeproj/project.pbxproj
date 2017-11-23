@@ -25,6 +25,7 @@
 		245404081FBAC9F600206838 /* AddEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 245404061FBAC9F600206838 /* AddEventViewController.xib */; };
 		2454040A1FBB4F2300206838 /* MapsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245404091FBB4F2200206838 /* MapsCell.swift */; };
 		24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A06A671FB00C7D00F433CC /* string-truncate.swift */; };
+		24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CFC58B1FC62DDC003C9BA3 /* UserService.swift */; };
 		2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */; };
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
@@ -70,6 +71,7 @@
 		245404091FBB4F2200206838 /* MapsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsCell.swift; sourceTree = "<group>"; };
 		24A06A671FB00C7D00F433CC /* string-truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "string-truncate.swift"; sourceTree = "<group>"; };
 		24CFC58A1FC61944003C9BA3 /* Events Map.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Events Map.entitlements"; sourceTree = "<group>"; };
+		24CFC58B1FC62DDC003C9BA3 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				243887AB1FAF88A0000C012C /* EventService.swift */,
 				243887B11FAF8A7A000C012C /* ConfigService.swift */,
+				24CFC58B1FC62DDC003C9BA3 /* UserService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				244520531FC3756600D1B956 /* DatePick.swift in Sources */,
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
 				8CAEF06C1FC6259E0054210B /* FilterViewController.swift in Sources */,
+				24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */,
 				243887AA1FAF8635000C012C /* EventModel.swift in Sources */,
 				242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */,
 				243887B21FAF8A7A000C012C /* ConfigService.swift in Sources */,
