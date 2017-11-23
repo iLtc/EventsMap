@@ -11,12 +11,13 @@ import GoogleMaps
 import GooglePlaces
 import FBSDKCoreKit
 import FBSDKLoginKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var isNotify: Bool = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -28,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         
-        let mainViewController = MasterViewController()
+        let mainViewController = StartViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         if #available(iOS 11.0, *) {
             navigationController.navigationBar.prefersLargeTitles = true
@@ -38,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = navigationController
         
-        
+        registerForPushNotifications()
         
         //window?.rootViewController = UIViewController(nibName: "viewController", bundle: nil)
         return true
@@ -75,7 +76,102 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    
+    func registerForPushNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            if (granted) {
+                self.isNotify = true
+            }
+        }
+        
+        
+        // Add notification actions
+        let dismissAction = UNNotificationAction(identifier: "dismiss", title: "Dismiss", options: [])
+        let openAction = UNNotificationAction(identifier: "openEvent", title: "Details", options: [])
+        
+        // Add actions to the Event category
+        let category = UNNotificationCategory(identifier: "eventCategory", actions: [openAction, dismissAction], intentIdentifiers: [], options: [])
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+    }
+    
+    func getNotificationSettings() -> Bool {
+        var auth = false
+        
+        let current = UNUserNotificationCenter.current()
+        
+        current.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .notDetermined {
+                // Notification permission has not been asked yet, go for it!
+            }
+            
+            if settings.authorizationStatus == .denied {
+                // Notification permission was previously denied, go to settings & privacy to re-enable
+            }
+            
+            if settings.authorizationStatus == .authorized {
+                
+            }
+        })
+        return auth
+    }
+    
+    func scheduleNotification(_ event: Event) {
+        if (self.isNotify == true) {
+            // Calendar Trigger
+            let calendar = Calendar.current
+            let date = calendar.date(byAdding: .minute, value: -15, to: event.date as Date)
+            let dateComp = calendar.dateComponents([ .year, .month, .day, .hour, .minute], from: date!)
+            let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
+            
+            // Location Trigger
+            let latitude = Double(event.geo["latitude"] as String!)
+            let longitude = Double(event.geo["longitude"] as String!)
+            let center = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+            let region = CLCircularRegion(center: center, radius: 2000.0, identifier: "Headquarters")
+            region.notifyOnEntry = true
+            region.notifyOnExit = false
+            let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
+            
+            // Content
+            let content = UNMutableNotificationContent()
+            content.title = "Events Map"
+            content.body = "test"
+            content.sound = UNNotificationSound.default()
+            content.categoryIdentifier = "eventCategory"
+            
+            // Attachment
+            guard let path = Bundle.main.path(forResource: "Elder", ofType: "jpg") else {return}
+            let url = URL(fileURLWithPath: path)
+            do {
+                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
+                content.attachments = [attachment]
+                
+            } catch {
+                print("Attachment load failed")
+            }
+            
+            let calendarRequest = UNNotificationRequest(identifier: "eventNotification", content: content, trigger: calendarTrigger)
+            
+            let locationRequest = UNNotificationRequest(identifier: "eventNotification", content: content, trigger: locationTrigger)
+            UNUserNotificationCenter.current().add(calendarRequest) { (error) in
+                if (error != nil) {
+                    print("Error: \(error?.localizedDescription)")
+                }
+            }
+            UNUserNotificationCenter.current().add(locationRequest) { (error) in
+                if (error != nil) {
+                    print("Error: \(error?.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func disableNotification() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        isNotify = false
+    }
 }
 

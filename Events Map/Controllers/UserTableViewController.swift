@@ -87,7 +87,7 @@ class UserTableViewController: UITableViewController {
         case 2:
             // Push SettingsVC
             let vc = SettingsViewController(style: .grouped)
-            navigationController?.pushViewController(vc, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
         default:
             fatalError("Error section")
         }
