@@ -98,6 +98,9 @@ class StartViewController: UIViewController, PaperOnboardingDataSource, PaperOnb
     }
     
     @objc func getStarted(_ sender: UIButton) {
+        let userDefault = UserDefaults.standard
+        userDefault.set(true, forKey: "GetStarted")
+        userDefault.synchronize()
         let vc = MasterViewController()
         self.show(vc, sender: nil)
     }

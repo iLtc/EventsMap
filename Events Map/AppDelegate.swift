@@ -28,8 +28,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
+        var mainViewController = UIViewController()
+        let userDefault = UserDefaults.standard
+        if userDefault.bool(forKey: "GetStarted") {
+            mainViewController = MasterViewController()
+        } else {
+            mainViewController = StartViewController()
+        }
         
-        let mainViewController = StartViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         if #available(iOS 11.0, *) {
             navigationController.navigationBar.prefersLargeTitles = true
