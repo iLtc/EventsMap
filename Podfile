@@ -8,4 +8,5 @@ target ‘Events Map’ do
   pod 'SwiftGifOrigin'
   pod 'FacebookCore'
   pod 'FacebookLogin'
+  pod 'paper-onboarding', '~> 2.0.1'
 end
