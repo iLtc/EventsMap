@@ -129,7 +129,6 @@
 				2D1ABD0E1FC635FA004DAF67 /* Elder.jpg */,
 				242505EC1FA2B21E006E0408 /* AppDelegate.swift */,
 				242505F01FA2B21E006E0408 /* Main.storyboard */,
-				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
 				242505F31FA2B21E006E0408 /* Assets.xcassets */,
 				242505F51FA2B21E006E0408 /* LaunchScreen.storyboard */,
 				242505F81FA2B21E006E0408 /* Info.plist */,
@@ -177,6 +176,7 @@
 				244520561FC375AC00D1B956 /* UserTableViewController.swift */,
 				245404051FBAC9F600206838 /* AddEventViewController.swift */,
 				2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */,
+				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
