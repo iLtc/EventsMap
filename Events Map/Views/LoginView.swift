@@ -12,9 +12,6 @@ import FacebookCore
 import FBSDKLoginKit
 
 class LoginView: UIView {
-    var dict : [String : AnyObject]!
-    var user: User = User()
-    
     let popoverMenu = PopOverView()
     
     override init(frame: CGRect) {
@@ -123,18 +120,18 @@ class LoginView: UIView {
     }
     
     func getFBUserData(){
-        
         if((FBSDKAccessToken.current()) != nil){
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil){
-                    self.dict = result as! [String : AnyObject]
-                    self.user.id = self.dict["id"] as! String
-                    self.user.name = self.dict["name"] as! String
-                    let data = self.dict["picture"]!["data"] as! [String : String]
-                    self.user.picURL = data["url"] as String!
-                    self.user.platform = .facebook
+                    let dict = result as! [String : AnyObject]
+                    let pid = dict["id"] as! String
+                    let name = dict["name"] as! String
+                    let data = dict["picture"]!["data"] as! [String: AnyObject]
+                    let picURL = data["url"] as! String
                     
-                    self.user.save()
+                    UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { user in
+                        print(user.picURL)
+                    }
                 }
             })
         }
@@ -159,4 +156,3 @@ extension UIButton {
         UIGraphicsEndImageContext()
         self.setBackgroundImage(colorImage, for: forState)
     }}
-

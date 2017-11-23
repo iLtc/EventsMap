@@ -8,33 +8,26 @@
 
 import Foundation
 
-enum LoginPlatform {
-    case facebook
-    case twitter
-    case google
+enum LoginPlatform: String {
+    case facebook = "FACEBOOK"
+    case twitter = "TWITTER"
+    case google = "GOOGLE"
+    case server = "SERVER"
 }
 
 class User {
     public var id: String
     public var name: String
     public var picURL: String = ""
-    public var platform: LoginPlatform
     
-    init(id: String, name: String, picURL: String, platform: LoginPlatform) {
+    init(id: String, name: String, picURL: String) {
         self.id = id
         self.name = name
-        self.picURL = picURL
-        self.platform = platform
-    }
+        self.picURL = picURL    }
     
     init() {
         self.id = ""
         self.name = ""
         self.picURL = ""
-        self.platform = .facebook
-    }
-    
-    func save() {
-        
     }
 }
