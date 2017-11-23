@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class EventService {
     static var instance = EventService()
+    let defaults = UserDefaults.standard
     
     func getEvents(_ callback: @escaping (([Event]) -> Void)) {
         Alamofire.request(ConfigService.instance.get("EventsServerHost")).responseJSON { response in
@@ -77,5 +78,17 @@ class EventService {
             }
             callback(categories)
         }
+    }
+    
+    func getCurrentCategories(_ callback: @escaping (([String]) -> Void)) {
+        if let categories = defaults.array(forKey: "CurrentCategories") {
+            callback(categories as! [String])
+        } else {
+            getAllCategories(callback)
+        }
+    }
+    
+    func setCategories(categories: [String]) {
+        defaults.set(categories, forKey: "CurrentCategories")
     }
 }
