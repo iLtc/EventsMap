@@ -15,9 +15,9 @@ class UserService {
     let defaults = UserDefaults.standard
     
 /*:
-     UserService.instance.addUser(pid: "123", name: "Demo User", picURL: "http://example.com/...", platform:.facebook) { user in
-        print(user.name, user.id, user.picURL)
-     }
+ UserService.instance.addUser(pid: "123", name: "Demo User", picURL: "http://example.com/...", platform:.facebook) { user in
+    print(user.name, user.id, user.picURL)
+ }
 */
     func addUser(pid: String, name: String, picURL: String, platform: LoginPlatform, callback: @escaping ((User) -> Void)) {
         let parameters: Parameters = [
@@ -33,7 +33,13 @@ class UserService {
                 
                 let user = User(id: json["uid"].stringValue, name: json["name"].stringValue, picURL: json["picURL"].stringValue)
                 
-                self.defaults.set(user.id, forKey: "CurrentUserId")
+                let userDict = [
+                    "id": user.id,
+                    "name": user.name,
+                    "picURL": user.picURL
+                ]
+                self.defaults.set(userDict, forKey: "CurrentUser")
+                
                 callback(user)
             }
         }
@@ -41,5 +47,20 @@ class UserService {
     
     func getDemoUser(callback: @escaping ((User) -> Void)) {
         addUser(pid: "1234567", name: "Demo User", picURL: "https://s3.us-east-2.amazonaws.com/iltc-events/avataaars.png", platform: .server, callback: callback)
+    }
+    
+/*:
+ if let user = UserService.instance.getCurrentUser() {
+     print(user.id, user.name, user.picURL)
+ }
+ */
+    func getCurrentUser() -> User? {
+        if let userDict = defaults.dictionary(forKey: "CurrentUser") {
+            let user = User(id: userDict["id"] as! String, name: userDict["name"] as! String, picURL: userDict["picURL"] as! String)
+            
+            return user
+        }else{
+            return nil
+        }
     }
 }
