@@ -27,7 +27,7 @@ class UserService {
             "platform": platform.rawValue
         ]
         
-        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/users", method: .post, parameters: parameters).responseJSON { response in
+        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/users/new", method: .post, parameters: parameters).responseJSON { response in
             if let result = response.result.value {
                 let json = JSON(result)
                 
