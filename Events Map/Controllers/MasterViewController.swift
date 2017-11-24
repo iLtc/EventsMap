@@ -50,7 +50,7 @@ class MasterViewController: UIPageViewController {
         let flowLayout = UICollectionViewFlowLayout()
         mapVC = ViewController(collectionViewLayout: flowLayout)
         // ListViewController (Wait for editting)
-        listVC = UITableViewController()
+        listVC = ListViewController(style: .grouped)
         // set default index
         setVCforIndex(0)
         
