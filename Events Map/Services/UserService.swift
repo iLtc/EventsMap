@@ -63,4 +63,8 @@ class UserService {
             return nil
         }
     }
+    
+    func logout() {
+        defaults.removeObject(forKey: "CurrentUser")
+    }
 }
