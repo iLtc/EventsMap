@@ -131,7 +131,10 @@ class LoginView: UIView {
                     
                     UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { user in
                         print(user.picURL)
+                        
                     }
+                    let user = UserService.instance.getCurrentUser()
+                    print(user?.id)
                 }
             })
         }
