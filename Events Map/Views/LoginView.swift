@@ -142,6 +142,7 @@ class LoginView: UIView {
     @objc func fbLogout(_ sender: UIButton) {
         let loginManager = LoginManager()
         loginManager.logOut()
+        UserService.instance.logout()
         self.parentImg?.image = UIImage(named: "Contacts")
         popoverMenu.dismiss()
     }
