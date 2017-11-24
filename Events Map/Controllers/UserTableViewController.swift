@@ -10,13 +10,14 @@ import UIKit
 
 class UserTableViewController: UITableViewController {
     
-    var user: User = User()
     @IBOutlet weak var UserImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         UserImage.layer.cornerRadius = UserImage.bounds.height/2
-        
+        UserImage.contentMode = .scaleAspectFit
+        UserImage.layer.masksToBounds = true
+                
         self.navigationItem.title = "User"
         self.navigationController?.navigationBar.topItem?.title = "Map"
         
@@ -99,7 +100,11 @@ class UserTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print(user)
+        let user = UserService.instance.getCurrentUser()
+        if user != nil {
+            let image = UIImage.gif(url: (user?.picURL)!)
+            self.UserImage.image = image?.resizeImage(targetSize: self.UserImage.frame.size)
+        }
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
