@@ -82,7 +82,7 @@ class UserTableViewController: UITableViewController {
         switch indexPath.section {
         case 0:
             popLoginView()
-            tableView.deselectRow(at: indexPath, animated: true)
+            
         case 1:
             break
         case 2:
@@ -92,6 +92,7 @@ class UserTableViewController: UITableViewController {
         default:
             fatalError("Error section")
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func popLoginView() {
