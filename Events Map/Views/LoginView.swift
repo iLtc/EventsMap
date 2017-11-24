@@ -13,6 +13,7 @@ import FBSDKLoginKit
 
 class LoginView: UIView {
     let popoverMenu = PopOverView()
+    public var parentImg: UIImageView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -131,7 +132,7 @@ class LoginView: UIView {
                     
                     UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { user in
                         print(user.picURL)
-                        
+                        self.parentImg?.downloadedFrom(link: user.picURL)
                     }
                     let user = UserService.instance.getCurrentUser()
                     print(user?.id)

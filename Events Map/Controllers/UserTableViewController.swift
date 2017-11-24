@@ -95,7 +95,7 @@ class UserTableViewController: UITableViewController {
     
     func popLoginView() {
         let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 220))
-        
+        loginView.parentImg = UserImage
     }
     
     override func viewWillAppear(_ animated: Bool) {

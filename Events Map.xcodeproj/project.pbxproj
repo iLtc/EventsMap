@@ -24,11 +24,11 @@
 		245404081FBAC9F600206838 /* AddEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 245404061FBAC9F600206838 /* AddEventViewController.xib */; };
 		2454040A1FBB4F2300206838 /* MapsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245404091FBB4F2200206838 /* MapsCell.swift */; };
 		24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A06A671FB00C7D00F433CC /* string-truncate.swift */; };
+		24CDE2E91FC7D2850051C3BB /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */; };
 		24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CFC58B1FC62DDC003C9BA3 /* UserService.swift */; };
 		2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */; };
 		2D1ABD0F1FC635FA004DAF67 /* Elder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2D1ABD0E1FC635FA004DAF67 /* Elder.jpg */; };
 		2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */; };
-		2D1ABD131FC79250004DAF67 /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD121FC79250004DAF67 /* UserTableViewController.swift */; };
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
@@ -71,12 +71,12 @@
 		245404061FBAC9F600206838 /* AddEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEventViewController.xib; sourceTree = "<group>"; };
 		245404091FBB4F2200206838 /* MapsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsCell.swift; sourceTree = "<group>"; };
 		24A06A671FB00C7D00F433CC /* string-truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "string-truncate.swift"; sourceTree = "<group>"; };
+		24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewController.swift; sourceTree = "<group>"; };
 		24CFC58A1FC61944003C9BA3 /* Events Map.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Events Map.entitlements"; sourceTree = "<group>"; };
 		24CFC58B1FC62DDC003C9BA3 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2D1ABD0E1FC635FA004DAF67 /* Elder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Elder.jpg; path = "Events Map/Elder.jpg"; sourceTree = SOURCE_ROOT; };
 		2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
-		2D1ABD121FC79250004DAF67 /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableViewController.swift; path = ../../../../Downloads/UserTableViewController.swift; sourceTree = "<group>"; };
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 				C54A952C1FB810B400206D11 /* PopOverController.swift */,
 				242505EE1FA2B21E006E0408 /* ViewController.swift */,
 				244520541FC3759600D1B956 /* MasterViewController.swift */,
-				2D1ABD121FC79250004DAF67 /* UserTableViewController.swift */,
+				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				245404051FBAC9F600206838 /* AddEventViewController.swift */,
 				2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
@@ -428,7 +428,7 @@
 				2454040A1FBB4F2300206838 /* MapsCell.swift in Sources */,
 				245404071FBAC9F600206838 /* AddEventViewController.swift in Sources */,
 				2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */,
-				2D1ABD131FC79250004DAF67 /* UserTableViewController.swift in Sources */,
+				24CDE2E91FC7D2850051C3BB /* UserTableViewController.swift in Sources */,
 				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
 				2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */,
