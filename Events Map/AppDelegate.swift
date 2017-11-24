@@ -136,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let latitude = Double(event.geo["latitude"] as String!)
             let longitude = Double(event.geo["longitude"] as String!)
             let center = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
-            let region = CLCircularRegion(center: center, radius: 2000.0, identifier: "Headquarters")
+            let region = CLCircularRegion(center: center, radius: 500.0, identifier: "Headquarters")
             region.notifyOnEntry = true
             region.notifyOnExit = false
             let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)

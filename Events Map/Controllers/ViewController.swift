@@ -87,32 +87,43 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         }
         
         
-        let edge = CGFloat(10)
-        let size = CGSize(width: self.view.bounds.width-2*edge, height: 170)
-        let origin = CGPoint(x: edge, y: self.view.bounds.height)
+        let size = CGSize(width: self.view.bounds.width, height: 180) // first: 180
+        let origin = CGPoint(x: 0, y: self.view.bounds.height)
         let rect = CGRect(origin: origin, size: size)
         let infoView = UIView(frame: rect)
         
+//        let blurEffect = UIBlurEffect(style: .prominent)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.frame = infoView.bounds
+//        blurEffectView.layer.cornerRadius = 8
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//
+//        infoView.addSubview(blurEffectView)
+        
+        
         // Mark: infoView UI style
-        infoView.backgroundColor = .white
-        infoView.layer.cornerRadius = 4
-        infoView.layer.shadowRadius = 4
+        infoView.backgroundColor = UIColor(white: 1, alpha: 0.95)
+        infoView.layer.cornerRadius = 8
+        infoView.layer.shadowRadius = 2
         infoView.layer.shadowColor = UIColor.black.cgColor
         infoView.layer.shadowOpacity = 0.5
         infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
         infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
-        infoView.layer.shouldRasterize = true
         infoView.tag = 1
         
+        
         // Mark: imageView UI
-        let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 120, height: 80))
-
-        imageView.downloadedFrom(url: URL(string: event.photos[0])!)
+        let imageView = UIImageView(frame: CGRect(x: 15, y: 15, width: 120, height: 80))
+        
+        let image = UIImage.gif(url: event.photos[0])
+        imageView.image = image?.resizeImage(targetSize: imageView.frame.size)
         imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         infoView.addSubview(imageView)
         
         // Mark: DateLabel UI
-        let dateLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 15, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 0)))
+        let dateLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 25, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 0)))
         dateLabel.font = UIFont.systemFont(ofSize: 12)
         dateLabel.textColor = .red
         let startDate = self.event.date as Date
@@ -136,7 +147,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.addSubview(dateLabel)
         
         // Mark: ContentLabel UI
-        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 15, y: 20 + dateLabel.bounds.height), size: CGSize(width: infoView.bounds.width/1.5 - 10, height: 0)))
+        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 25, y: 20 + dateLabel.bounds.height), size: CGSize(width: infoView.bounds.width - imageView.frame.width - 45, height: 0)))
         contentLabel.font = UIFont.systemFont(ofSize: 15)
         contentLabel.numberOfLines = 3
         contentLabel.text = marker.title
@@ -144,7 +155,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.addSubview(contentLabel)
         
         // Mark: -- Detail button
-        let detailBtn = UIButton(frame: CGRect(x: 10, y: imageView.frame.maxY + 10, width: infoView.bounds.maxX - 20, height: 40))
+        let detailBtn = UIButton(frame: CGRect(x: 15, y: imageView.frame.maxY + 15, width: infoView.bounds.maxX - 30, height: 40))
         detailBtn.layer.cornerRadius = 4
         detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         detailBtn.setTitleColor(UIColor.white, for: .normal)
@@ -154,13 +165,45 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         detailBtn.addTarget(self, action: #selector(infoViewTapped(_:)), for: UIControlEvents.touchUpInside)
         infoView.addSubview(detailBtn)
         
+        let likeBtn: UIButton = {
+            let button = UIButton(frame: CGRect(x: 15, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 10, height: 40))
+            let imageDefault = UIImage(named: "star-default")
+            let imageFilled = UIImage(named: "star-filled")
+            button.setImage(imageDefault?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
+            button.setImage(imageFilled?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: UIControlState.highlighted)
+            button.backgroundColor = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
+            button.layer.cornerRadius = 8
+            button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
+            return button
+        }()
         
+        infoView.addSubview(likeBtn)
         
-        infoView.frame.size = CGSize(width: self.view.bounds.width - 20, height: imageView.frame.height + detailBtn.frame.height + 30)
+        let shareBtn: UIButton = {
+            let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 20, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 10, height: 40))
+            let image = UIImage(named: "share")
+            
+            button.setImage(image?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
+            button.backgroundColor = .lightGray
+            
+            button.layer.shadowRadius = 2
+            button.layer.shadowColor = UIColor.black.cgColor
+            button.layer.shadowOpacity = 0.5
+            button.layer.shadowOffset = CGSize(width: 1, height: 1)
+            button.layer.shadowPath = UIBezierPath(rect: button.bounds).cgPath
+            button.layer.cornerRadius = 8
+//            button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
+            return button
+        }()
+        
+        infoView.addSubview(shareBtn)
+        
+        infoView.frame.size = CGSize(width: self.view.bounds.width, height: imageView.frame.height + detailBtn.frame.height + likeBtn.frame.height + 55)
+        
         self.view.addSubview(infoView)
         
         UIView.animate(withDuration: 0.3, animations: {
-            infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height - 10
+            infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height
         }, completion: nil)
         
         buffer.append(infoView)
@@ -169,9 +212,24 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         // Tap InfoView trigger
         //let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(sender:)))
+        
         infoView.isUserInteractionEnabled = true
     }
     
+    @objc func likeBtnPressed(_ sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        
+        UIView.animate(withDuration: 2.0,
+                       delay: 0,
+                       usingSpringWithDamping: CGFloat(0.20),
+                       initialSpringVelocity: CGFloat(6.0),
+                       options: UIViewAnimationOptions.allowUserInteraction,
+                       animations: {
+                        sender.transform = CGAffineTransform.identity
+        },
+                       completion: { Void in()  }
+        )
+    }
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         //Mark: remove buffer
@@ -192,22 +250,19 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 let addressText = lines.joined(separator: ", ")
                 self.address = addressText
                 
-                let edge = CGFloat(10)
-                let size = CGSize(width: self.view.bounds.width-2*edge, height: 120)
-                let origin = CGPoint(x: edge, y: self.view.bounds.height)
+                let size = CGSize(width: self.view.bounds.width, height: 130)
+                let origin = CGPoint(x: 0, y: self.view.bounds.height)
                 let rect = CGRect(origin: origin, size: size)
                 let infoView = UIView(frame: rect)
                 
                 // Mark: infoView UI style
-                infoView.backgroundColor = .white
+                infoView.backgroundColor = UIColor(white: 1, alpha: 0.95)
                 infoView.layer.cornerRadius = 4
-                infoView.layer.shadowRadius = 4
+                infoView.layer.shadowRadius = 2
                 infoView.layer.shadowColor = UIColor.black.cgColor
                 infoView.layer.shadowOpacity = 0.5
                 infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
                 infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
-                infoView.layer.shouldRasterize = true
-                
                 infoView.tag = 1
                 
                 // Mark: ContentLabel UI
@@ -230,9 +285,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView.addSubview(detailBtn)
                 
                 self.view.addSubview(infoView)
-                infoView.frame.size = CGSize(width: self.view.bounds.width - 20, height: contentLabel.frame.height + detailBtn.frame.height + 30)
+                infoView.frame.size = CGSize(width: self.view.bounds.width, height: contentLabel.frame.height + detailBtn.frame.height + 40)
                 UIView.animate(withDuration: 0.3, animations: {
-                    infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height - 10
+                    infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height
                 }, completion: nil)
                 
                 self.buffer.append(infoView)
@@ -313,7 +368,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         if (touch.view?.tag == 1) {
             let infoView = touch.view
-            if ((infoView?.frame.origin.y)! > view.frame.maxY * 0.7) {
+            if ((infoView?.frame.origin.y)! > view.frame.maxY - (infoView?.frame.height)! - 30) {
                 let displacement = (infoView?.frame.midY)! - touch.location(in: view).y
                 infoView?.frame.origin.y -= displacement * 0.005
             }
@@ -328,7 +383,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
 
             let infoView = touch.view
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)! - 10
+                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)!
             }, completion: nil)
             //infoViewTapped(infoView!)
         }
@@ -342,7 +397,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             
             let infoView = touch.view
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)! - 10
+                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)!
             }, completion: nil)
         }
     }
