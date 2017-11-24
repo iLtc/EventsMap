@@ -66,11 +66,46 @@ class LoginView: UIView {
             button.setBackgroundColor(color: UIColor(red:0.43, green:0.52, blue:0.71, alpha:1.0), forState: .highlighted)
             return button
         }()
-
-        self.addSubview(facebookBtn)
+        
+        let fbLogoutBtn: UIButton = {
+            let button = UIButton(frame: CGRect(x: 10, y: titleLabel.frame.height + 90, width: frame.width - 20, height: 40))
+            let imageView = UIImageView(frame: CGRect(x: 50, y: 6, width: 29, height: 29))
+            imageView.image = UIImage(named: "Facebook")
+            button.addSubview(imageView)
+            let label = UILabel()
+            label.text = "Logout"
+            label.textColor = .white
+            label.font = UIFont.boldSystemFont(ofSize: 20)
+            label.textAlignment = .center
+            label.sizeToFit()
+            imageView.frame.origin.x = (button.bounds.width - imageView.bounds.width - label.bounds.width - 10) / 2
+            label.frame.origin = CGPoint(x: imageView.frame.maxX + 10, y: 8)
+            button.addSubview(label)
+            button.alpha = 0
+            button.layer.cornerRadius = 4
+            button.layer.shadowRadius = 4
+            button.backgroundColor = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
+            button.isUserInteractionEnabled = true
+            button.addTarget(self, action: #selector(fbLogout(_:)), for: .touchUpInside)
+            button.titleLabel?.textColor = .white
+            button.clipsToBounds = true
+            button.setBackgroundColor(color: UIColor(red:0.43, green:0.52, blue:0.71, alpha:1.0), forState: .highlighted)
+            return button
+        }()
+        if FBSDKAccessToken.current() == nil {
+            self.addSubview(facebookBtn)
+        } else {
+            self.addSubview(fbLogoutBtn)
+        }
+        
         UIButton.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
             facebookBtn.frame.origin.y = titleLabel.frame.height + 40
             facebookBtn.alpha = 1
+        }, completion: nil)
+        
+        UIButton.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
+            fbLogoutBtn.frame.origin.y = titleLabel.frame.height + 40
+            fbLogoutBtn.alpha = 1
         }, completion: nil)
         
         
@@ -104,6 +139,13 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func fbLogout(_ sender: UIButton) {
+        let loginManager = LoginManager()
+        loginManager.logOut()
+        self.parentImg?.image = UIImage(named: "Contacts")
+        popoverMenu.dismiss()
+    }
+    
     @objc func fbLogin(_ sender: UIButton) {
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions: [ .publicProfile], viewController: nil, completion: { (loginResult) in
@@ -132,14 +174,14 @@ class LoginView: UIView {
                     
                     UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { user in
                         print(user.picURL)
-                        self.parentImg?.downloadedFrom(link: user.picURL)
+                        let image = UIImage.gif(url: user.picURL)!
+                        self.parentImg?.image = image.resizeImage(targetSize: (self.parentImg?.frame.size)!)
                     }
-                    let user = UserService.instance.getCurrentUser()
-                    print(user?.id)
                 }
             })
         }
     }
+    
     
     /*
     // Only override draw() if you perform custom drawing.
@@ -149,6 +191,34 @@ class LoginView: UIView {
     }
     */
 
+}
+
+extension UIImage {
+    func resizeImage(targetSize: CGSize) -> UIImage {
+        let size = self.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        self.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
 }
 
 extension UIButton {
