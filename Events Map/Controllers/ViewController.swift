@@ -211,8 +211,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         self.view.addSubview(infoView)
         
-        UIView.animate(withDuration: 0.3, animations: {
-            infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            infoView.frame.origin.y = self.view.bounds.height - likeBtn.frame.minY
         }, completion: nil)
         
         buffer.append(infoView)
@@ -305,7 +305,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView.layer.shadowOpacity = 0.5
                 infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
                 infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
-                infoView.tag = 1
+                infoView.tag = 0
                 
                 // Mark: ContentLabel UI
                 let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: 10, y: 10), size: CGSize(width: infoView.bounds.width - 20, height: 100)))
@@ -415,7 +415,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
 //                let displacement = (infoView?.frame.midY)! - touch.location(in: view).y
 //                infoView?.frame.origin.y -= displacement * 0.005
 //            }
-            if ((infoView?.frame.origin.y)! > view.frame.maxY - (infoView?.frame.height)! - 30) {
+            if ((infoView?.frame.origin.y)! >= view.frame.maxY - (infoView?.frame.height)!) {
                 
                 infoView?.frame.origin.y = touch.location(in: self.view).y - locationBegan
             }
@@ -427,11 +427,25 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let touch: UITouch = touches.first as UITouch!
         
         if (touch.view?.tag == 1) {
-
+            
             let infoView = touch.view
+            var location: CGFloat = (infoView?.frame.origin.y)!
+            if (infoView?.frame.origin.y)! < (view.frame.height - (infoView?.frame.height)!) + 40 {
+                location = self.view.bounds.height - (infoView?.frame.height)!
+            } else if (infoView?.frame.origin.y)! > view.frame.height - 95 {
+                location = self.view.bounds.height
+            } else {
+                location = self.view.bounds.height - 160
+            }
+            
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)!
-            }, completion: nil)
+                infoView?.frame.origin.y = location
+            }, completion: {(finished: Bool) in
+                if location == self.view.bounds.height {
+                    self.removeView()
+                }
+            })
+            
             //infoViewTapped(infoView!)
         }
     }
@@ -442,10 +456,24 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         if (touch.view?.tag == 1) {
             
+            
             let infoView = touch.view
+            var location: CGFloat = (infoView?.frame.origin.y)!
+            if (infoView?.frame.origin.y)! < (view.frame.height - (infoView?.frame.height)!) + 40 {
+                location = self.view.bounds.height - (infoView?.frame.height)!
+            } else if (infoView?.frame.origin.y)! > view.frame.height - 95 {
+                location = self.view.bounds.height
+            } else {
+                location = self.view.bounds.height - 160
+            }
+            
             UIView.animate(withDuration: 0.3, animations: {
-                infoView?.frame.origin.y = self.view.bounds.height - (infoView?.frame.height)!
-            }, completion: nil)
+                infoView?.frame.origin.y = location
+            }, completion: {(finished: Bool) in
+                if location == self.view.bounds.height {
+                    self.removeView()
+                }
+            })
         }
     }
     
