@@ -182,17 +182,12 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.addSubview(likeBtn)
         
         let shareBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 20, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
+            let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 10, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
             let image = UIImage(named: "share")
             
             button.setImage(image?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
             button.backgroundColor = .lightGray
             
-            button.layer.shadowRadius = 2
-            button.layer.shadowColor = UIColor.black.cgColor
-            button.layer.shadowOpacity = 0.5
-            button.layer.shadowOffset = CGSize(width: 1, height: 1)
-            button.layer.shadowPath = UIBezierPath(rect: button.bounds).cgPath
             button.layer.cornerRadius = 8
 //            button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
             return button
