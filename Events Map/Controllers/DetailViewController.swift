@@ -41,26 +41,17 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
     
     private var toolBar: UIToolbar!
     
+    var starBtn: UIBarButtonItem = UIBarButtonItem()
+    var calendarBtn: UIBarButtonItem = UIBarButtonItem()
+    var navigationBtn: UIBarButtonItem = UIBarButtonItem()
+    var shareBtn: UIBarButtonItem = UIBarButtonItem()
+    var space: UIBarButtonItem = UIBarButtonItem()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: animated)
         
-        // ToolBar UI
-        //toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 40.0))
-        //toolBar.layer.position = CGPoint(x: view.bounds.width/2, y: view.bounds.height-20.0)
-        //self.navigationController?.toolbar.barStyle = .default
-        //self.navigationController?.toolbar.tintColor = UIColor.blue
-        //self.navigationController?.toolbar.backgroundColor = UIColor.white
         
-        let starBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .done, target: self, action: nil)
-        let calendarBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(saveCalendarAlert(_:)))
-        let navigationBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Explore") , style: .done, target: self, action: #selector(popUpView))
-        let shareBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
-        let space: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        
-        let items = [space, starBtn, space, calendarBtn, space, navigationBtn, space, shareBtn, space]
-        
-        self.toolbarItems = items
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -70,9 +61,24 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.navigationItem.title = "Event Detail"
-        self.navigationController?.navigationBar.topItem?.title = "Map"
+        
+        // ToolBar UI
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        button.setImage(UIImage(named: "Star"), for: .normal)
+        button.addTarget(self, action: #selector(like), for: .touchUpInside)
+        starBtn = UIBarButtonItem(customView: button)
+        
+        calendarBtn = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(saveCalendarAlert(_:)))
+        navigationBtn = UIBarButtonItem(image: UIImage(named: "Explore") , style: .done, target: self, action: #selector(popUpView))
+        shareBtn = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
+        space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        let items = [space, starBtn, space, calendarBtn, space, navigationBtn, space, shareBtn, space]
+        
+        self.toolbarItems = items
+//        self.navigationController?.navigationBar.topItem?.title = "Map"
 
         self.navigationItem.largeTitleDisplayMode = .always
 
@@ -87,6 +93,38 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func like() {
+        if event.like() {
+            print("Liked")
+            let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+            button.setImage(UIImage(named: "Favorites"), for: .normal)
+            button.addTarget(self, action: #selector(unlike), for: .touchUpInside)
+            starBtn = UIBarButtonItem(customView: button)
+            self.setToolbarItems([space, starBtn, space, calendarBtn, space, navigationBtn, space, shareBtn, space], animated: true)
+            
+        } else {
+            let alertController = UIAlertController(title: "Events Map", message: "You need to login.", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            let confirmAction = UIAlertAction(title: "Login", style: .default) { (action) in
+                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+            }
+            alertController.addAction(confirmAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func unlike() {
+        print("unlike")
+        event.unlike()
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        button.setImage(UIImage(named: "Star"), for: .normal)
+        button.addTarget(self, action: #selector(like), for: .touchUpInside)
+        starBtn = UIBarButtonItem(customView: button)
+        self.setToolbarItems([space, starBtn, space, calendarBtn, space, navigationBtn, space, shareBtn, space], animated: true)
     }
     
     // Mark: share method
