@@ -184,7 +184,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let shareBtn: UIButton = {
             let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 10, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
             let image = UIImage(named: "share")
-            
+            button.addTarget(self, action: #selector(shareBtnPressed(_:)), for: .touchUpInside)
             button.setImage(image?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
             button.backgroundColor = .lightGray
             
@@ -270,6 +270,36 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         event.unlike()
         sender.setImage(UIImage(named: "star-default"), for: .normal)
         sender.tag = 0
+    }
+    
+    @objc func shareBtnPressed(_ sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: CGFloat(0.5),
+                       initialSpringVelocity: CGFloat(3.0),
+                       options: UIViewAnimationOptions.allowUserInteraction,
+                       animations: {
+                        sender.transform = CGAffineTransform.identity
+        },
+                       completion: { Void in
+        })
+        share(sender)
+    }
+    
+    func share(_ sender: Any) {
+        
+        let text = "Check out this event."
+        let url = URL(string: "https://events.iltcapp.net/events/" + event.id)
+        let dataToShare: [Any] = [ text, url! ]
+        let activityViewController = UIActivityViewController(
+            activityItems: dataToShare,
+            applicationActivities: nil)
+        if let popoverController = activityViewController.popoverPresentationController {
+//            popoverController.barButtonItem = (sender as! UIBarButtonItem)
+        }
+        present(activityViewController, animated: true, completion: nil)
     }
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
