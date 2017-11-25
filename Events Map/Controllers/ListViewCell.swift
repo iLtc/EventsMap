@@ -12,6 +12,8 @@ class ListViewCell: UITableViewCell {
     
     @IBOutlet weak var eventTitleLabel: UILabel!
     @IBOutlet weak var eventImageView: UIImageView!
+    @IBOutlet weak var eventTimeLabel: UILabel!
+    @IBOutlet weak var eventLocationLabel: UILabel!
     
     var event: Event?
     
@@ -29,9 +31,28 @@ class ListViewCell: UITableViewCell {
         self.event = event
         
         eventTitleLabel.text = event.title
-        eventImageView.image = UIImage.gif(url: event.photos[0])?.resizeImage(targetSize: eventImageView.frame.size)
         
+        eventImageView.image = UIImage.gif(url: event.photos[0])?.resizeImage(targetSize: eventImageView.frame.size)
         eventImageView.layer.cornerRadius = 10
         eventImageView.clipsToBounds = true
+        
+        let startDate = event.date as Date
+        let endDate = event.endDate as Date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE, MMM dd HH:mm"
+        let endFormatter = DateFormatter()
+        endFormatter.dateFormat = "HH:mm"
+        var eventStartDate = String()
+        var eventEndDate = String()
+        if (Calendar.current.isDate(startDate, inSameDayAs: endDate)) {
+            eventStartDate = formatter.string(from: startDate)
+            eventEndDate = endFormatter.string(from: endDate)
+        } else {
+            eventStartDate = formatter.string(from: startDate)
+            eventEndDate = formatter.string(from: endDate)
+        }
+        eventTimeLabel.text = eventStartDate + " - " + eventEndDate
+        
+        eventLocationLabel.text = event.location
     }
 }
