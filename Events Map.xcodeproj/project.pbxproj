@@ -182,9 +182,9 @@
 				24CA0E2B1FC8B50100D1AEDF /* ListViewCell.swift */,
 				242505EE1FA2B21E006E0408 /* ViewController.swift */,
 				244520541FC3759600D1B956 /* MasterViewController.swift */,
-				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				245404051FBAC9F600206838 /* AddEventViewController.swift */,
 				2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */,
+				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
