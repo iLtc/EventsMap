@@ -40,7 +40,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add" translatesAutoresizingMaskIntoConstraints="NO" id="x5y-02-yKM">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add" translatesAutoresizingMaskIntoConstraints="NO" id="x5y-02-yKM">
                             <rect key="frame" x="16" y="68" width="343" height="200"/>
                             <color key="backgroundColor" red="0.91751056909561157" green="0.91748398542404175" blue="0.92978090047836304" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
