@@ -11,9 +11,9 @@ import UIKit
 class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
     var address: String?
-    var pickedImage: UIImage?
     
-    @IBOutlet weak var scrollView: UIScrollView!
+    var imageHasPicked = false
+    
     @IBOutlet weak var eventTitle: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
@@ -23,12 +23,11 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Add Event"
-        self.navigationController?.navigationBar.topItem?.title = "Map"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
-
-        self.navigationItem.rightBarButtonItem?.title = "Save"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveBtnPressed))
         
         self.navigationItem.largeTitleDisplayMode = .always
+        
+        self.navigationController?.navigationBar.isTranslucent = false
         
         addEndDate.frame = endDateInput.frame
         addEndDate.backgroundColor = UIColor.lightGray
@@ -45,7 +44,9 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pickPhoto(_:))))
         imageView.isUserInteractionEnabled = true
 
-        addressField.text = address
+        if let address = self.address {
+            addressField.text = address
+        }
         
         // MARK: - Set delegate
         eventTitle.delegate = self
@@ -127,15 +128,21 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
             return
         }
         
-        pickedImage = image
-        
-        imageView.image = pickedImage
+        imageView.image = image
         imageView.contentMode = .scaleAspectFill
+        
+        imageHasPicked = true
         
         dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func saveBtnPressed() {
+        // TODO: Check if form has been filled completed
+        
+        
     }
 }
