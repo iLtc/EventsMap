@@ -11,6 +11,7 @@ import UIKit
 class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
     var address: String?
+    var coordinate: [String: Double] = [:]
     
     var imageHasPicked = false
     
@@ -18,8 +19,11 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
     @IBOutlet weak var descripInput: UITextView!
+    @IBOutlet weak var startDateInput: DatePick!
     @IBOutlet weak var endDateInput: DatePick!
+    
     let addEndDate = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Add Event"
@@ -143,6 +147,20 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     @objc func saveBtnPressed() {
         // TODO: Check if form has been filled completed
         
-        
+        EventService.instance.uploadImage(imageView.image!) { imageURL in
+            let event = Event(id: "", title: self.eventTitle.text!, url: "", date: self.startDateInput.date, endDate: self.endDateInput.date, isAllDay: false, location: self.addressField.text!, description: self.descripInput.text)
+            
+            event.photos.append(imageURL)
+            
+            
+            event.geo["latitude"] = String(describing: self.coordinate["la"])
+            event.geo["longitude"] = String(describing: self.coordinate["lo"])
+            
+            event.categories.append("Events Map")
+            
+            event.save() { event in
+                
+            }
+        }
     }
 }

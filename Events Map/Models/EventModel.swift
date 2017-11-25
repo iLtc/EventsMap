@@ -51,6 +51,10 @@ class Event {
         EventService.instance.unlike(self)
     }
     
+    func save(_ callback: @escaping ((Event) -> Void) ) {
+        EventService.instance.addEvent(self, callback)
+    }
+    
     func debug() -> String {
         return "id: \(self.id), title: \(self.title.trunc(7)), url: \(self.url.trunc(7)), date: \(self.date), location: \(self.location.trunc(7)), description: \(self.description.trunc(21)), photos: \(self.photos.joined(separator: ", ").trunc(7)), geo: \(self.geo), categories: \(self.categories.joined(separator: ", ").trunc(21))"
     }
