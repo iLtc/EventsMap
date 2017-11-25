@@ -199,6 +199,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             let button = UIButton(frame: CGRect(origin: CGPoint(x: 15, y: likeBtn.frame.maxY + 10), size: detailBtn.frame.size))
             button.setTitleColor(UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1), for: .normal)
             button.setTitle("Cancel", for: .normal)
+            button.setTitleColor(UIColor(red: 90/255, green: 200/255, blue: 250/255, alpha: 1), for: .highlighted)
             button.layer.cornerRadius = 8
             button.backgroundColor = .white
             button.addTarget(self, action: #selector(removeView), for: .touchUpInside)
@@ -211,7 +212,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         self.view.addSubview(infoView)
         
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
             infoView.frame.origin.y = self.view.bounds.height - likeBtn.frame.minY
         }, completion: nil)
         
@@ -467,15 +468,14 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             } else {
                 location = self.view.bounds.height - 160
             }
-            
-            UIView.animate(withDuration: 0.3, animations: {
+
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
                 infoView?.frame.origin.y = location
             }, completion: {(finished: Bool) in
                 if location == self.view.bounds.height {
                     self.removeView()
                 }
             })
-            
             //infoViewTapped(infoView!)
         }
     }
@@ -497,7 +497,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 location = self.view.bounds.height - 160
             }
             
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
                 infoView?.frame.origin.y = location
             }, completion: {(finished: Bool) in
                 if location == self.view.bounds.height {

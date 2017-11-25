@@ -16,6 +16,7 @@
                 <outlet property="endDateInput" destination="u3r-J0-YYb" id="fv7-dQ-JQn"/>
                 <outlet property="eventTitle" destination="77q-5K-w5y" id="DUC-Du-VaI"/>
                 <outlet property="imageView" destination="x5y-02-yKM" id="N2H-XG-dwO"/>
+                <outlet property="topContraint" destination="fEy-1o-C8T" id="9V4-00-ztI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -66,6 +67,9 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="e3v-Qz-Xpe"/>
+                            </connections>
                         </textView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

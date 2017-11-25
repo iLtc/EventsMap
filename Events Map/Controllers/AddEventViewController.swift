@@ -14,6 +14,7 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
     
     var imageHasPicked = false
     
+    @IBOutlet weak var topContraint: NSLayoutConstraint!
     @IBOutlet weak var eventTitle: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addressField: UITextField!
@@ -28,6 +29,8 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         self.navigationItem.largeTitleDisplayMode = .always
         
         self.navigationController?.navigationBar.isTranslucent = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardNotification(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         
         addEndDate.frame = endDateInput.frame
         addEndDate.backgroundColor = UIColor.lightGray
@@ -74,15 +77,33 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         return true
     }
     
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+    deinit {
         
-        return true
+        NotificationCenter.default.removeObserver(self)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         print("BeginEditing")
-        let range = NSMakeRange(textView.text.count - 1, 0)
-        textView.scrollRangeToVisible(range)
+    }
+    
+    @objc func keyboardNotification(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            let endFrame =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let duration:TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+            let animationCurveRawNSN = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
+            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
+            let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
+            if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
+                self.topContraint?.constant = 0.0
+            } else {
+                self.topContraint?.constant = (endFrame?.size.height)!*(-1) 
+            }
+            UIView.animate(withDuration: duration,
+                           delay: TimeInterval(0),
+                           options: animationCurve,
+                           animations: { self.view.layoutIfNeeded() },
+                           completion: nil)
+        }
     }
     
     @objc func showEndDate(_ sender: UIButton) {
