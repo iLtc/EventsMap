@@ -396,7 +396,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         }
         let vc = AddEventViewController()
         vc.address = self.address
-        vc.coordinate = ["la": (self.coordinate?.latitude)! as Double, "lo": (self.coordinate?.longitude)! as Double]
+        vc.coordinate = ["la": (self.coordinate!.latitude) , "lo": (self.coordinate!.longitude)]
         
         navigationController?.pushViewController(vc, animated: true)
     }

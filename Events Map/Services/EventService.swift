@@ -155,9 +155,13 @@ class EventService {
             parameters["uid"] = user.id
         }
         
-        Alamofire.request("https://127.0.0.1:3000/events", method: .post, parameters: parameters).responseJSON { response in
+        Alamofire.request("http://127.0.0.1:3000/events", method: .post, parameters: parameters).responseJSON { response in
             if let result = response.result.value {
-                print(result)
+                let json = JSON(result)
+                
+                event.id = json["id"].stringValue
+                
+                callback(event)
             }
         }
     }
