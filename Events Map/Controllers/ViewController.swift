@@ -22,6 +22,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.title = "Map"
         collectionView?.backgroundColor = UIColor(red: 237/255.0, green: 234/255.0, blue: 227/255.0, alpha: 1)
         manger.delegate = self
         manger.desiredAccuracy = kCLLocationAccuracyBest
@@ -61,7 +62,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
     
     // Mark: Animated remove infoView
-    func removeView() {
+    @objc func removeView() {
         if buffer.count != 0 {
             for infoView in buffer {
                 UIView.animate(withDuration: 0.3, animations: {
@@ -102,7 +103,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         
         // Mark: infoView UI style
-        infoView.backgroundColor = UIColor(white: 1, alpha: 0.95)
+        infoView.backgroundColor = UIColor(white: 247/255, alpha: 240.0/255)
+        infoView.tintColor = self.navigationController?.navigationBar.tintColor
         infoView.layer.cornerRadius = 8
         infoView.layer.shadowRadius = 2
         infoView.layer.shadowColor = UIColor.black.cgColor
@@ -156,31 +158,31 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         // Mark: -- Detail button
         let detailBtn = UIButton(frame: CGRect(x: 15, y: imageView.frame.maxY + 15, width: infoView.bounds.maxX - 30, height: 40))
-        detailBtn.layer.cornerRadius = 4
+        detailBtn.layer.cornerRadius = 8
         detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         detailBtn.setTitleColor(UIColor.white, for: .normal)
         detailBtn.setTitle("Detail", for: .normal)
         detailBtn.isUserInteractionEnabled = true
         detailBtn.addTarget(self, action: #selector(btnPressedDown(_:)), for: UIControlEvents.touchDown)
         detailBtn.addTarget(self, action: #selector(infoViewTapped(_:)), for: UIControlEvents.touchUpInside)
+        
         infoView.addSubview(detailBtn)
         
         let likeBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: 15, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 10, height: 40))
-            let imageDefault = UIImage(named: "star-default")
-            let imageFilled = UIImage(named: "star-filled")
-            button.setImage(imageDefault?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
-            button.setImage(imageFilled?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: UIControlState.highlighted)
+            let button = UIButton(frame: CGRect(x: 15, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
+            button.setImage(UIImage(named: "star-default"), for: .normal)
+            
             button.backgroundColor = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
             button.layer.cornerRadius = 8
             button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
+            button.tag = 0
             return button
         }()
         
         infoView.addSubview(likeBtn)
         
         let shareBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 20, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 10, height: 40))
+            let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 20, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
             let image = UIImage(named: "share")
             
             button.setImage(image?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
@@ -198,7 +200,19 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         infoView.addSubview(shareBtn)
         
-        infoView.frame.size = CGSize(width: self.view.bounds.width, height: imageView.frame.height + detailBtn.frame.height + likeBtn.frame.height + 55)
+        let cancelBtn: UIButton = {
+            let button = UIButton(frame: CGRect(origin: CGPoint(x: 15, y: likeBtn.frame.maxY + 10), size: detailBtn.frame.size))
+            button.setTitleColor(UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1), for: .normal)
+            button.setTitle("Cancel", for: .normal)
+            button.layer.cornerRadius = 8
+            button.backgroundColor = .white
+            button.addTarget(self, action: #selector(removeView), for: .touchUpInside)
+            return button
+        }()
+        
+        infoView.addSubview(cancelBtn)
+        
+        infoView.frame.size = CGSize(width: self.view.bounds.width, height: imageView.frame.height + detailBtn.frame.height + likeBtn.frame.height + cancelBtn.frame.height + 65)
         
         self.view.addSubview(infoView)
         
@@ -217,18 +231,50 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
     
     @objc func likeBtnPressed(_ sender: UIButton) {
-        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
-        UIView.animate(withDuration: 2.0,
+        UIView.animate(withDuration: 0.5,
                        delay: 0,
-                       usingSpringWithDamping: CGFloat(0.20),
-                       initialSpringVelocity: CGFloat(6.0),
+                       usingSpringWithDamping: CGFloat(0.5),
+                       initialSpringVelocity: CGFloat(3.0),
                        options: UIViewAnimationOptions.allowUserInteraction,
                        animations: {
                         sender.transform = CGAffineTransform.identity
         },
-                       completion: { Void in()  }
-        )
+                       completion: { Void in
+                        })
+        if sender.tag == 0 {
+            self.like(sender)
+        } else if sender.tag == 1 {
+            self.unlike(sender)
+        }
+        
+    }
+    
+    func like(_ sender: UIButton) {
+        if event.like() {
+            print("Liked")
+            sender.setImage(UIImage(named: "star-filled"), for: .normal)
+            sender.tag = 1
+            
+        } else {
+            let alertController = UIAlertController(title: "Events Map", message: "You need to login.", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            let confirmAction = UIAlertAction(title: "Login", style: .default) { (action) in
+                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+            }
+            alertController.addAction(confirmAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func unlike(_ sender: UIButton) {
+        print("unlike")
+        event.unlike()
+        sender.setImage(UIImage(named: "star-default"), for: .normal)
+        sender.tag = 0
     }
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
@@ -256,7 +302,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 let infoView = UIView(frame: rect)
                 
                 // Mark: infoView UI style
-                infoView.backgroundColor = UIColor(white: 1, alpha: 0.95)
+                infoView.backgroundColor = UIColor(white: 247/255, alpha: 240.0/255)
+                infoView.tintColor = self.navigationController?.navigationBar.tintColor
                 infoView.layer.cornerRadius = 4
                 infoView.layer.shadowRadius = 2
                 infoView.layer.shadowColor = UIColor.black.cgColor
@@ -350,13 +397,14 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         }
     }
     
+    var locationBegan: CGFloat = 0
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         let touch: UITouch = touches.first as UITouch!
-        
+
         if (touch.view?.tag == 1) {
             
-            //let infoView = touch.view
+            locationBegan = touch.location(in: touch.view).y
             
             
         }
@@ -368,9 +416,13 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         if (touch.view?.tag == 1) {
             let infoView = touch.view
+//            if ((infoView?.frame.origin.y)! > view.frame.maxY - (infoView?.frame.height)! - 30) {
+//                let displacement = (infoView?.frame.midY)! - touch.location(in: view).y
+//                infoView?.frame.origin.y -= displacement * 0.005
+//            }
             if ((infoView?.frame.origin.y)! > view.frame.maxY - (infoView?.frame.height)! - 30) {
-                let displacement = (infoView?.frame.midY)! - touch.location(in: view).y
-                infoView?.frame.origin.y -= displacement * 0.005
+                
+                infoView?.frame.origin.y = touch.location(in: self.view).y - locationBegan
             }
         }
     }
