@@ -16,6 +16,7 @@
                 <outlet property="endDateInput" destination="u3r-J0-YYb" id="fv7-dQ-JQn"/>
                 <outlet property="eventTitle" destination="77q-5K-w5y" id="DUC-Du-VaI"/>
                 <outlet property="imageView" destination="x5y-02-yKM" id="N2H-XG-dwO"/>
+                <outlet property="startDateInput" destination="Yb4-Nt-7cZ" id="Zog-q6-lEV"/>
                 <outlet property="topContraint" destination="fEy-1o-C8T" id="9V4-00-ztI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -40,7 +41,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add" translatesAutoresizingMaskIntoConstraints="NO" id="x5y-02-yKM">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add" translatesAutoresizingMaskIntoConstraints="NO" id="x5y-02-yKM">
                             <rect key="frame" x="16" y="68" width="343" height="200"/>
                             <color key="backgroundColor" red="0.91751056909561157" green="0.91748398542404175" blue="0.92978090047836304" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>

@@ -18,6 +18,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     var buffer: [UIView] = []
     var event: Event = Event()
     var address = ""
+    var coordinate: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -321,6 +322,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 
                 let addressText = lines.joined(separator: ", ")
                 self.address = addressText
+                self.coordinate = coordinate
                 
                 let size = CGSize(width: self.view.bounds.width, height: 130)
                 let origin = CGPoint(x: 0, y: self.view.bounds.height)
@@ -394,6 +396,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         }
         let vc = AddEventViewController()
         vc.address = self.address
+        vc.coordinate = ["la": (self.coordinate!.latitude) , "lo": (self.coordinate!.longitude)]
         
         navigationController?.pushViewController(vc, animated: true)
     }

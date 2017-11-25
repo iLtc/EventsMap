@@ -111,4 +111,58 @@ class EventService {
             Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/unlike", method: .post, parameters: parameters)
         }
     }
+    
+    func uploadImage(_ image: UIImage, _ callback: @escaping ((String) -> Void) ) {
+        var urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:3000/events/image")!)
+        urlRequest.httpMethod = "POST"
+        
+        let imgData = UIImageJPEGRepresentation(image, 0.5)!
+        
+        Alamofire.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append(imgData, withName: "fileset", fileName: "name", mimeType: "image/jpg")
+        }, with: urlRequest, encodingCompletion: { encodingResult in
+            
+            switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        if let result = response.result.value {
+                            let json = JSON(result)
+                            
+                            let imgURL = json["url"].stringValue
+                            
+                            callback(imgURL)
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+            }
+        })
+    }
+    
+    func addEvent(_ event: Event, _ callback: @escaping ((Event) -> Void) ) {
+        var parameters = [
+            "title": event.title,
+            "date": event.date,
+            "endDate": event.endDate,
+            "location": event.location,
+            "description": event.description,
+            "photo": event.photos[0],
+            "la": event.geo["latitude"]!,
+            "lo": event.geo["longitude"]!
+            ] as [String : Any]
+        
+        if let user = UserService.instance.getCurrentUser() {
+            parameters["uid"] = user.id
+        }
+        
+        Alamofire.request("http://127.0.0.1:3000/events", method: .post, parameters: parameters).responseJSON { response in
+            if let result = response.result.value {
+                let json = JSON(result)
+                
+                event.id = json["id"].stringValue
+                
+                callback(event)
+            }
+        }
+    }
 }
