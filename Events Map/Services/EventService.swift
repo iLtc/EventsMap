@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class EventService {
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
     static var instance = EventService()
     let defaults = UserDefaults.standard
     
@@ -96,6 +97,7 @@ class EventService {
         if let user = UserService.instance.getCurrentUser() {
             let parameters = ["id": user.id]
             Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/like", method: .post, parameters: parameters)
+            appDelegate?.scheduleNotification(event)
             return true
         }else{
             // TODO: Pop up login
