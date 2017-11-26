@@ -97,6 +97,7 @@ class UserTableViewController: UITableViewController {
             
         case 1:
             break
+            
         case 2:
             // Push SettingsVC
             let vc = SettingsViewController(style: .grouped)
