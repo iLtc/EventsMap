@@ -12,12 +12,15 @@ import paper_onboarding
 class StartViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardingDelegate {
     
     var startBtn:UIButton = UIButton()
-    
+    var checkBtn: UIButton = UIButton()
+    var checkLabel: UILabel = UILabel()
     func onboardingWillTransitonToIndex(_ index: Int) {
         if index == 1 {
             if self.startBtn.alpha == 1 {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.startBtn.alpha = 0
+                    self.checkBtn.alpha = 0
+                    self.checkLabel.alpha = 0
                 })
             }
         }
@@ -27,6 +30,8 @@ class StartViewController: UIViewController, PaperOnboardingDataSource, PaperOnb
         if index == 2 {
             UIView.animate(withDuration: 0.3, animations: {
                 self.startBtn.alpha = 1
+                self.checkBtn.alpha = 1
+                self.checkLabel.alpha = 1
             })
         }
     }
@@ -66,18 +71,48 @@ class StartViewController: UIViewController, PaperOnboardingDataSource, PaperOnb
         onboarding.translatesAutoresizingMaskIntoConstraints = false
         
         startBtn = {
-            let button = UIButton(frame: CGRect(x: view.bounds.maxX/2, y: view.bounds.maxY * 0.8, width: 0, height: 0))
+            let button = UIButton(frame: CGRect(x: view.bounds.maxX/2, y: view.bounds.maxY * 0.75, width: 0, height: 0))
             button.setTitle("Get Started", for: .normal)
-            button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = .clear
+            button.setTitleColor(UIColor(red:0.36, green:0.48, blue:0.73, alpha:1.0), for: .normal)
+            button.backgroundColor = .white
             button.sizeToFit()
             button.alpha = 0
+            button.frame.size.width = 120
+            button.layer.cornerRadius = button.frame.height/2
             button.addTarget(self, action: #selector(getStarted(_:)), for: .touchUpInside)
             button.frame.origin = CGPoint(x: (self.view.bounds.width - button.bounds.width  ) / 2, y: button.frame.origin.y)
             return button
         }()
         
         onboarding.addSubview(startBtn)
+        
+        
+        checkLabel = {
+            let label = UILabel(frame: CGRect(x: view.bounds.maxX/2, y: startBtn.frame.maxY + 10, width: 0, height: 0))
+            label.font = UIFont(name: "Noteworthy-Light", size: 15)
+            label.alpha = 0
+            label.text = "Never show this again"
+            label.textColor = .white
+            label.sizeToFit()
+            return label
+        }()
+        
+        checkBtn = {
+            let button = UIButton(frame: CGRect(x: checkLabel.frame.maxX + 5, y: startBtn.frame.maxY + 15, width: 16, height: 16))
+            button.alpha = 0
+            button.isUserInteractionEnabled = true
+            button.layer.cornerRadius = 4
+            button.tag = 0
+            button.backgroundColor = .white
+            button.setImage(UIImage(), for: .normal)
+            button.addTarget(self, action: #selector(checked), for: .touchUpInside)
+            return button
+        }()
+        checkLabel.frame.origin.x = (view.bounds.maxX - checkLabel.frame.width - checkBtn.frame.width)/2
+        checkBtn.frame.origin.x = checkLabel.frame.maxX + 5
+        onboarding.addSubview(checkLabel)
+        onboarding.addSubview(checkBtn)
+
         view.addSubview(onboarding)
         
         // add constraints
@@ -97,9 +132,36 @@ class StartViewController: UIViewController, PaperOnboardingDataSource, PaperOnb
         // Do any additional setup after loading the view.
     }
     
+    @objc func checked() {
+        
+        print("Checked")
+//        checkBtn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//        UIView.animate(withDuration: 0.5,
+//                       delay: 0,
+//                       usingSpringWithDamping: CGFloat(0.5),
+//                       initialSpringVelocity: CGFloat(3.0),
+//                       options: UIViewAnimationOptions.allowUserInteraction,
+//                       animations: {
+//                        self.checkBtn.transform = CGAffineTransform.identity
+//        },
+//                       completion: { Void in
+//        })
+        if checkBtn.tag == 0 {
+            checkBtn.tag = 1
+            checkBtn.setImage(UIImage(named: "check"), for: .normal)
+        } else {
+            checkBtn.tag = 0
+            checkBtn.setImage(UIImage(), for: .normal)
+        }
+    }
+    
     @objc func getStarted(_ sender: UIButton) {
         let userDefault = UserDefaults.standard
-        userDefault.set(true, forKey: "GetStarted")
+        if checkBtn.tag == 1 {
+            userDefault.set(true, forKey: "GetStarted")
+        } else {
+            userDefault.set(false, forKey: "GetStarted")
+        }
         userDefault.synchronize()
         let vc = MasterViewController()
         self.show(vc, sender: nil)

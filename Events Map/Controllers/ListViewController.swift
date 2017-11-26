@@ -47,9 +47,9 @@ class ListViewController: UITableViewController {
         
         let reloadBtn: UIButton = {
             let button = UIButton(frame: CGRect(x: view.frame.maxX/2 - 49, y: 15, width: 44, height: 44))
-            button.setImage(UIImage(named: "add-white"), for: .normal)
+            button.setImage(UIImage(named: "refresh"), for: .normal)
             button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+            button.backgroundColor = .white
             button.clipsToBounds = true
             button.layer.cornerRadius = button.frame.height/2
             button.addTarget(self, action: #selector(reload), for: .touchUpInside)
@@ -57,6 +57,7 @@ class ListViewController: UITableViewController {
         }()
         
         headerView.addSubview(addBtn)
+        headerView.addSubview(reloadBtn)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
