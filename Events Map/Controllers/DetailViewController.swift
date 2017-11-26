@@ -109,7 +109,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alertController.addAction(cancelAction)
             let confirmAction = UIAlertAction(title: "Login", style: .default) { (action) in
-                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+                let _ = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
             }
             alertController.addAction(confirmAction)
             

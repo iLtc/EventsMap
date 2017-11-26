@@ -48,6 +48,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         self.view.addSubview(mapView)
 
     }
+    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         removeView()
         addInfoView(marker)
@@ -259,7 +260,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alertController.addAction(cancelAction)
             let confirmAction = UIAlertAction(title: "Login", style: .default) { (action) in
-                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+                let _ = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
             }
             alertController.addAction(confirmAction)
             
@@ -298,7 +299,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let activityViewController = UIActivityViewController(
             activityItems: dataToShare,
             applicationActivities: nil)
-        if let popoverController = activityViewController.popoverPresentationController {
+        if let _ = activityViewController.popoverPresentationController {
 //            popoverController.barButtonItem = (sender as! UIBarButtonItem)
         }
         present(activityViewController, animated: true, completion: nil)
@@ -407,6 +408,13 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
 
     func addEvents(events: [Event]) {
+        if events.count == 0 {
+            let alert: UIAlertController = UIAlertController(title: "No Event", message: "There is no event now or base on your filter.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+            
+            present(alert, animated: true)
+        }
+        
         for event in events {
             if event.geo["latitude"] == "" {
                 continue
