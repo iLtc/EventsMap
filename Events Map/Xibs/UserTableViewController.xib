@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserTableViewController" customModule="Events_Map" customModuleProvider="target">
             <connections>
                 <outlet property="UserImage" destination="Yxn-rG-rd6" id="QQs-Sw-ECQ"/>
+                <outlet property="UserName" destination="QjO-0e-ZXv" id="kxT-Gl-QQ9"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,23 +23,33 @@
             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
             <viewLayoutGuide key="safeArea" id="vLr-E1-eTs"/>
             <view key="tableHeaderView" clipsSubviews="YES" contentMode="scaleToFill" id="cN8-Y9-Ijr">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="159"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Contacts" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yxn-rG-rd6">
-                        <rect key="frame" x="123" y="15" width="128" height="128"/>
+                        <rect key="frame" x="123" y="16" width="128" height="128"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No User" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QjO-0e-ZXv">
+                        <rect key="frame" x="16" y="160" width="343" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="Yxn-rG-rd6" firstAttribute="centerY" secondItem="cN8-Y9-Ijr" secondAttribute="centerY" id="fo9-f7-Z9E"/>
-                    <constraint firstItem="Yxn-rG-rd6" firstAttribute="centerX" secondItem="cN8-Y9-Ijr" secondAttribute="centerX" id="rMO-qO-TcV"/>
+                    <constraint firstItem="QjO-0e-ZXv" firstAttribute="top" secondItem="Yxn-rG-rd6" secondAttribute="bottom" constant="16" id="0Bv-6C-CtI"/>
+                    <constraint firstItem="QjO-0e-ZXv" firstAttribute="leading" secondItem="cN8-Y9-Ijr" secondAttribute="leading" constant="16" id="7tV-IU-FkU"/>
+                    <constraint firstItem="Yxn-rG-rd6" firstAttribute="centerX" secondItem="cN8-Y9-Ijr" secondAttribute="centerX" id="BOz-T2-tvw"/>
+                    <constraint firstItem="Yxn-rG-rd6" firstAttribute="top" secondItem="cN8-Y9-Ijr" secondAttribute="top" constant="16" id="iYX-WB-DVM"/>
+                    <constraint firstAttribute="trailing" secondItem="QjO-0e-ZXv" secondAttribute="trailing" constant="16" id="nhx-mX-6n1"/>
                 </constraints>
             </view>
             <connections>
                 <outlet property="dataSource" destination="-1" id="Tng-2m-Rnh"/>
                 <outlet property="delegate" destination="-1" id="9aC-8N-iBw"/>
             </connections>
+            <point key="canvasLocation" x="35.5" y="53.5"/>
         </tableView>
     </objects>
     <resources>
