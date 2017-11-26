@@ -93,6 +93,22 @@ class EventService {
         defaults.set(categories, forKey: "CurrentCategories")
     }
     
+    func getAllSources(_ callback: @escaping (([String]) -> Void)) {
+        callback(["University of Iowa", "Iowa City", "Events Server"])
+    }
+    
+    func getCurrentSources(_ callback: @escaping (([String]) -> Void)) {
+        if let sources = defaults.array(forKey: "CurrentSources") {
+            callback(sources as! [String])
+        } else {
+            getAllSources(callback)
+        }
+    }
+    
+    func setSources(sources: [String]) {
+        defaults.set(sources, forKey: "CurrentSources")
+    }
+    
     func like(_ event: Event) -> Bool {
         if let user = UserService.instance.getCurrentUser() {
             let parameters = ["id": user.id]
