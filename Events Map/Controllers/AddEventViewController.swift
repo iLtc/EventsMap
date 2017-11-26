@@ -11,7 +11,7 @@ import UIKit
 class AddEventViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
     var address: String?
-    var coordinate: [String: Double] = [:]
+    var coordinate: [String: Double]?
     
     var imageHasPicked = false
     
@@ -173,9 +173,10 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
             
             event.photos.append(imageURL)
             
-            event.geo["latitude"] = String(describing: self.coordinate["la"]!)
-            event.geo["longitude"] = String(describing: self.coordinate["lo"]!)
-            
+            if let coordinate = self.coordinate {
+                event.geo["latitude"] = String(describing: coordinate["la"]!)
+                event.geo["longitude"] = String(describing: coordinate["lo"]!)
+            }
             
             event.categories.append("Events Map")
             

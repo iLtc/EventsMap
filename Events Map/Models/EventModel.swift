@@ -18,7 +18,10 @@ class Event {
     public var location: String
     public var description: String
     public var photos: [String] = []
-    public var geo: [String: String] = [:]
+    public var geo: [String: String] = [
+        "latitude": "",
+        "longitude": ""
+    ]
     public var categories: [String] = []
     
     init(id: String, title: String, url: String, date: NSDate, endDate: NSDate, isAllDay: Bool, location: String, description: String){
