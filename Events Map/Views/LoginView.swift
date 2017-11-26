@@ -14,6 +14,7 @@ import FBSDKLoginKit
 class LoginView: UIView {
     let popoverMenu = PopOverView()
     public var parentImg: UIImageView?
+    public var parentTableView: UITableView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -120,6 +121,7 @@ class LoginView: UIView {
             button.isUserInteractionEnabled = true
             //            button.addTarget(self, action: nil, for: .touchUpInside)
             button.titleLabel?.textColor = .white
+            button.addTarget(self, action: #selector(demoLogin), for: .touchUpInside)
             
             return button
         }()
@@ -177,9 +179,20 @@ class LoginView: UIView {
                         print(user.picURL)
                         let image = UIImage.gif(url: user.picURL)!
                         self.parentImg?.image = image.resizeImage(targetSize: (self.parentImg?.frame.size)!)
+                        self.parentTableView?.reloadData()
                     }
                 }
             })
+        }
+    }
+    
+    @objc func demoLogin() {
+        UserService.instance.getDemoUser() {user in
+            let image = UIImage.gif(url: user.picURL)!
+            self.parentImg?.image = image.resizeImage(targetSize: (self.parentImg?.frame.size)!)
+            self.parentTableView?.reloadData()
+            
+            self.popoverMenu.dismiss()
         }
     }
     

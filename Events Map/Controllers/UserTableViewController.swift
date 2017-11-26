@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FacebookLogin
 
 class UserTableViewController: UITableViewController {
     
@@ -53,7 +54,11 @@ class UserTableViewController: UITableViewController {
         case 0:
             let cell = UITableViewCell()
             cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.text = "Login / Sign Up"
+            if let _ = UserService.instance.getCurrentUser() {
+                cell.textLabel?.text = "Logout"
+            }else{
+                cell.textLabel?.text = "Login / Sign Up"
+            }
             return cell
         case 1:
             let cell = UITableViewCell()
@@ -81,10 +86,18 @@ class UserTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            popLoginView()
+            if let _ = UserService.instance.getCurrentUser() {
+                UserService.instance.logout()
+                LoginManager().logOut()
+                UserImage.image = UIImage(named: "Contacts")
+                self.tableView.reloadData()
+            }else {
+                popLoginView()
+            }
             
         case 1:
             break
+            
         case 2:
             // Push SettingsVC
             let vc = SettingsViewController(style: .grouped)
@@ -98,6 +111,7 @@ class UserTableViewController: UITableViewController {
     func popLoginView() {
         let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 220))
         loginView.parentImg = UserImage
+        loginView.parentTableView = self.tableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
