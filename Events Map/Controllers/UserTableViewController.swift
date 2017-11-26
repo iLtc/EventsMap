@@ -12,6 +12,8 @@ import FacebookLogin
 class UserTableViewController: UITableViewController {
     
     @IBOutlet weak var UserImage: UIImageView!
+    @IBOutlet weak var UserName: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -90,6 +92,7 @@ class UserTableViewController: UITableViewController {
                 UserService.instance.logout()
                 LoginManager().logOut()
                 UserImage.image = UIImage(named: "Contacts")
+                UserName.text = "No User"
                 self.tableView.reloadData()
             }else {
                 popLoginView()
@@ -111,14 +114,15 @@ class UserTableViewController: UITableViewController {
     func popLoginView() {
         let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 220))
         loginView.parentImg = UserImage
+        loginView.parentName = UserName
         loginView.parentTableView = self.tableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let user = UserService.instance.getCurrentUser()
-        if user != nil {
-            let image = UIImage.gif(url: (user?.picURL)!)
+        if let user = UserService.instance.getCurrentUser() {
+            let image = UIImage.gif(url: user.picURL)
             self.UserImage.image = image?.resizeImage(targetSize: self.UserImage.frame.size)
+            UserName.text = user.name
         }
     }
     /*
