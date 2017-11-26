@@ -48,6 +48,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         self.view.addSubview(mapView)
 
     }
+    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         removeView()
         addInfoView(marker)
@@ -407,6 +408,13 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
 
     func addEvents(events: [Event]) {
+        if events.count == 0 {
+            let alert: UIAlertController = UIAlertController(title: "No Event", message: "There is no event now or base on your filter.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+            
+            present(alert, animated: true)
+        }
+        
         for event in events {
             if event.geo["latitude"] == "" {
                 continue

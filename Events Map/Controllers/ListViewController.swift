@@ -73,6 +73,13 @@ class ListViewController: UITableViewController {
     
     @objc func reload() {
         EventService.instance.getEvents() { events in
+            if events.count == 0 {
+                let alert: UIAlertController = UIAlertController(title: "No Event", message: "There is no event now or base on your filter.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+                
+                self.present(alert, animated: true)
+            }
+            
             self.events = events
             
             self.tableView.reloadData()
