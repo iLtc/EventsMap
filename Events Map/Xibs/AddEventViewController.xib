@@ -98,9 +98,10 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="ApN-bU-foK" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="13N-L6-dAM"/>
                 <constraint firstAttribute="trailing" secondItem="ApN-bU-foK" secondAttribute="trailing" id="1Bu-dR-Q32"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ApN-bU-foK" secondAttribute="bottom" constant="10" id="4R2-EQ-w69"/>
                 <constraint firstItem="ApN-bU-foK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZeP-KZ-qvs"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ApN-bU-foK" secondAttribute="bottom" constant="10" id="mV9-p2-wr2"/>
                 <constraint firstItem="ApN-bU-foK" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="otW-37-l11"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

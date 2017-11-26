@@ -32,7 +32,8 @@ class AddEventViewController: UIViewController, UIImagePickerControllerDelegate,
         
         self.navigationItem.largeTitleDisplayMode = .always
         
-        self.navigationController?.navigationBar.isTranslucent = false
+        self.edgesForExtendedLayout = []
+
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardNotification(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         
