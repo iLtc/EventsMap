@@ -125,7 +125,11 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
         infoView.tag = 1
         
-        
+        // Mark: Indicator
+        let indicatorView = UIImageView(frame: CGRect(x: view.frame.width/2 - 30, y: 3, width: 0, height: 0))
+        indicatorView.image = UIImage(named: "Indicator")
+        infoView.addSubview(indicatorView)
+        indicatorView.sizeToFit()
         // Mark: imageView UI
         let imageView = UIImageView(frame: CGRect(x: 15, y: 15, width: 120, height: 80))
         

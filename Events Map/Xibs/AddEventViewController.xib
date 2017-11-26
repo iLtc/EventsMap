@@ -30,38 +30,38 @@
                     <rect key="frame" x="0.0" y="10" width="375" height="647"/>
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Event Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="77q-5K-w5y">
-                            <rect key="frame" x="16" y="16" width="343" height="36"/>
+                            <rect key="frame" x="16" y="0.0" width="343" height="36"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0hZ-vP-FZa">
-                            <rect key="frame" x="16" y="284" width="343" height="24"/>
+                            <rect key="frame" x="16" y="268" width="343" height="24"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add" translatesAutoresizingMaskIntoConstraints="NO" id="x5y-02-yKM">
-                            <rect key="frame" x="16" y="68" width="343" height="200"/>
+                            <rect key="frame" x="16" y="52" width="343" height="200"/>
                             <color key="backgroundColor" red="0.91751056909561157" green="0.91748398542404175" blue="0.92978090047836304" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="200" id="VlB-L0-P8k"/>
                             </constraints>
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Start Time" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yb4-Nt-7cZ" customClass="DatePick" customModule="Events_Map" customModuleProvider="target">
-                            <rect key="frame" x="16" y="324" width="343" height="24"/>
+                            <rect key="frame" x="16" y="308" width="343" height="24"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="End Time" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u3r-J0-YYb" customClass="DatePick" customModule="Events_Map" customModuleProvider="target">
-                            <rect key="frame" x="16" y="364" width="343" height="24"/>
+                            <rect key="frame" x="16" y="348" width="343" height="24"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="f2d-JP-HU4">
-                            <rect key="frame" x="16" y="404" width="343" height="200"/>
+                            <rect key="frame" x="16" y="388" width="343" height="200"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="200" id="a0h-Wp-MQW"/>
@@ -85,7 +85,7 @@
                         <constraint firstItem="0hZ-vP-FZa" firstAttribute="leading" secondItem="ApN-bU-foK" secondAttribute="leading" constant="16" id="Zue-Rg-LO5"/>
                         <constraint firstAttribute="trailing" secondItem="Yb4-Nt-7cZ" secondAttribute="trailing" constant="16" id="bzp-aR-eD3"/>
                         <constraint firstItem="u3r-J0-YYb" firstAttribute="top" secondItem="Yb4-Nt-7cZ" secondAttribute="bottom" constant="16" id="eTo-Iy-Hp4"/>
-                        <constraint firstItem="77q-5K-w5y" firstAttribute="top" secondItem="ApN-bU-foK" secondAttribute="top" constant="16" id="fEy-1o-C8T"/>
+                        <constraint firstItem="77q-5K-w5y" firstAttribute="top" secondItem="ApN-bU-foK" secondAttribute="top" id="fEy-1o-C8T"/>
                         <constraint firstAttribute="trailing" secondItem="0hZ-vP-FZa" secondAttribute="trailing" constant="16" id="hB5-WB-aOP"/>
                         <constraint firstItem="Yb4-Nt-7cZ" firstAttribute="top" secondItem="0hZ-vP-FZa" secondAttribute="bottom" constant="16" id="kHg-KM-b5t"/>
                         <constraint firstAttribute="trailing" secondItem="u3r-J0-YYb" secondAttribute="trailing" constant="16" id="mFl-O2-6Gn"/>
