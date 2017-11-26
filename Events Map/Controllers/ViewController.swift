@@ -16,6 +16,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     var mapView: GMSMapView!
     var carema = GMSCameraPosition()
     var buffer: [UIView] = []
+    var newEventMarker: GMSMarker?
     var event: Event = Event()
     var address = ""
     var coordinate: CLLocationCoordinate2D?
@@ -63,8 +64,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         print("hehe")
     }
     
-    // Mark: Animated remove infoView
     @objc func removeView() {
+        // Mark: Animated remove infoView
         if buffer.count != 0 {
             for infoView in buffer {
                 UIView.animate(withDuration: 0.3, animations: {
@@ -75,9 +76,18 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 buffer.removeAll()
             }
         }
+        
+        // Mark: Remove New Event Marker
+        if let marker = newEventMarker {
+            marker.map = nil
+        }
     }
     
     func addInfoView(_ marker: GMSMarker) {
+        if(marker.snippet == "New Event") {
+            return
+        }
+        
         let event = marker.userData as! Event
         self.event = event
         
@@ -308,6 +318,16 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         //Mark: remove buffer
         removeView()
+        
+        //Mark: Add Marker
+        let marker = GMSMarker()
+        marker.position = coordinate
+        marker.icon = UIImage(named: "Oval")
+        marker.title = event.title
+        marker.snippet = "New Event"
+        marker.map = mapView
+        
+        self.newEventMarker = marker
         
         //Mark: move camera
         for view in self.view.subviews {
