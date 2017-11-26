@@ -14,6 +14,8 @@ class ListViewController: UITableViewController {
     
     private let identifier = "ListView"
     
+    var headerView: UIView = UIView()
+    var addBtn = UIButton()
     override init(style: UITableViewStyle) {
         super.init(style: style)
     }
@@ -24,18 +26,37 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
         
         self.tableView.register(UINib(nibName: "ListViewCell", bundle: nil), forCellReuseIdentifier: identifier)
         self.tableView.dataSource = self
         // self.tableView.separatorStyle = .none
+        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 75)
+        headerView.backgroundColor = .clear
         
+        addBtn = {
+            let button = UIButton(frame: CGRect(x: view.frame.maxX/2 + 5, y: 15, width: 44, height: 44))
+            button.setImage(UIImage(named: "add-white"), for: .normal)
+            button.setTitleColor(.white, for: .normal)
+            button.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+            button.clipsToBounds = true
+            button.layer.cornerRadius = button.frame.height/2
+            button.addTarget(self, action: #selector(addEvent(_:)), for: .touchUpInside)
+            return button
+        }()
         
-        EventService.instance.getEvents() { events in
-            self.events = events
-            
-            self.tableView.reloadData()
-        }
-
+        let reloadBtn: UIButton = {
+            let button = UIButton(frame: CGRect(x: view.frame.maxX/2 - 49, y: 15, width: 44, height: 44))
+            button.setImage(UIImage(named: "add-white"), for: .normal)
+            button.setTitleColor(.white, for: .normal)
+            button.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+            button.clipsToBounds = true
+            button.layer.cornerRadius = button.frame.height/2
+            button.addTarget(self, action: #selector(reload), for: .touchUpInside)
+            return button
+        }()
+        
+        headerView.addSubview(addBtn)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -44,7 +65,64 @@ class ListViewController: UITableViewController {
         
         
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        reload()
+    }
+    
+    @objc func reload() {
+        EventService.instance.getEvents() { events in
+            self.events = events
+            
+            self.tableView.reloadData()
+        }
+    }
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            let location = sender.location(in: view)
+            if !addBtn.frame.contains(location) {
+                resetAddBtn(addBtn)
+            }
+        }
+        sender.cancelsTouchesInView = false
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch: UITouch? = touches.first
+        if touch?.view != addBtn {
+            resetAddBtn(addBtn)
+            print("Outside")
+        }
+        print("Haha")
+    }
+    
+    func resetAddBtn(_ sender: UIButton) {
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            sender.frame.size = CGSize(width: 44, height: 44)
+            sender.setImage(UIImage(named: "add-white"), for: .normal)
+            sender.setTitle("", for: .normal)
+            sender.tag = 0
+        }, completion: nil)
+    }
+    
+    @objc func addEvent(_ sender: UIButton) {
+        if sender.tag == 0 {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                sender.frame.size = CGSize(width: 150, height: 44)
+                sender.setImage(UIImage(), for: .normal)
+                sender.setTitle("Add New Event", for: .normal)
+                sender.tag = 1
+            }, completion: nil)
+        } else if sender.tag == 1 {
+            let vc = AddEventViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -55,6 +133,14 @@ class ListViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return headerView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return headerView.frame.height
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
