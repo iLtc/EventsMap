@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     var appDelegate = UIApplication.shared.delegate as? AppDelegate
     let notiSwitch: UISwitch = UISwitch()
@@ -105,16 +106,61 @@ class SettingsViewController: UITableViewController {
             appDelegate?.disableNotification()
         }
     }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
+            case 0:
+                break
+            case 1:
+                break
+            default:
+                fatalError("Error row")
+            }
+        case 1:
+            switch indexPath.row {
+            case 0:
+                break
+            case 1:
+                sendEmail()
+            default:
+                fatalError("Error row")
+            }
+        default:
+            fatalError("Error section")
+        }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    */
+    
+    func sendEmail() {
+        let emailTitle = "Events Map Feedback"
+        let messageBody = "Feature request or bug report?"
+        let toRecipents = ["tiancheng-luo@uiowa.edu", "yizhen-chen-1@uiowa.edu", "zhenming-wang@uiowa.edu"]
+        let mc: MFMailComposeViewController = MFMailComposeViewController()
+        mc.mailComposeDelegate = self
+        mc.setSubject(emailTitle)
+        mc.setMessageBody(messageBody, isHTML: false)
+        mc.setToRecipients(toRecipents)
+        
+        present(mc, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
+        switch result {
+        case .cancelled:
+            print("Mail cancelled")
+        case .saved:
+            print("Mail saved")
+        case .sent:
+            print("Mail sent")
+        case .failed:
+            print("Mail sent failure: \(String(describing: error?.localizedDescription))")
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
 
     /*
     // Override to support conditional editing of the table view.
