@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func getNotificationSettings() -> Bool {
-        var auth = false
+        let auth = false
         
         let current = UNUserNotificationCenter.current()
         
@@ -164,12 +164,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let locationRequest = UNNotificationRequest(identifier: "eventNotification", content: content, trigger: locationTrigger)
             UNUserNotificationCenter.current().add(calendarRequest) { (error) in
                 if (error != nil) {
-                    print("Error: \(error?.localizedDescription)")
+                    print("Error: \(String(describing: error?.localizedDescription))")
                 }
             }
             UNUserNotificationCenter.current().add(locationRequest) { (error) in
                 if (error != nil) {
-                    print("Error: \(error?.localizedDescription)")
+                    print("Error: \(String(describing: error?.localizedDescription))")
                 }
             }
         }
