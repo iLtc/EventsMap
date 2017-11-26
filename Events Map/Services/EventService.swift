@@ -113,7 +113,7 @@ class EventService {
     }
     
     func uploadImage(_ image: UIImage, _ callback: @escaping ((String) -> Void) ) {
-        var urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:3000/events/image")!)
+        var urlRequest = URLRequest(url: URL(string: ConfigService.instance.get("EventsServerHost") + "/events/image")!)
         urlRequest.httpMethod = "POST"
         
         let imgData = UIImageJPEGRepresentation(image, 0.5)!
@@ -155,7 +155,7 @@ class EventService {
             parameters["uid"] = user.id
         }
         
-        Alamofire.request("http://127.0.0.1:3000/events", method: .post, parameters: parameters).responseJSON { response in
+        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events", method: .post, parameters: parameters).responseJSON { response in
             if let result = response.result.value {
                 let json = JSON(result)
                 
