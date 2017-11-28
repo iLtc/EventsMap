@@ -325,8 +325,10 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         //Mark: Add Marker
         let marker = GMSMarker()
+        marker.appearAnimation = GMSMarkerAnimation.pop
         marker.position = coordinate
-        marker.icon = UIImage(named: "Oval")
+//        marker.icon = UIImage(named: "Oval")
+        marker.icon = GMSMarker.markerImage(with: UIColor(red: 255/255, green: 149/255, blue: 0/255, alpha: 1))
         marker.title = event.title
         marker.snippet = "New Event"
         marker.map = mapView
