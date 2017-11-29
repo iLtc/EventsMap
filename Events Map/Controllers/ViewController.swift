@@ -16,10 +16,12 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     var mapView: GMSMapView!
     var carema = GMSCameraPosition()
     var buffer: [UIView] = []
+    var markerBuffer: [GMSMarker] = []
     var newEventMarker: GMSMarker?
     var event: Event = Event()
     var address = ""
     var coordinate: CLLocationCoordinate2D?
+    var loadingView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +33,13 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         manger.requestWhenInUseAuthorization()
         manger.startUpdatingLocation()
         
+        loadingView = activityIndicator("Loading ......")
+        EventService.instance.getEvents(addEvents)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadingView = activityIndicator("Loading ......")
+        EventService.instance.getEvents(addEvents)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -45,9 +54,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         mapView.isMyLocationEnabled = true
         mapView.delegate = self
         mapView.restorationIdentifier = "MapView"
-        EventService.instance.getEvents(addEvents)
         self.view.addSubview(mapView)
-
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
@@ -434,11 +441,24 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
 
     func addEvents(events: [Event]) {
+        if let loadingView = loadingView {
+            loadingView.removeFromSuperview()
+        }
+        
         if events.count == 0 {
             let alert: UIAlertController = UIAlertController(title: "No Event", message: "There is no event now or base on your filter.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
             
             present(alert, animated: true)
+        }
+        
+        // Mark: Remove old markers
+        if(markerBuffer.count > 0){
+            for marker in markerBuffer {
+                marker.map = nil
+            }
+            
+            markerBuffer = []
         }
         
         for event in events {
@@ -457,6 +477,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             marker.map = mapView
             
             marker.userData = event
+            
+            markerBuffer.append(marker)
         }
     }
     
@@ -543,7 +565,5 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             })
         }
     }
-    
-    
 }
 
