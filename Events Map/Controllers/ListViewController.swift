@@ -14,6 +14,8 @@ class ListViewController: UITableViewController {
     
     private let identifier = "ListView"
     
+    var loadingView: UIView?
+    
     var headerView: UIView = UIView()
     var addBtn = UIButton()
     override init(style: UITableViewStyle) {
@@ -72,7 +74,13 @@ class ListViewController: UITableViewController {
     }
     
     @objc func reload() {
+        loadingView = activityIndicator("Loading......")
+        
         EventService.instance.getEvents() { events in
+            if let loadingView = self.loadingView {
+                loadingView.removeFromSuperview()
+            }
+            
             if events.count == 0 {
                 let alert: UIAlertController = UIAlertController(title: "No Event", message: "There is no event now or base on your filter.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))

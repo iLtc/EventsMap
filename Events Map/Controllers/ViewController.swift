@@ -33,12 +33,12 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         manger.requestWhenInUseAuthorization()
         manger.startUpdatingLocation()
         
-        loadingView = activityIndicator("Loading ......")
+        loadingView = activityIndicator("Loading......")
         EventService.instance.getEvents(addEvents)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadingView = activityIndicator("Loading ......")
+        loadingView = activityIndicator("Loading......")
         EventService.instance.getEvents(addEvents)
     }
     

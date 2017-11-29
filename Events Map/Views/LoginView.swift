@@ -16,6 +16,9 @@ class LoginView: UIView {
     public var parentImg: UIImageView?
     public var parentName: UILabel?
     public var parentTableView: UITableView?
+    public var parentVC: UIViewController?
+    
+    var loadingView: UIView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -176,8 +179,13 @@ class LoginView: UIView {
                     let data = dict["picture"]!["data"] as! [String: AnyObject]
                     let picURL = data["url"] as! String
                     
+                    self.loadingView = self.parentVC?.activityIndicator("Loading......")
+                    
                     UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { user in
-                        print(user.picURL)
+                        if let loadingView = self.loadingView {
+                            loadingView.removeFromSuperview()
+                        }
+                        
                         let image = UIImage.gif(url: user.picURL)!
                         self.parentImg?.image = image.resizeImage(targetSize: (self.parentImg?.frame.size)!)
                         self.parentName?.text = user.name
@@ -189,7 +197,13 @@ class LoginView: UIView {
     }
     
     @objc func demoLogin() {
+        loadingView = parentVC?.activityIndicator("Loading......")
+        
         UserService.instance.getDemoUser() {user in
+            if let loadingView = self.loadingView {
+                loadingView.removeFromSuperview()
+            }
+            
             let image = UIImage.gif(url: user.picURL)!
             self.parentImg?.image = image.resizeImage(targetSize: (self.parentImg?.frame.size)!)
             self.parentName?.text = user.name
