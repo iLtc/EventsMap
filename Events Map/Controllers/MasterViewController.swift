@@ -9,18 +9,36 @@
 import UIKit
 import paper_onboarding
 
-class MasterViewController: UIPageViewController {
+class MasterViewController: UIPageViewController, UIViewControllerTransitioningDelegate {
     
     
     
     var mapVC: UIViewController?
     var listVC: UIViewController?
     
+    var userBarBtn:UIBarButtonItem = UIBarButtonItem()
     // SegmentControl
     let titleView = UISegmentedControl(items: ["Map", "List"])
     
+    let transition = CircularTransition()
+    
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .vertical, options: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let secondVC = segue.destination as! UserTableViewController
+        secondVC.transitioningDelegate = self
+        secondVC.modalPresentationStyle = .custom
+    }
+    
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.transitionMode = .present
+        transition.startingPoint = CGPoint(x: 10, y: 10)
+        transition.circleColor = UIColor(red: 0/255, green: 122/255, blue: 250/255, alpha: 1)
+        
+        return transition
     }
     
     required init?(coder: NSCoder) {
@@ -34,9 +52,8 @@ class MasterViewController: UIPageViewController {
         // MARK: navigation item settings
         self.navigationItem.largeTitleDisplayMode = .never
         
-        let userBarBtn = UIBarButtonItem(image: UIImage(named: "User"), style: .plain, target: self, action: #selector(showUser))
+        userBarBtn = UIBarButtonItem(image: UIImage(named: "userBtn"), style: .plain, target: self, action: #selector(showUser))
         self.navigationItem.leftBarButtonItem = userBarBtn
-
         
         let filterBarBtn = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(showFilter))
         self.navigationItem.rightBarButtonItem = filterBarBtn
