@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		052C667987DC7BBEC121554D /* Pods_Events_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10A9A14C475A39F661E72B86 /* Pods_Events_Map.framework */; };
+		240FA1311FCF638F0038D2EC /* activity-indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240FA1301FCF638F0038D2EC /* activity-indicator.swift */; };
 		242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242505EC1FA2B21E006E0408 /* AppDelegate.swift */; };
 		242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242505EE1FA2B21E006E0408 /* ViewController.swift */; };
 		242505F21FA2B21E006E0408 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242505F01FA2B21E006E0408 /* Main.storyboard */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		10A9A14C475A39F661E72B86 /* Pods_Events_Map.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Events_Map.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		240FA1301FCF638F0038D2EC /* activity-indicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "activity-indicator.swift"; sourceTree = "<group>"; };
 		242505E91FA2B21E006E0408 /* Events Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Events Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		242505EC1FA2B21E006E0408 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		242505EE1FA2B21E006E0408 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				244E8E831FB2AC8C0043996B /* download-image.swift */,
 				24CA0E2F1FC8B95800D1AEDF /* set-btn-background-color.swift */,
 				24CA0E311FC8B97D00D1AEDF /* resize-image.swift */,
+				240FA1301FCF638F0038D2EC /* activity-indicator.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 			files = (
 				244E8E841FB2AC8C0043996B /* download-image.swift in Sources */,
 				24CA0E301FC8B95800D1AEDF /* set-btn-background-color.swift in Sources */,
+				240FA1311FCF638F0038D2EC /* activity-indicator.swift in Sources */,
 				2454040A1FBB4F2300206838 /* MapsCell.swift in Sources */,
 				245404071FBAC9F600206838 /* AddEventViewController.swift in Sources */,
 				2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */,
