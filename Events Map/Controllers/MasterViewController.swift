@@ -84,7 +84,7 @@ class MasterViewController: UIPageViewController {
         transition.subtype = kCATransitionFromTop
         self.navigationController!.view.layer.add(transition, forKey: kCATransition)
         // Push UserTableViewController
-        let vc = FilterViewController()
+        let vc = FilterViewController(style: .grouped)
         navigationController?.pushViewController(vc, animated: true)
         
     }
