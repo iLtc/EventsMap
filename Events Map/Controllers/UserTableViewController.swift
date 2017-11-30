@@ -116,6 +116,7 @@ class UserTableViewController: UITableViewController {
         loginView.parentImg = UserImage
         loginView.parentName = UserName
         loginView.parentTableView = self.tableView
+        loginView.parentVC = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

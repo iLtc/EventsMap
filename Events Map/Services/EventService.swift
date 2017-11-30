@@ -6,7 +6,7 @@
 //  Copyright © 2017 The University of Iowa. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Alamofire
 import SwiftyJSON
 

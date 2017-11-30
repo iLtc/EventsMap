@@ -97,7 +97,6 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
     
     @objc func like() {
         if event.like() {
-            print("Liked")
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
             button.setImage(UIImage(named: "Favorites"), for: .normal)
             button.addTarget(self, action: #selector(unlike), for: .touchUpInside)
@@ -109,7 +108,8 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alertController.addAction(cancelAction)
             let confirmAction = UIAlertAction(title: "Login", style: .default) { (action) in
-                let _ = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+                loginView.parentVC = self
             }
             alertController.addAction(confirmAction)
             

@@ -126,24 +126,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func scheduleNotification(_ event: Event) {
         if (self.isNotify == true) {
+            print("Notification Scheduled!")
             // Calendar Trigger
             let calendar = Calendar.current
             let date = calendar.date(byAdding: .minute, value: -15, to: event.date as Date)
             let dateComp = calendar.dateComponents([ .year, .month, .day, .hour, .minute], from: date!)
-            let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComp, repeats: false)
-            
-            // Location Trigger
-            let latitude = Double(event.geo["latitude"] as String!)
-            let longitude = Double(event.geo["longitude"] as String!)
-            let center = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
-            let region = CLCircularRegion(center: center, radius: 150.0, identifier: "Headquarters")
-            region.notifyOnEntry = true
-            region.notifyOnExit = false
-            let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
+            let newComponents = DateComponents(calendar: calendar, timeZone: .current, year: dateComp.year, month: dateComp.month, day: dateComp.day, hour: dateComp.hour, minute: dateComp.minute)
+            let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
             
             // Content
             let content = UNMutableNotificationContent()
-            content.title = "Events Map"
+            content.title = event.title
             content.body = "test"
             content.sound = UNNotificationSound.default()
             content.categoryIdentifier = "eventCategory"
@@ -159,23 +152,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Attachment load failed")
             }
             
-            let calendarRequest = UNNotificationRequest(identifier: "eventNotification", content: content, trigger: calendarTrigger)
+            let calendarRequest = UNNotificationRequest(identifier: "calendarNotification", content: content, trigger: calendarTrigger)
             
-            let locationRequest = UNNotificationRequest(identifier: "eventNotification", content: content, trigger: locationTrigger)
+
             UNUserNotificationCenter.current().add(calendarRequest) { (error) in
                 if (error != nil) {
                     print("Error: \(String(describing: error?.localizedDescription))")
                 }
             }
-            UNUserNotificationCenter.current().add(locationRequest) { (error) in
-                if (error != nil) {
-                    print("Error: \(String(describing: error?.localizedDescription))")
+            
+            // Location Trigger (Optional)
+            if event.geo["latitude"] != "" {
+                let latitude = Double(event.geo["latitude"] as String!)
+                let longitude = Double(event.geo["longitude"] as String!)
+                let center = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+                let region = CLCircularRegion(center: center, radius: 150.0, identifier: "Headquarters")
+                region.notifyOnEntry = true
+                region.notifyOnExit = false
+                let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
+                let locationRequest = UNNotificationRequest(identifier: "locationNotification", content: content, trigger: locationTrigger)
+                UNUserNotificationCenter.current().add(locationRequest) { (error) in
+                    if (error != nil) {
+                        print("Error: \(String(describing: error?.localizedDescription))")
+                    }
                 }
             }
+            
         }
     }
     
     func disableNotification() {
+        print("Notification Reset")
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         isNotify = false
     }
