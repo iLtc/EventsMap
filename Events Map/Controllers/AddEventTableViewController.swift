@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Material
+import MaterialComponents
 
-class AddEventTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+class AddEventTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // Parameters
     var address: String?
@@ -18,9 +20,9 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     
     // Input Views
     var imageView = UIImageView(frame: CGRect(x: 16, y: 16, width: 120, height: 80))
-    var eventTitle: UITextField = UITextField()
-    var addressField: UITextField = UITextField()
-    var descripInput: UITextView = UITextView()
+    var eventTitle = TextField()
+    var addressField = TextField()
+    var descripInput = MDCMultilineTextField()
     var startDateInput: DatePick = DatePick()
     var endDateInput: DatePick = DatePick()
     
@@ -46,6 +48,10 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+    }
+    
     // MARK: Override the return on keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         eventTitle.resignFirstResponder()
@@ -67,7 +73,8 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         eventTitle.placeholder = "Title"
         eventTitle.font = UIFont.systemFont(ofSize: 30)
         eventTitle.sizeToFit()
-        eventTitle.frame = CGRect(x: imageView.frame.maxX + 16, y: imageView.frame.maxY - eventTitle.bounds.height, width: view.bounds.width - imageView.frame.width - 48, height: eventTitle.bounds.height)
+        eventTitle.frame = CGRect(x: imageView.frame.maxX + 16, y: imageView.frame.maxY - eventTitle.bounds.height, width: view.bounds.width - imageView.frame.width - 16, height: eventTitle.bounds.height)
+        eventTitle.clearButtonMode = .whileEditing
         titleCell.addSubview(imageView)
         titleCell.addSubview(eventTitle)
         titleCell.selectionStyle = .none
@@ -80,7 +87,9 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             addressField.text = address
         }
         addressField.sizeToFit()
-        addressField.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: addressField.bounds.height)
+        addressField.frame = CGRect(x: 16, y: 24, width: view.frame.width, height: addressField.bounds.height)
+        addressField.clearButtonMode = .whileEditing
+        
         addressCell.addSubview(addressField)
         addressCell.selectionStyle = .none
         
@@ -89,7 +98,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         startDateInput.placeholder = "Start Date"
         startDateInput.font = UIFont.systemFont(ofSize: 20)
         startDateInput.sizeToFit()
-        startDateInput.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: startDateInput.bounds.height)
+        startDateInput.frame = CGRect(x: 16, y: 24, width: view.frame.width, height: startDateInput.bounds.height)
         startDateCell.addSubview(startDateInput)
         startDateCell.selectionStyle = .none
         
@@ -98,20 +107,25 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         endDateInput.placeholder = "End Date"
         endDateInput.font = UIFont.systemFont(ofSize: 20)
         endDateInput.sizeToFit()
-        endDateInput.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: endDateInput.bounds.height)
+        endDateInput.frame = CGRect(x: 16, y: 24, width: view.frame.width, height: endDateInput.bounds.height)
         endDateCell.addSubview(endDateInput)
-        endDateCell.accessoryType = .disclosureIndicator
+        endDateCell.selectionStyle = .none
         
         
         // Mark: - descripCell
+        descripInput.frame = CGRect(x: 16, y: 16, width: view.frame.width, height: 30)
         descripInput.font = UIFont.systemFont(ofSize: 20)
-        descripInput.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: 300)
+        descripInput.placeholder = "Description (Optional)"
+        descripInput.underline?.color = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
+//        descripInput.delegate = self
+//        let textFieldControllerFloating = MDCTextInputControllerDefault(textInput: descripInput) // Hold on as a property
+//        textFieldControllerFloating.isFloatingEnabled = false
+//        textFieldControllerFloating.normalColor = UIColor(red: 147/255, green: 147/255, blue: 147/255, alpha: 1)
         descripCell.addSubview(descripInput)
         descripCell.selectionStyle = .none
         
-        
-        
     }
+    
     
     @objc func pickPhoto(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -165,7 +179,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         // TODO: Check if form has been filled completed
         
         EventService.instance.uploadImage(imageView.image!) { imageURL in
-            let event = Event(id: "default", title: self.eventTitle.text!, url: "default", date: self.startDateInput.date, endDate: self.endDateInput.date, isAllDay: false, location: self.addressField.text!, description: self.descripInput.text)
+            let event = Event(id: "default", title: self.eventTitle.text!, url: "default", date: self.startDateInput.date, endDate: self.endDateInput.date, isAllDay: false, location: self.addressField.text!, description: self.descripInput.text!)
             
             event.photos.append(imageURL)
             
@@ -227,11 +241,11 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         case 0:
             return imageView.frame.height + 32
         case 1:
-            return addressField.bounds.height + 32
+            return addressField.bounds.height + 40
         case 2:
-            return startDateInput.bounds.height + 32
+            return startDateInput.bounds.height + 40
         case 3:
-            return endDateInput.bounds.height + 32
+            return endDateInput.bounds.height + 40
         case 4:
             return descripInput.bounds.height + 32
         default:
