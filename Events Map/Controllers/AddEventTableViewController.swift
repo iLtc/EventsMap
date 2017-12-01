@@ -8,44 +8,236 @@
 
 import UIKit
 
-class AddEventTableViewController: UITableViewController {
-        
+class AddEventTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+    
+    // Parameters
+    var address: String?
+    var coordinate: [String: Double]?
+    
+    var imageHasPicked = false
+    
+    // Input Views
+    var imageView = UIImageView(frame: CGRect(x: 16, y: 16, width: 120, height: 80))
+    var eventTitle: UITextField = UITextField()
+    var addressField: UITextField = UITextField()
+    var descripInput: UITextView = UITextView()
+    var startDateInput: DatePick = DatePick()
+    var endDateInput: DatePick = DatePick()
+    
+    // Custom Cells
+    var titleCell = UITableViewCell()
+    var addressCell = UITableViewCell()
+    var startDateCell = UITableViewCell()
+    var endDateCell = UITableViewCell()
+    var descripCell = UITableViewCell()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.title = "Add Event"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveBtnPressed))
+        
+        self.navigationItem.largeTitleDisplayMode = .always
+        
+        setCellUI()
+        
+        // MARK: - Set delegate
+        eventTitle.delegate = self
+        addressField.delegate = self
+        
     }
-
+    
+    // MARK: Override the return on keyboard
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        eventTitle.resignFirstResponder()
+        addressField.resignFirstResponder()
+        return true
+    }
+    
+    func setCellUI() {
+        // Mark: - titleCell
+        imageView.image = UIImage(named: "Add")
+        imageView.contentMode = .center
+        imageView.backgroundColor = UIColor(red: 234/255, green: 234/255, blue: 237/255, alpha: 1)
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.darkGray.cgColor
+        imageView.layer.cornerRadius = 7
+        imageView.clipsToBounds = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pickPhoto(_:))))
+        imageView.isUserInteractionEnabled = true
+        eventTitle.placeholder = "Title"
+        eventTitle.font = UIFont.systemFont(ofSize: 30)
+        eventTitle.sizeToFit()
+        eventTitle.frame = CGRect(x: imageView.frame.maxX + 16, y: imageView.frame.maxY - eventTitle.bounds.height, width: view.bounds.width - imageView.frame.width - 48, height: eventTitle.bounds.height)
+        titleCell.addSubview(imageView)
+        titleCell.addSubview(eventTitle)
+        titleCell.selectionStyle = .none
+        
+        
+        // Mark: - addressCell
+        addressField.placeholder = "Address"
+        addressField.font = UIFont.systemFont(ofSize: 20)
+        if let address = self.address {
+            addressField.text = address
+        }
+        addressField.sizeToFit()
+        addressField.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: addressField.bounds.height)
+        addressCell.addSubview(addressField)
+        addressCell.selectionStyle = .none
+        
+        
+        // Mark: - startDateCell
+        startDateInput.placeholder = "Start Date"
+        startDateInput.font = UIFont.systemFont(ofSize: 20)
+        startDateInput.sizeToFit()
+        startDateInput.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: startDateInput.bounds.height)
+        startDateCell.addSubview(startDateInput)
+        startDateCell.selectionStyle = .none
+        
+        
+        // Mark: - endDateCell
+        endDateInput.placeholder = "End Date"
+        endDateInput.font = UIFont.systemFont(ofSize: 20)
+        endDateInput.sizeToFit()
+        endDateInput.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: endDateInput.bounds.height)
+        endDateCell.addSubview(endDateInput)
+        endDateCell.accessoryType = .disclosureIndicator
+        
+        
+        // Mark: - descripCell
+        descripInput.font = UIFont.systemFont(ofSize: 20)
+        descripInput.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: 300)
+        descripCell.addSubview(descripInput)
+        descripCell.selectionStyle = .none
+        
+        
+        
+    }
+    
+    @objc func pickPhoto(_ sender: Any) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let takePhotoAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .default, handler: { [unowned self] _ in
+                self.showImagePicker(withSourceType: .camera)
+            })
+            alertController.addAction(takePhotoAction)
+        }
+        
+        let chooseFromLibraryAction = UIAlertAction(title: NSLocalizedString("Choose From Library", comment: ""), style: .default, handler: { [unowned self] _ in
+            self.showImagePicker(withSourceType: .photoLibrary)
+        })
+        alertController.addAction(chooseFromLibraryAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func showImagePicker(withSourceType source: UIImagePickerControllerSourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = source
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.view.tintColor = view.tintColor
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let image = info[UIImagePickerControllerEditedImage] as? UIImage else {
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        
+        imageView.image = image
+        imageView.contentMode = .scaleAspectFill
+        
+        imageHasPicked = true
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func saveBtnPressed() {
+        // TODO: Check if form has been filled completed
+        
+        EventService.instance.uploadImage(imageView.image!) { imageURL in
+            let event = Event(id: "default", title: self.eventTitle.text!, url: "default", date: self.startDateInput.date, endDate: self.endDateInput.date, isAllDay: false, location: self.addressField.text!, description: self.descripInput.text)
+            
+            event.photos.append(imageURL)
+            
+            if let coordinate = self.coordinate {
+                event.geo["latitude"] = String(describing: coordinate["la"]!)
+                event.geo["longitude"] = String(describing: coordinate["lo"]!)
+            }
+            
+            event.categories.append("Events Map")
+            
+            event.save() { event in
+                let vc = DetailViewController()
+                vc.event = event
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 5
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        switch indexPath.row {
+        case 0:
+            return titleCell
+        case 1:
+            return addressCell
+        case 2:
+            return startDateCell
+        case 3:
+            return endDateCell
+        case 4:
+            return descripCell
+        default:
+            fatalError("Unknown number of rows")
+        }
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 0:
+            return imageView.frame.height + 32
+        case 1:
+            return addressField.bounds.height + 32
+        case 2:
+            return startDateInput.bounds.height + 32
+        case 3:
+            return endDateInput.bounds.height + 32
+        case 4:
+            return descripInput.bounds.height + 32
+        default:
+            fatalError("Unknown number of rows")
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.
