@@ -9,4 +9,5 @@ target ‘Events Map’ do
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'paper-onboarding', '~> 2.0.1'
+  pod 'MaterialComponents'
 end
