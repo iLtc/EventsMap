@@ -86,7 +86,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         setUI()
         // Do any additional setup after loading the view.
         
-
+        tableView.tableFooterView = UIView(frame: .zero)
         
     }
 

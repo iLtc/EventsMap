@@ -428,7 +428,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         UIButton.animate(withDuration: 0.1) {
             sender.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         }
-        let vc = AddEventViewController()
+        let vc = AddEventTableViewController()
         vc.address = self.address
         vc.coordinate = ["la": (self.coordinate!.latitude) , "lo": (self.coordinate!.longitude)]
         
