@@ -9,8 +9,19 @@
 import UIKit
 import Material
 import MaterialComponents
+import GooglePlaces
 
 class AddEventTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    
+    // Declare variables to hold address form values.
+    var street_number: String = ""
+    var route: String = ""
+    var neighborhood: String = ""
+    var locality: String = ""
+    var administrative_area_level_1: String = ""
+    var country: String = ""
+    var postal_code: String = ""
+    var postal_code_suffix: String = ""
     
     // Parameters
     var address: String?
@@ -25,6 +36,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     var descripInput = MDCMultilineTextField()
     var startDateInput: DatePick = DatePick()
     var endDateInput: DatePick = DatePick()
+    var searchBtn = MDCFloatingButton()
     
     // Custom Cells
     var titleCell = UITableViewCell()
@@ -32,6 +44,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     var startDateCell = UITableViewCell()
     var endDateCell = UITableViewCell()
     var descripCell = UITableViewCell()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,10 +58,115 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         // MARK: - Set delegate
         eventTitle.delegate = self
         addressField.delegate = self
+        if let window = UIApplication.shared.keyWindow {
+            searchBtn = {
+                let button = MDCFloatingButton(shape: MDCFloatingButtonShape.default)
+                button.alpha = 0
+                button.frame = CGRect(x: window.frame.maxX - 72, y: window.frame.maxY - 72, width: 56, height: 56)
+                button.setImage(UIImage(named: "Search"), for: .normal)
+                button.addTarget(self, action: #selector(searchAddress), for: .touchUpInside)
+                button.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+                
+                return button
+            }()
+            window.addSubview(searchBtn)
+        }
+        
+        
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: NSNotification.Name.UIKeyboardWillShow,
+            object: nil
+        )
+        
+    }
+    
+    func getCoordinate( addressString : String,
+                        completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
+            if error == nil {
+                if let placemark = placemarks?[0] {
+                    let location = placemark.location!
+                    
+                    completionHandler(location.coordinate, nil)
+                    return
+                }
+            }
+            
+            completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
+        }
+    }
+    
+    func getGeocoder(_ address: String) -> CLLocationCoordinate2D {
+        let geoCoder = CLGeocoder()
+        var coordinate = CLLocationCoordinate2D()
+        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+            guard
+                let placemarks = placemarks,
+                let location = placemarks.first?.location
+                else {
+                    // handle no location found
+                    return
+            }
+            coordinate = location.coordinate
+            // Use your location
+        }
+        return coordinate
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            if let window = UIApplication.shared.keyWindow {
+                UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
+                    self.searchBtn.frame.origin = CGPoint(x: window.frame.maxX - 72, y: window.frame.maxY - 72 - keyboardHeight)
+                }, completion: nil)
+            }
+        }
+    }
+    
+    
+    @objc func searchAddress() {
+        
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        
+        // Set a filter to return only addresses.
+        let filter = GMSAutocompleteFilter()
+        filter.type = .address
+        autocompleteController.autocompleteFilter = filter
+        
+        present(autocompleteController, animated: true, completion: nil)
         
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.tag == 1 {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                self.searchBtn.alpha = 1
+                
+            }, completion: nil)
+        } else {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                self.searchBtn.alpha = 0
+            }, completion: nil)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if let window = UIApplication.shared.keyWindow {
+            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
+                self.searchBtn.frame.origin = CGPoint(x: window.frame.maxX - 72, y: window.frame.maxY - 72)
+            }, completion: nil)
+        }
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            self.searchBtn.alpha = 0
+        }, completion: nil)
         
     }
     
@@ -73,7 +191,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         eventTitle.placeholder = "Title"
         eventTitle.font = UIFont.systemFont(ofSize: 30)
         eventTitle.sizeToFit()
-        eventTitle.frame = CGRect(x: imageView.frame.maxX + 16, y: imageView.frame.maxY - eventTitle.bounds.height, width: view.bounds.width - imageView.frame.width - 16, height: eventTitle.bounds.height)
+        eventTitle.frame = CGRect(x: imageView.frame.maxX + 16, y: imageView.frame.maxY - eventTitle.bounds.height, width: view.bounds.width - imageView.frame.width - 48, height: eventTitle.bounds.height)
         eventTitle.clearButtonMode = .whileEditing
         titleCell.addSubview(imageView)
         titleCell.addSubview(eventTitle)
@@ -87,9 +205,9 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             addressField.text = address
         }
         addressField.sizeToFit()
-        addressField.frame = CGRect(x: 16, y: 24, width: view.frame.width, height: addressField.bounds.height)
+        addressField.frame = CGRect(x: 16, y: 24, width: view.frame.width - 32, height: addressField.bounds.height)
         addressField.clearButtonMode = .whileEditing
-        
+        addressField.tag = 1
         addressCell.addSubview(addressField)
         addressCell.selectionStyle = .none
         
@@ -98,7 +216,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         startDateInput.placeholder = "Start Date"
         startDateInput.font = UIFont.systemFont(ofSize: 20)
         startDateInput.sizeToFit()
-        startDateInput.frame = CGRect(x: 16, y: 24, width: view.frame.width, height: startDateInput.bounds.height)
+        startDateInput.frame = CGRect(x: 16, y: 24, width: view.frame.width - 32, height: startDateInput.bounds.height)
         startDateCell.addSubview(startDateInput)
         startDateCell.selectionStyle = .none
         
@@ -107,13 +225,13 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         endDateInput.placeholder = "End Date"
         endDateInput.font = UIFont.systemFont(ofSize: 20)
         endDateInput.sizeToFit()
-        endDateInput.frame = CGRect(x: 16, y: 24, width: view.frame.width, height: endDateInput.bounds.height)
+        endDateInput.frame = CGRect(x: 16, y: 24, width: view.frame.width - 32, height: endDateInput.bounds.height)
         endDateCell.addSubview(endDateInput)
         endDateCell.selectionStyle = .none
         
         
         // Mark: - descripCell
-        descripInput.frame = CGRect(x: 16, y: 16, width: view.frame.width, height: 30)
+        descripInput.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: 30)
         descripInput.font = UIFont.systemFont(ofSize: 20)
         descripInput.placeholder = "Description (Optional)"
         descripInput.underline?.color = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
@@ -186,6 +304,13 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             if let coordinate = self.coordinate {
                 event.geo["latitude"] = String(describing: coordinate["la"]!)
                 event.geo["longitude"] = String(describing: coordinate["lo"]!)
+            } else {
+                if self.address != nil {
+                    self.getCoordinate(addressString: self.address!, completionHandler: { (coordinate, error) in
+                        event.geo["latitude"] = String(describing: coordinate.longitude)
+                        event.geo["longitude"] = String(describing: coordinate.longitude)
+                    })
+                }
             }
             
             event.categories.append("Events Map")
@@ -197,6 +322,27 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             }
         }
         
+    }
+    
+    // Populate the address form fields.
+    func fillAddressForm() {
+        addressField.text = street_number + " " + route + ", " + locality + ", " + administrative_area_level_1 + ", " + country
+        address = street_number + " " + route + ", " + locality + ", " + administrative_area_level_1 + " " + postal_code + ", " + country
+//        if postal_code_suffix != "" {
+//            addressField.text += postal_code + "-" + postal_code_suffix
+//        } else {
+//            postal_code_field.text = postal_code
+//        }
+        
+        // Clear values for next time.
+        street_number = ""
+        route = ""
+        neighborhood = ""
+        locality = ""
+        administrative_area_level_1  = ""
+        country = ""
+        postal_code = ""
+        postal_code_suffix = ""
     }
     
     override func didReceiveMemoryWarning() {
@@ -298,4 +444,71 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     }
     */
     
+    
 }
+
+extension AddEventTableViewController: GMSAutocompleteViewControllerDelegate {
+    
+    // Handle the user's selection.
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        // Print place info to the console.
+        print("Place name: \(place.name)")
+        print("Place address: \(place.formattedAddress)")
+        print("Place attributions: \(place.attributions)")
+        
+        // Get the address components.
+        if let addressLines = place.addressComponents {
+            // Populate all of the address fields we can find.
+            for field in addressLines {
+                switch field.type {
+                case kGMSPlaceTypeStreetNumber:
+                    street_number = field.name
+                case kGMSPlaceTypeRoute:
+                    route = field.name
+                case kGMSPlaceTypeNeighborhood:
+                    neighborhood = field.name
+                case kGMSPlaceTypeLocality:
+                    locality = field.name
+                case kGMSPlaceTypeAdministrativeAreaLevel1:
+                    administrative_area_level_1 = field.name
+                case kGMSPlaceTypeCountry:
+                    country = field.name
+                case kGMSPlaceTypePostalCode:
+                    postal_code = field.name
+                case kGMSPlaceTypePostalCodeSuffix:
+                    postal_code_suffix = field.name
+                // Print the items we aren't using.
+                default:
+                    print("Type: \(field.type), Name: \(field.name)")
+                }
+            }
+        }
+        
+        // Call custom function to populate the address form.
+        fillAddressForm()
+        
+        // Close the autocomplete widget.
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // Show the network activity indicator.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    // Hide the network activity indicator.
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+}
+
