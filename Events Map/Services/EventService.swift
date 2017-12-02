@@ -16,7 +16,12 @@ class EventService {
     let defaults = UserDefaults.standard
     
     func getEvents(_ callback: @escaping (([Event]) -> Void)) {
-        Alamofire.request(ConfigService.instance.get("EventsServerHost")).responseJSON { response in
+        var parameters: [String: String] = [:]
+        if let user = UserService.instance.getCurrentUser() {
+            parameters["uid"] = user.id
+        }
+        
+        Alamofire.request(ConfigService.instance.get("EventsServerHost"), parameters: parameters).responseJSON { response in
             var events: [Event] = []
             
             if let result = response.result.value {
@@ -51,6 +56,15 @@ class EventService {
                         event.categories.append(category.stringValue)
                     }
                     
+                    if subJson["liked"].stringValue == "true" {
+                        event.liked = true
+                    }
+                    
+                    if subJson["owned"].stringValue == "true" {
+                        event.owned = true
+                    }
+                    
+                    print(event.liked, event.owned)
                     events.append(event)
                 }
             }
