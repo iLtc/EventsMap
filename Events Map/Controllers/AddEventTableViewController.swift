@@ -159,11 +159,6 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        if let window = UIApplication.shared.keyWindow {
-            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
-                self.searchBtn.frame.origin = CGPoint(x: window.frame.maxX - 72, y: window.frame.maxY - 72)
-            }, completion: nil)
-        }
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.searchBtn.alpha = 0
         }, completion: nil)
@@ -305,10 +300,10 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
                 event.geo["latitude"] = String(describing: coordinate["la"]!)
                 event.geo["longitude"] = String(describing: coordinate["lo"]!)
             } else {
-                if self.address != nil {
-                    self.getCoordinate(addressString: self.address!, completionHandler: { (coordinate, error) in
-                        event.geo["latitude"] = String(describing: coordinate.longitude)
-                        event.geo["longitude"] = String(describing: coordinate.longitude)
+                if let location = self.address {
+                    self.getCoordinate(addressString: location, completionHandler: { (coordinate, error) in
+                        event.geo["latitude"] = String(coordinate.latitude)
+                        event.geo["longitude"] = String(coordinate.longitude)
                     })
                 }
             }
@@ -327,7 +322,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     // Populate the address form fields.
     func fillAddressForm() {
         addressField.text = street_number + " " + route + ", " + locality + ", " + administrative_area_level_1 + ", " + country
-        address = street_number + " " + route + ", " + locality + ", " + administrative_area_level_1 + " " + postal_code + ", " + country
+        address = street_number + " " + route + ", " + locality + ", " + administrative_area_level_1 + " " + postal_code
 //        if postal_code_suffix != "" {
 //            addressField.text += postal_code + "-" + postal_code_suffix
 //        } else {
