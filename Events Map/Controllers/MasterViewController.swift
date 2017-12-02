@@ -30,7 +30,7 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         transition.transitionMode = .present
         transition.startingPoint = CGPoint(x: view.frame.width - 100, y: 60)
-        transition.circleColor = UIColor.white
+        transition.circleColor = UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1)
         
         return transition
     }
@@ -119,7 +119,7 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
     }
     
     @objc func searchEvent() {
-        let searchController = SearchController()
+        let searchController = SearchViewController()
 //        let transition = MDCMaskedTransition(sourceView: UIView(frame: CGRect(origin: view.center, size: CGSize(width: 1,height: 1))))
 //        transition.calculateFrameOfPresentedView = { info in
 //            let size = CGSize(width: self.view.bounds.width - 32, height: self.view.bounds.height - 100)

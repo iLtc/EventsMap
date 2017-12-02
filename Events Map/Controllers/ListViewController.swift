@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MaterialComponents
 
 class ListViewController: UITableViewController {
     
@@ -82,8 +83,8 @@ class ListViewController: UITableViewController {
             }
             
             if events.count == 0 {
-                let alert: UIAlertController = UIAlertController(title: "No Event", message: "There is no event now or base on your filter.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+                let alert: MDCAlertController = MDCAlertController(title: "No Event", message: "There is no event now or base on your filter.")
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
                 
                 self.present(alert, animated: true)
             }

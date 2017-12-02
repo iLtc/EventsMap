@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MaterialComponents
 
-class ListViewCell: UITableViewCell {
+class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
     
     @IBOutlet weak var eventTitleLabel: UILabel!
     @IBOutlet weak var eventImageView: UIImageView!
@@ -20,8 +21,25 @@ class ListViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+ self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
+        self.isUserInteractionEnabled = true
+        self.selectionStyle = .none
     }
-
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            print("haha")
+            let inkTouchController = MDCInkTouchController(view: self)
+            inkTouchController.addInkView()
+            let location = sender.location(in: self)
+            inkTouchController.inkView(atTouchLocation: location)
+            inkTouchController.gestureRecognizerShouldBegin(sender)
+            inkTouchController.delegate = self
+            
+        }
+        sender.cancelsTouchesInView = false
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
 
     }
