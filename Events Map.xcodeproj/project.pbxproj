@@ -39,6 +39,7 @@
 		2D957CA71FD3590D00E1B6FD /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */; };
 		2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */; };
 		2D957CAB1FD35B8D00E1B6FD /* SearchTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D957CA91FD35B8D00E1B6FD /* SearchTextCell.xib */; };
+		2D957CAD1FD36BFD00E1B6FD /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D957CAC1FD36BFD00E1B6FD /* FilterViewController.xib */; };
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
@@ -48,7 +49,6 @@
 		8C2E12491FD349610056512C /* SortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2E12481FD349610056512C /* SortViewController.swift */; };
 		8C46AF341FCB804100ABA5FC /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46AF331FCB804100ABA5FC /* CategoryViewController.swift */; };
 		8CAEF06C1FC6259E0054210B /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAEF06A1FC6259E0054210B /* FilterViewController.swift */; };
-		8CAEF06D1FC6259E0054210B /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CAEF06B1FC6259E0054210B /* FilterViewController.xib */; };
 		C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54A952C1FB810B400206D11 /* PopOverController.swift */; };
 		C5E7C7981FB2D46300DFAF8D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E7C7971FB2D46300DFAF8D /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
@@ -102,6 +102,7 @@
 		2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextCell.swift; sourceTree = "<group>"; };
 		2D957CA91FD35B8D00E1B6FD /* SearchTextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTextCell.xib; sourceTree = "<group>"; };
+		2D957CAC1FD36BFD00E1B6FD /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
@@ -114,7 +115,6 @@
 		8C2E12481FD349610056512C /* SortViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortViewController.swift; sourceTree = "<group>"; };
 		8C46AF331FCB804100ABA5FC /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		8CAEF06A1FC6259E0054210B /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterViewController.swift; path = "Events Map/Controllers/FilterViewController.swift"; sourceTree = SOURCE_ROOT; };
-		8CAEF06B1FC6259E0054210B /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FilterViewController.xib; path = "Events Map/Controllers/FilterViewController.xib"; sourceTree = SOURCE_ROOT; };
 		C54A952C1FB810B400206D11 /* PopOverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverController.swift; sourceTree = "<group>"; };
 		C5E7C7971FB2D46300DFAF8D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -215,13 +215,10 @@
 				24CA0E331FC8BDEF00D1AEDF /* ListViewController.swift */,
 				242505EE1FA2B21E006E0408 /* ViewController.swift */,
 				2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */,
-				2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */,
 				244520541FC3759600D1B956 /* MasterViewController.swift */,
 				2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */,
 				2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */,
 				2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */,
-				2D957CA91FD35B8D00E1B6FD /* SearchTextCell.xib */,
-				2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */,
 				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
 			);
@@ -232,8 +229,11 @@
 			isa = PBXGroup;
 			children = (
 				2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */,
-				8CAEF06B1FC6259E0054210B /* FilterViewController.xib */,
+				2D957CAC1FD36BFD00E1B6FD /* FilterViewController.xib */,
 				24CA0E2C1FC8B50100D1AEDF /* ListViewCell.xib */,
+				2D957CA91FD35B8D00E1B6FD /* SearchTextCell.xib */,
+				2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */,
+				2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -380,7 +380,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8CAEF06D1FC6259E0054210B /* FilterViewController.xib in Resources */,
 				243887AE1FAF89C7000C012C /* Config.plist in Resources */,
 				2D957CA71FD3590D00E1B6FD /* SearchViewController.xib in Resources */,
 				8C2E12441FD347E60056512C /* GoogleService-Info.plist in Resources */,
@@ -390,6 +389,7 @@
 				2D957CAB1FD35B8D00E1B6FD /* SearchTextCell.xib in Resources */,
 				242505F21FA2B21E006E0408 /* Main.storyboard in Resources */,
 				2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */,
+				2D957CAD1FD36BFD00E1B6FD /* FilterViewController.xib in Resources */,
 				2D7093971FD0BD9000F5A538 /* AddEventTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
