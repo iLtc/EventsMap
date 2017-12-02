@@ -17,6 +17,8 @@ class Event {
     public var isAllDay: Bool
     public var location: String
     public var description: String
+    public var liked = false
+    public var owned = false
     public var photos: [String] = []
     public var geo: [String: String] = [
         "latitude": "",
