@@ -8,11 +8,25 @@
 
 import UIKit
 
-class SearchController: UITableViewController {
-        
+class SearchController: UITableViewController,  UISearchBarDelegate {
+    
+    var events: [Event] = [Event]()
+    var filteredEvents = [Event]()
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    var isSearching = false
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.tableView.register(UINib(nibName: "SearchCell", bundle: nil), forCellReuseIdentifier: "SearchCell")
+        self.tableView.dataSource = self
+        self.tableView.tableFooterView = UIView(frame: .zero)
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
+        searchBar.becomeFirstResponder()
+        EventService.instance.getEvents { (events) in
+            self.events = events
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -29,23 +43,65 @@ class SearchController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        if isSearching {
+            return self.filteredEvents.count
+        }
+        
+        return self.events.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as? SearchCell{
+            
+            let event: Event!
+            if isSearching {
+                event = filteredEvents[indexPath.row]
+            } else {
+                event = events[indexPath.row]
+            }
+            cell.updateViews(event)
+            
+            return cell
+        } else {
+            return UITableViewCell()
+        }
+        
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        if isSearching {
+            vc.event = filteredEvents[indexPath.row]
+        } else {
+            vc.event = events[indexPath.row]
+        }
+        present(vc, animated: true, completion: nil)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == nil || searchBar.text == "" {
+            isSearching = false
+            view.endEditing(true)
+            tableView.reloadData()
+        } else {
+            isSearching = true
+            filteredEvents = events.filter({ (event) -> Bool in
+                return event.title.lowercased().contains(searchText.lowercased())
+            })
+            tableView.reloadData()
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.dismiss(animated: true, completion: nil)
+    }
 
     /*
     // Override to support conditional editing of the table view.

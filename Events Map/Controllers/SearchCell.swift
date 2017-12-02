@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import MaterialComponents
 
 class SearchCell: UITableViewCell {
 
+    @IBOutlet weak var titleLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        let inkTouchController = MDCInkTouchController(view: titleLabel)
+        inkTouchController.addInkView()
         // Initialization code
     }
 
@@ -19,6 +23,10 @@ class SearchCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func updateViews(_ event: Event) {
+        titleLabel.text = event.title
     }
     
 }
