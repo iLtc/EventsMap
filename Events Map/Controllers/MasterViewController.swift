@@ -22,22 +22,23 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
     let titleView = UISegmentedControl(items: ["Map", "List"])
     
     let transition = CircularTransition()
-    
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .vertical, options: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let secondVC = segue.destination as! UserTableViewController
-        secondVC.transitioningDelegate = self
-        secondVC.modalPresentationStyle = .custom
     }
     
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         transition.transitionMode = .present
-        transition.startingPoint = CGPoint(x: 10, y: 10)
-        transition.circleColor = UIColor(red: 0/255, green: 122/255, blue: 250/255, alpha: 1)
+        transition.startingPoint = CGPoint(x: view.frame.width - 100, y: 60)
+        transition.circleColor = UIColor.white
+        
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.transitionMode = .dismiss
+        transition.startingPoint = CGPoint(x: view.frame.width - 100, y: 60)
+        transition.circleColor = UIColor.white
         
         return transition
     }
@@ -53,15 +54,50 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
         // MARK: navigation item settings
         self.navigationItem.largeTitleDisplayMode = .never
         
-        
-        
-        
-        userBarBtn = UIBarButtonItem(image: UIImage(named: "userBtn"), style: .plain, target: self, action: #selector(showUser))
-        self.navigationItem.leftBarButtonItem = userBarBtn
-        
-        let filterBarBtn = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(showFilter))
-        self.navigationItem.rightBarButtonItem = filterBarBtn
         self.navigationItem.titleView = titleView
+        
+        
+        let userBar = MDCButtonBar()
+
+        let userActionItem = UIBarButtonItem(image: UIImage(named: "userBtn"), style: .done, target: self, action: #selector(showUser))
+
+        userBar.items = [userActionItem]
+
+        let userSize = userBar.sizeThatFits(self.view.bounds.size)
+        userBar.frame = CGRect(x: 0, y: 0, width: userSize.width, height: userSize.height)
+        
+        userBarBtn = UIBarButtonItem(customView: userBar)
+
+//        let filterButton: MDCFlatButton = {
+//            let button = MDCFlatButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+//            button.setTitle("Filter", for: .normal)
+//            button.addTarget(self, action: #selector(showFilter), for: .touchUpInside)
+//            button.sizeToFit()
+//            button.setTitleColor(UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1), for: .normal)
+//            return button
+//        }()
+//        let filterBarBtn = UIBarButtonItem(customView: filterButton)
+        
+        let rightBar = MDCButtonBar()
+        
+        let searchActionItem = UIBarButtonItem(image: UIImage(named: "Search-blue"), style: .done, target: self, action: #selector(searchEvent))
+        let filterActionItem = UIBarButtonItem(image: UIImage(named: "Filter"), style: .done, target: self, action: #selector(showFilter))
+        
+        
+        rightBar.items = [searchActionItem, filterActionItem]
+        
+        let rightSize = rightBar.sizeThatFits(self.view.bounds.size)
+        rightBar.frame = CGRect(x: 0, y: 0, width: rightSize.width, height: rightSize.height)
+        
+        let rightBarBtn = UIBarButtonItem(customView: rightBar)
+
+        
+        self.navigationItem.leftBarButtonItem = userBarBtn
+        self.navigationItem.rightBarButtonItem = rightBarBtn
+        
+        
+        
+        
         
 //        self.modalTransitionStyle
         
@@ -80,6 +116,22 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func searchEvent() {
+        let searchController = SearchController()
+//        let transition = MDCMaskedTransition(sourceView: UIView(frame: CGRect(origin: view.center, size: CGSize(width: 1,height: 1))))
+//        transition.calculateFrameOfPresentedView = { info in
+//            let size = CGSize(width: self.view.bounds.width - 32, height: self.view.bounds.height - 100)
+//            return CGRect(x: (info.containerView!.bounds.width - size.width) / 2,
+//                          y: (info.containerView!.bounds.height - size.height) / 2,
+//                          width: size.width,
+//                          height: size.height)
+//        }
+//        searchController.transitionController.transition = transition
+        searchController.transitioningDelegate = self
+        searchController.modalPresentationStyle = .custom
+        present(searchController, animated: true)
     }
     
     @objc func showUser() {

@@ -89,11 +89,32 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         
         tableView.tableFooterView = UIView(frame: .zero)
         
+        if (navigationController?.navigationBar) == nil {
+            setCloseBtn()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func setCloseBtn() {
+        
+        let closeBtn: MDCFloatingButton = {
+            let button = MDCFloatingButton(frame: CGRect(x: view.frame.width - 72, y: 16, width: 56, height: 56), shape: MDCFloatingButtonShape.default)
+            button.setImage(UIImage(named: "Close"), for: .normal)
+            button.backgroundColor = UIColor(red:1.00, green:0.60, blue:0.00, alpha:1.0)
+            button.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+            return button
+        }()
+        view.addSubview(closeBtn)
+        
+    }
+    
+    @objc func dismissView() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func like() {
