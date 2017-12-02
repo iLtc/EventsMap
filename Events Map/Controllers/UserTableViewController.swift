@@ -8,8 +8,17 @@
 
 import UIKit
 import FacebookLogin
+import GoogleSignIn
+import GGLCore
 
-class UserTableViewController: UITableViewController {
+class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignInUIDelegate {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if error != nil {
+            print(error ?? "some error")
+            return
+        }
+    }
+    
     
     @IBOutlet weak var UserImage: UIImageView!
     @IBOutlet weak var UserName: UILabel!
@@ -26,12 +35,28 @@ class UserTableViewController: UITableViewController {
         
         self.navigationItem.largeTitleDisplayMode = .always
         
+        var error: NSError?
+        GGLContext.sharedInstance().configureWithError(&error)
+        if error != nil {
+            print(error ?? "some error")
+            return
+        }
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
+        let googleSignInButton = GIDSignInButton()
+        googleSignInButton.center = view.center
+        view.addSubview(googleSignInButton)
+
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    @objc func buttonAction(sender: UIButton!) {
+        print("haha")
     }
     
     override func didReceiveMemoryWarning() {

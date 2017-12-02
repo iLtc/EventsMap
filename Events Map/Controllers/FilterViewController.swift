@@ -13,7 +13,7 @@ class FilterViewController: UITableViewController {
     
     let manger = CLLocationManager()
     let sort: [String] = ["Sort"]
-    let filter: [String] = ["Category", "Source", "Distance", "Time"]
+    let filter: [String] = ["Category", "Source"]
     let cellReuseIdentifier = "cell"
     var category:[String] = []
     var distance:[Int] = []
@@ -75,9 +75,11 @@ class FilterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
-        print(row)
+        if indexPath.section == 0 {
+            let destination = SortViewController(style: .grouped)
+            self.navigationController?.pushViewController(destination, animated: true)
+        }
         if indexPath.section == 1 {
-            let destination = CategoryViewController(style: .grouped)
             switch row {
             case 0:
                 let destination = CategoryViewController(style: .grouped)
@@ -85,15 +87,9 @@ class FilterViewController: UITableViewController {
             case 1:
                 let destination = SourceViewController(style: .grouped)
                 self.navigationController?.pushViewController(destination, animated: true)
-            case 2:
-                self.navigationController?.pushViewController(destination, animated: true)
-            case 3:
-                self.navigationController?.pushViewController(destination, animated: true)
             default:
                 print("error")
             }
-
         }
     }
 }
-

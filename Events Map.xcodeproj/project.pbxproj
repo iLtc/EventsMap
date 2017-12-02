@@ -43,6 +43,9 @@
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
 		8C26AEF91FCF398500F2A9A9 /* SourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C26AEF81FCF398500F2A9A9 /* SourceViewController.swift */; };
+		8C2E12441FD347E60056512C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C2E12431FD347E60056512C /* GoogleService-Info.plist */; };
+		8C2E12471FD348250056512C /* google-login.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2E12461FD348250056512C /* google-login.m */; };
+		8C2E12491FD349610056512C /* SortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2E12481FD349610056512C /* SortViewController.swift */; };
 		8C46AF341FCB804100ABA5FC /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46AF331FCB804100ABA5FC /* CategoryViewController.swift */; };
 		8CAEF06C1FC6259E0054210B /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAEF06A1FC6259E0054210B /* FilterViewController.swift */; };
 		8CAEF06D1FC6259E0054210B /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CAEF06B1FC6259E0054210B /* FilterViewController.xib */; };
@@ -105,6 +108,10 @@
 		364B4EDF7B0BBB5D55635A9C /* Pods-Events Map.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.debug.xcconfig"; sourceTree = "<group>"; };
 		687E7DC15DAC17C76C4086E5 /* Pods-Events Map.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.release.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.release.xcconfig"; sourceTree = "<group>"; };
 		8C26AEF81FCF398500F2A9A9 /* SourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceViewController.swift; sourceTree = "<group>"; };
+		8C2E12431FD347E60056512C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8C2E12451FD348240056512C /* Events Map-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Events Map-Bridging-Header.h"; sourceTree = "<group>"; };
+		8C2E12461FD348250056512C /* google-login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "google-login.m"; sourceTree = "<group>"; };
+		8C2E12481FD349610056512C /* SortViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortViewController.swift; sourceTree = "<group>"; };
 		8C46AF331FCB804100ABA5FC /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		8CAEF06A1FC6259E0054210B /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterViewController.swift; path = "Events Map/Controllers/FilterViewController.swift"; sourceTree = SOURCE_ROOT; };
 		8CAEF06B1FC6259E0054210B /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FilterViewController.xib; path = "Events Map/Controllers/FilterViewController.xib"; sourceTree = SOURCE_ROOT; };
@@ -145,6 +152,8 @@
 		242505EB1FA2B21E006E0408 /* Events Map */ = {
 			isa = PBXGroup;
 			children = (
+				8C2E12461FD348250056512C /* google-login.m */,
+				8C2E12431FD347E60056512C /* GoogleService-Info.plist */,
 				24CFC58A1FC61944003C9BA3 /* Events Map.entitlements */,
 				247BA06B1FC6179A00CBFDC6 /* Xibs */,
 				247BA06A1FC6171700CBFDC6 /* Controllers */,
@@ -158,6 +167,7 @@
 				242505F51FA2B21E006E0408 /* LaunchScreen.storyboard */,
 				242505F81FA2B21E006E0408 /* Info.plist */,
 				243887AD1FAF89C7000C012C /* Config.plist */,
+				8C2E12451FD348240056512C /* Events Map-Bridging-Header.h */,
 			);
 			path = "Events Map";
 			sourceTree = "<group>";
@@ -195,6 +205,7 @@
 		247BA06A1FC6171700CBFDC6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8C2E12481FD349610056512C /* SortViewController.swift */,
 				8CAEF06A1FC6259E0054210B /* FilterViewController.swift */,
 				8C26AEF81FCF398500F2A9A9 /* SourceViewController.swift */,
 				8C46AF331FCB804100ABA5FC /* CategoryViewController.swift */,
@@ -292,6 +303,7 @@
 				TargetAttributes = {
 					242505E81FA2B21E006E0408 = {
 						CreatedOnToolsVersion = 9.0.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -370,6 +382,7 @@
 			files = (
 				8CAEF06D1FC6259E0054210B /* FilterViewController.xib in Resources */,
 				243887AE1FAF89C7000C012C /* Config.plist in Resources */,
+				8C2E12441FD347E60056512C /* GoogleService-Info.plist in Resources */,
 				242505F71FA2B21E006E0408 /* LaunchScreen.storyboard in Resources */,
 				242505F41FA2B21E006E0408 /* Assets.xcassets in Resources */,
 				24CA0E2E1FC8B50100D1AEDF /* ListViewCell.xib in Resources */,
@@ -397,6 +410,9 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFTextAccessibility/MDFTextAccessibility.framework",
 				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
@@ -417,6 +433,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFInternationalization.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFTextAccessibility.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
@@ -443,6 +462,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Events Map/Pods-Events Map-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -489,6 +509,7 @@
 				24CDE2E91FC7D2850051C3BB /* UserTableViewController.swift in Sources */,
 				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
+				8C2E12471FD348250056512C /* google-login.m in Sources */,
 				2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */,
 				24CA0E321FC8B97D00D1AEDF /* resize-image.swift in Sources */,
 				8C46AF341FCB804100ABA5FC /* CategoryViewController.swift in Sources */,
@@ -499,6 +520,7 @@
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
 				24CA0E341FC8BDEF00D1AEDF /* ListViewController.swift in Sources */,
 				8CAEF06C1FC6259E0054210B /* FilterViewController.swift in Sources */,
+				8C2E12491FD349610056512C /* SortViewController.swift in Sources */,
 				24CA0E2D1FC8B50100D1AEDF /* ListViewCell.swift in Sources */,
 				24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */,
 				243887AA1FAF8635000C012C /* EventModel.swift in Sources */,
@@ -646,6 +668,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Events Map/Events Map.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -662,6 +685,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.EventsMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Events Map/Events Map-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -673,6 +698,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Events Map/Events Map.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -689,6 +715,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.EventsMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Events Map/Events Map-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

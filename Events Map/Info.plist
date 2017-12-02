@@ -21,12 +21,30 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.417113963893-78u5q5ht06mffvbb5s0acj2io2i9vhk9</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleURLName</key>
 			<string>edu.uiowa.EventsMap</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb444439642616561</string>
 				<string>EventsMap</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>edu.uiowa.EventsMap</string>
 			</array>
 		</dict>
 	</array>
