@@ -8,6 +8,7 @@
 
 import UIKit
 import paper_onboarding
+import MaterialComponents
 
 class MasterViewController: UIPageViewController, UIViewControllerTransitioningDelegate {
     
@@ -51,6 +52,9 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
         self.navigationController?.isNavigationBarHidden = false
         // MARK: navigation item settings
         self.navigationItem.largeTitleDisplayMode = .never
+        
+        
+        
         
         userBarBtn = UIBarButtonItem(image: UIImage(named: "userBtn"), style: .plain, target: self, action: #selector(showUser))
         self.navigationItem.leftBarButtonItem = userBarBtn

@@ -9,6 +9,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import CoreLocation
+import MaterialComponents
 
 class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMSMapViewDelegate{
     
@@ -277,10 +278,11 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             sender.tag = 1
             
         } else {
-            let alertController = UIAlertController(title: "Events Map", message: "You need to login.", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let alertController = MDCAlertController(title: nil, message: "You need to login.")
+            alertController.mdc_adjustsFontForContentSizeCategory = true
+            let cancelAction = MDCAlertAction(title: "Cancel",  handler: nil)
             alertController.addAction(cancelAction)
-            let confirmAction = UIAlertAction(title: "Login", style: .default) { (action) in
+            let confirmAction = MDCAlertAction(title: "Login") { (action) in
                 let _ = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
             }
             alertController.addAction(confirmAction)
@@ -428,7 +430,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         UIButton.animate(withDuration: 0.1) {
             sender.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         }
-        let vc = AddEventViewController()
+        let vc = AddEventTableViewController()
         vc.address = self.address
         vc.coordinate = ["la": (self.coordinate!.latitude) , "lo": (self.coordinate!.longitude)]
         
@@ -446,8 +448,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         }
         
         if events.count == 0 {
-            let alert: UIAlertController = UIAlertController(title: "No Event", message: "There is no event now or base on your filter.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+            let alert: MDCAlertController = MDCAlertController(title: "No Event", message: "There is no event now or base on your filter.")
+            alert.addAction(MDCAlertAction(title: "OK", handler: nil))
             
             present(alert, animated: true)
         }

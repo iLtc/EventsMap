@@ -132,7 +132,7 @@ class ListViewController: UITableViewController {
                 sender.tag = 1
             }, completion: nil)
         } else if sender.tag == 1 {
-            let vc = AddEventViewController()
+            let vc = AddEventTableViewController()
             navigationController?.pushViewController(vc, animated: true)
         }
         

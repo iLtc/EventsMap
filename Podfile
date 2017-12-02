@@ -9,6 +9,8 @@ target ‘Events Map’ do
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'paper-onboarding', '~> 2.0.1'
+  pod 'MaterialComponents'
+  pod 'Material', '~> 2.0'
   pod 'Google/SignIn'
   pod 'GoogleSignIn'
   

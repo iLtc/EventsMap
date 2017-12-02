@@ -7,8 +7,8 @@
 //
 
 import UIKit
-
-class DatePick: UITextField, UITextFieldDelegate {
+import Material
+class DatePick: TextField, UITextFieldDelegate {
     
     let datePicker = UIDatePicker()
     let toolbar = UIToolbar()

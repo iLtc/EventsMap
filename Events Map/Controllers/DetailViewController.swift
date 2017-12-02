@@ -9,6 +9,7 @@
 import UIKit
 import EventKit
 import SwiftGifOrigin
+import MaterialComponents
 
 class Setting: NSObject {
     let name: String
@@ -86,7 +87,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         setUI()
         // Do any additional setup after loading the view.
         
-
+        tableView.tableFooterView = UIView(frame: .zero)
         
     }
 
@@ -104,10 +105,10 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
             self.setToolbarItems([space, starBtn, space, calendarBtn, space, navigationBtn, space, shareBtn, space], animated: true)
             
         } else {
-            let alertController = UIAlertController(title: "Events Map", message: "You need to login.", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let alertController = MDCAlertController(title: nil, message: "You need to login.")
+            let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
             alertController.addAction(cancelAction)
-            let confirmAction = UIAlertAction(title: "Login", style: .default) { (action) in
+            let confirmAction = MDCAlertAction(title: "Login") { (action) in
                 let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
                 loginView.parentVC = self
             }
@@ -212,10 +213,10 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
 
     // Mark: add to calendar alert
     @objc func saveCalendarAlert(_ sender: Any) {
-        let alertController = UIAlertController(title: "Events Map", message: "Add this event to calendar.", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let alertController = MDCAlertController(title: nil, message: "Add this event to calendar.")
+        let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
         alertController.addAction(cancelAction)
-        let confirmAction = UIAlertAction(title: "Add", style: .default) { (action) in
+        let confirmAction = MDCAlertAction(title: "Add") { (action) in
             self.addCalendarEvent(action)
         }
         alertController.addAction(confirmAction)
@@ -246,8 +247,8 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
                     
                     self.dismiss(animated: true, completion: nil)
                 } catch {
-                    let alert = UIAlertController(title: "Event could not save", message: (error as NSError).localizedDescription, preferredStyle: .alert)
-                    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    let alert = MDCAlertController(title: nil, message: (error as NSError).localizedDescription)
+                    let OKAction = MDCAlertAction(title: "OK", handler: nil)
                     alert.addAction(OKAction)
                     
                     self.present(alert, animated: true, completion: nil)
@@ -267,6 +268,9 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         let asset = NSDataAsset(name: "Loading")
         let gifImage = UIImage.gif(data: (asset?.data)!)
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.width * 0.67))
+        let imageInkController = MDCInkTouchController(view: imageView)
+        imageInkController.addInkView()
+        imageView.isUserInteractionEnabled = true
         imageView.image = gifImage
         //let toImage = UIImage.gif(url: event.photos[0])
         //UIView.transition(with: imageView,
@@ -293,6 +297,9 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         }()
         titleHeight = titleLabel.bounds.maxY + 30
         self.titleView.addSubview(titleLabel)
+        titleView.isUserInteractionEnabled = true
+        let titleInkController = MDCInkTouchController(view: titleView)
+        titleInkController.addInkView()
         
         // set dateCell UI (date)
         let calendarIconView = UIImageView(image: UIImage(named: "Calendar"))

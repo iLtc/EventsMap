@@ -11,6 +11,8 @@ import UIKit
 extension UIViewController {
     // https://stackoverflow.com/questions/28785715/how-to-display-an-activity-indicator-with-text-on-ios-8-with-swift
     func activityIndicator(_ title: String) -> UIView {
+        
+        
         var activityIndicator = UIActivityIndicatorView()
         var strLabel = UILabel()
         let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -20,18 +22,27 @@ extension UIViewController {
         strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
         
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
-        effectView.layer.cornerRadius = 15
-        effectView.layer.masksToBounds = true
+        if let window = UIApplication.shared.keyWindow {
+            effectView.frame = CGRect(x: window.frame.midX - strLabel.frame.width/2, y: window.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
+            
+            effectView.layer.cornerRadius = 15
+            effectView.layer.masksToBounds = true
+            
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+            activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+            activityIndicator.startAnimating()
+            
+            effectView.contentView.addSubview(activityIndicator)
+            effectView.contentView.addSubview(strLabel)
+            view.addSubview(effectView)
+        }
         
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-        activityIndicator.startAnimating()
         
-        effectView.contentView.addSubview(activityIndicator)
-        effectView.contentView.addSubview(strLabel)
-        view.addSubview(effectView)
         
         return effectView
+    }
+    
+    func dismiss() {
+        self.view.removeFromSuperview()
     }
 }
