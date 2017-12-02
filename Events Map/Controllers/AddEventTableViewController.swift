@@ -69,7 +69,10 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
                 
                 return button
             }()
+            let searchInkController = MDCInkTouchController(view: searchBtn)
+            searchInkController.addInkView()
             window.addSubview(searchBtn)
+        
         }
         
         
@@ -126,6 +129,8 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
                     self.searchBtn.frame.origin = CGPoint(x: window.frame.maxX - 72, y: window.frame.maxY - 72 - keyboardHeight)
                 }, completion: nil)
             }
+            
+            
         }
     }
     
@@ -139,8 +144,17 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         let filter = GMSAutocompleteFilter()
         filter.type = .address
         autocompleteController.autocompleteFilter = filter
+        let transition = MDCMaskedTransition(sourceView: searchBtn)
+        transition.calculateFrameOfPresentedView = { info in
+            let size = CGSize(width: self.view.bounds.width - 32, height: self.view.bounds.height - 100)
+            return CGRect(x: (info.containerView!.bounds.width - size.width) / 2,
+                          y: (info.containerView!.bounds.height - size.height) / 2,
+                          width: size.width,
+                          height: size.height)
+        }
+        autocompleteController.transitionController.transition = transition
+        present(autocompleteController, animated: true)
         
-        present(autocompleteController, animated: true, completion: nil)
         
     }
     
@@ -296,25 +310,23 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             
             event.photos.append(imageURL)
             
-            if let coordinate = self.coordinate {
-                event.geo["latitude"] = String(describing: coordinate["la"]!)
-                event.geo["longitude"] = String(describing: coordinate["lo"]!)
-            } else {
-                if let location = self.address {
-                    self.getCoordinate(addressString: location, completionHandler: { (coordinate, error) in
-                        event.geo["latitude"] = String(coordinate.latitude)
-                        event.geo["longitude"] = String(coordinate.longitude)
-                    })
-                }
+            
+            if let location = self.address {
+                self.getCoordinate(addressString: location, completionHandler: { (coordinate, error) in
+                    event.geo["latitude"] = String(coordinate.latitude)
+                    event.geo["longitude"] = String(coordinate.longitude)
+                    print(event.geo)
+                })
             }
+            
             
             event.categories.append("Events Map")
             
-            event.save() { event in
-                let vc = DetailViewController()
-                vc.event = event
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+//            event.save() { event in
+//                let vc = DetailViewController()
+//                vc.event = event
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
         }
         
     }
