@@ -152,9 +152,6 @@
 		242505EB1FA2B21E006E0408 /* Events Map */ = {
 			isa = PBXGroup;
 			children = (
-				8C2E12461FD348250056512C /* google-login.m */,
-				8C2E12431FD347E60056512C /* GoogleService-Info.plist */,
-				24CFC58A1FC61944003C9BA3 /* Events Map.entitlements */,
 				247BA06B1FC6179A00CBFDC6 /* Xibs */,
 				247BA06A1FC6171700CBFDC6 /* Controllers */,
 				247BA0691FC6170C00CBFDC6 /* Views */,
@@ -162,6 +159,9 @@
 				243887A81FAF85F4000C012C /* Services */,
 				243887A71FAF85E6000C012C /* Models */,
 				242505EC1FA2B21E006E0408 /* AppDelegate.swift */,
+				8C2E12461FD348250056512C /* google-login.m */,
+				8C2E12431FD347E60056512C /* GoogleService-Info.plist */,
+				24CFC58A1FC61944003C9BA3 /* Events Map.entitlements */,
 				242505F01FA2B21E006E0408 /* Main.storyboard */,
 				242505F31FA2B21E006E0408 /* Assets.xcassets */,
 				242505F51FA2B21E006E0408 /* LaunchScreen.storyboard */,

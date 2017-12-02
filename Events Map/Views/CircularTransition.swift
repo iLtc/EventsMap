@@ -40,7 +40,8 @@ extension CircularTransition:UIViewControllerAnimatedTransitioning {
         if transitionMode == .present {
             if let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.to) {
                 let viewCenter = presentedView.center
-                let viewSize = presentedView.frame.size
+                let viewSize = CGSize(width: presentedView.frame.width, height: presentedView.frame.height * 2)
+                
                 
                 circle = UIView()
                 
