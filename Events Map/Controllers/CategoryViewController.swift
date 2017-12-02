@@ -10,12 +10,10 @@ import UIKit
 
 class CategoryViewController: UITableViewController {
     
-    var appDelegate = UIApplication.shared.delegate as? AppDelegate
-    let notiSwitch: UISwitch = UISwitch()
     var category:[String] = []
     var events:[Event] = []
-
-
+    var selectedCategory:[String] = []
+    var temp:[String] = []
     
     override init(style: UITableViewStyle) {
         super.init(style: .grouped)
@@ -30,9 +28,11 @@ class CategoryViewController: UITableViewController {
             self.category = category
             self.tableView.reloadData()
         }
+        if EventService.instance.defaults.array(forKey: "CurrentCategories") != nil {
+            selectedCategory = EventService.instance.defaults.array(forKey: "CurrentCategories") as! [String]
+        }
     }
     
-   
     override func viewWillAppear(_ animated: Bool) {
         reload()
     }
@@ -54,7 +54,6 @@ class CategoryViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -73,16 +72,44 @@ class CategoryViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = category[indexPath.row]
-        cell.accessoryType = .none
+        if selectedCategory.contains((cell.textLabel?.text)!) {
+            cell.accessoryType = .checkmark
+        }
+        else {
+            cell.accessoryType = .none
+        }
         cell.selectionStyle = .default // to prevent cells from being "highlighted"
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+            for c in selectedCategory {
+                if c != tableView.cellForRow(at: indexPath)?.textLabel?.text {
+                    temp.append(c)
+                }
+            }
+            selectedCategory = temp
+            temp = []
+            EventService.instance.setCategories(categories: selectedCategory)
+        }
+        else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            selectedCategory.append((tableView.cellForRow(at: indexPath)?.textLabel?.text)!)
+            EventService.instance.setCategories(categories: selectedCategory)
+        }
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        for c in selectedCategory {
+            if c != tableView.cellForRow(at: indexPath)?.textLabel?.text {
+                temp.append(c)
+            }
+        }
+        selectedCategory = temp
+        temp = []
+        EventService.instance.setCategories(categories: selectedCategory)
     }
 }
