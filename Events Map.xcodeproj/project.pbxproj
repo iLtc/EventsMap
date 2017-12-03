@@ -40,6 +40,9 @@
 		2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */; };
 		2D957CAB1FD35B8D00E1B6FD /* SearchTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D957CA91FD35B8D00E1B6FD /* SearchTextCell.xib */; };
 		2D957CAD1FD36BFD00E1B6FD /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D957CAC1FD36BFD00E1B6FD /* FilterViewController.xib */; };
+		2D957CAF1FD3A9FA00E1B6FD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */; };
+		2D957CB71FD3B2E900E1B6FD /* EventsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */; };
+		2D957CB91FD3D0D900E1B6FD /* InkOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */; };
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
@@ -103,6 +106,9 @@
 		2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextCell.swift; sourceTree = "<group>"; };
 		2D957CA91FD35B8D00E1B6FD /* SearchTextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTextCell.xib; sourceTree = "<group>"; };
 		2D957CAC1FD36BFD00E1B6FD /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
+		2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListCell.swift; sourceTree = "<group>"; };
+		2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkOverlay.swift; sourceTree = "<group>"; };
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
@@ -218,7 +224,10 @@
 				244520541FC3759600D1B956 /* MasterViewController.swift */,
 				2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */,
 				2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */,
+				2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */,
 				2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */,
+				2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */,
+				2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */,
 				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
 			);
@@ -512,6 +521,7 @@
 				2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */,
 				24CA0E321FC8B97D00D1AEDF /* resize-image.swift in Sources */,
 				8C46AF341FCB804100ABA5FC /* CategoryViewController.swift in Sources */,
+				2D957CB91FD3D0D900E1B6FD /* InkOverlay.swift in Sources */,
 				2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */,
 				2D1ABD151FCA0963004DAF67 /* CircularTransition.swift in Sources */,
 				2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */,
@@ -522,10 +532,12 @@
 				8CAEF06C1FC6259E0054210B /* FilterViewController.swift in Sources */,
 				8C2E12491FD349610056512C /* SortViewController.swift in Sources */,
 				24CA0E2D1FC8B50100D1AEDF /* ListViewCell.swift in Sources */,
+				2D957CB71FD3B2E900E1B6FD /* EventsListCell.swift in Sources */,
 				24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */,
 				243887AA1FAF8635000C012C /* EventModel.swift in Sources */,
 				2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */,
 				2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */,
+				2D957CAF1FD3A9FA00E1B6FD /* EventsListViewController.swift in Sources */,
 				242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */,
 				243887B21FAF8A7A000C012C /* ConfigService.swift in Sources */,
 				C5E7C7981FB2D46300DFAF8D /* DetailViewController.swift in Sources */,
