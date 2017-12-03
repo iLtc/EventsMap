@@ -73,6 +73,64 @@ class EventService {
         }
     }
     
+    func getAllUserEvents(_ callback: @escaping (([Event]) -> Void)) {
+        var parameters: [String: String] = [:]
+        if let user = UserService.instance.getCurrentUser() {
+            parameters["uid"] = user.id
+        }
+        
+        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/user", parameters: parameters).responseJSON { response in
+            var events: [Event] = []
+            
+            if let result = response.result.value {
+                let json = JSON(result)
+                
+                for (_, subJson): (String, JSON) in json {
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+                    let date = dateFormatter.date(from: subJson["first_date"].stringValue)
+                    let endDate = dateFormatter.date(from: subJson["last_date"].stringValue)
+                    
+                    let event = Event(
+                        id: subJson["eid"].stringValue,
+                        title: subJson["title"].stringValue,
+                        url: subJson["url"].stringValue,
+                        date: date! as NSDate,
+                        endDate: endDate! as NSDate,
+                        isAllDay: subJson["all_day"] == "true",
+                        location: subJson["location"].stringValue,
+                        description: subJson["description"].stringValue
+                    )
+                    
+                    for (_, photo): (String, JSON) in subJson["photos"] {
+                        event.photos.append(photo.stringValue)
+                    }
+                    
+                    event.geo["latitude"] = subJson["geo"]["latitude"].stringValue
+                    event.geo["longitude"] = subJson["geo"]["longitude"].stringValue
+                    
+                    for category in subJson["categories"].arrayValue {
+                        event.categories.append(category.stringValue)
+                    }
+                    
+                    if subJson["liked"].stringValue == "true" {
+                        event.liked = true
+                    }
+                    
+                    if subJson["owned"].stringValue == "true" {
+                        event.owned = true
+                    }
+                    
+                    print(event.liked, event.owned)
+                    events.append(event)
+                }
+            }
+            
+            callback(events)
+        }
+    }
+    
 /*:
  EventService.instance.getAllCategories() { categories in
      for category in categories {
