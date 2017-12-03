@@ -10,8 +10,11 @@ import UIKit
 import FacebookLogin
 import FacebookCore
 import FBSDKLoginKit
+import GoogleSignIn
+import GGLCore
 
-class LoginView: UIView {
+class LoginView: UIView, GIDSignInDelegate, GIDSignInUIDelegate {
+    
     let popoverMenu = PopOverView()
     public var parentImg: UIImageView?
     public var parentName: UILabel?
@@ -45,7 +48,7 @@ class LoginView: UIView {
             titleLabel.alpha = 1
         }, completion: nil)
         
-        
+        // Facebook button
         let facebookBtn: UIButton = {
             let button = UIButton(frame: CGRect(x: 10, y: titleLabel.frame.height + 90, width: frame.width - 20, height: 40))
             let imageView = UIImageView(frame: CGRect(x: 50, y: 6, width: 29, height: 29))
@@ -113,7 +116,7 @@ class LoginView: UIView {
             fbLogoutBtn.alpha = 1
         }, completion: nil)
         
-        
+        // Demo user button
         let demoBtn: UIButton = {
             let button = UIButton(frame: CGRect(x: 10, y: facebookBtn.frame.maxY + 70, width: frame.width - 20, height: 40))
             button.alpha = 0
@@ -123,7 +126,6 @@ class LoginView: UIView {
             button.setTitle("Demo User Login", for: .normal)
             button.setTitleColor(.white, for: .normal)
             button.isUserInteractionEnabled = true
-            //            button.addTarget(self, action: nil, for: .touchUpInside)
             button.titleLabel?.textColor = .white
             button.addTarget(self, action: #selector(demoLogin), for: .touchUpInside)
             
@@ -136,6 +138,23 @@ class LoginView: UIView {
             demoBtn.alpha = 1
         }, completion: nil)
         
+        // Google button
+        var error: NSError?
+        GGLContext.sharedInstance().configureWithError(&error)
+        if error != nil {
+            print(error ?? "some error")
+            return
+        }
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
+        let googleSignInButton = GIDSignInButton(frame: CGRect(x: 10, y: demoBtn.frame.maxY + 90, width: frame.width - 20, height: 40))
+        googleSignInButton.alpha = 0
+        self.addSubview(googleSignInButton)
+        UIButton.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseOut, animations: {
+            googleSignInButton.frame.origin.y = demoBtn.frame.maxY + 20
+            googleSignInButton.alpha = 1
+        }, completion: nil)
+        
         self.sizeToFit()
         blurEffectView.sizeToFit()
         popoverMenu.presentView(self)
@@ -145,6 +164,7 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Facebook Login
     @objc func fbLogout(_ sender: UIButton) {
         let loginManager = LoginManager()
         loginManager.logOut()
@@ -196,6 +216,7 @@ class LoginView: UIView {
         }
     }
     
+    // MARK: - Demo Login
     @objc func demoLogin() {
         loadingView = parentVC?.activityIndicator("Loading......")
         
@@ -212,6 +233,16 @@ class LoginView: UIView {
             self.popoverMenu.dismiss()
         }
     }
+    
+    // MARK: - Google Login
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if error != nil {
+            print(error ?? "some error")
+            return
+        }
+    }
+    
+    
     
     
     /*
