@@ -20,6 +20,12 @@ class EventService {
         if let user = UserService.instance.getCurrentUser() {
             parameters["uid"] = user.id
         }
+        if let sources = defaults.array(forKey: "CurrentSources") {
+            parameters["sources"] = (sources as! [String]).joined(separator: ",")
+        }
+        if let categories = defaults.array(forKey: "CurrentCategories") {
+            parameters["categories"] = (categories as! [String]).joined(separator: ",")
+        }
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost"), parameters: parameters).responseJSON { response in
             var events: [Event] = []
@@ -64,7 +70,6 @@ class EventService {
                         event.owned = true
                     }
                     
-                    print(event.liked, event.owned)
                     events.append(event)
                 }
             }
@@ -122,7 +127,6 @@ class EventService {
                         event.owned = true
                     }
                     
-                    print(event.liked, event.owned)
                     events.append(event)
                 }
             }
