@@ -7,15 +7,25 @@
 //
 
 import UIKit
+import MaterialComponents
 
-class InkOverlay: UIView {
+class InkOverlay: UIView, MDCInkTouchControllerDelegate {
+    
+    fileprivate var inkTouchController: MDCInkTouchController?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+        self.inkTouchController = MDCInkTouchController(view:self)
+        self.inkTouchController!.addInkView()
+        self.inkTouchController!.delegate = self
     }
-    */
-
+    
+    required init(coder: NSCoder) {
+        super.init(coder: coder)!
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
 }
