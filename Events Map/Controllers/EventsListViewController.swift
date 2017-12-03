@@ -30,9 +30,8 @@ class EventsListViewController: MDCCollectionViewController {
         activityIndicator.startAnimating()
         collectionView?.addSubview(activityIndicator)
         EventService.instance.getAllUserEvents { (events) in
-            self.events = events
+            self.events = events.reversed()
             self.collectionView?.reloadData()
-            activityIndicator.stopAnimating()
             activityIndicator.removeFromSuperview()
         }
         // Uncomment the following line to preserve selection between presentations

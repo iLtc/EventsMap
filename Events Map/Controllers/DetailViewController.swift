@@ -67,8 +67,14 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         
         // ToolBar UI
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        button.setImage(UIImage(named: "Star"), for: .normal)
-        button.addTarget(self, action: #selector(like), for: .touchUpInside)
+        if event.liked {
+            button.setImage(UIImage(named: "Favorites"), for: .normal)
+            button.addTarget(self, action: #selector(unlike), for: .touchUpInside)
+            
+        } else {
+            button.setImage(UIImage(named: "Star"), for: .normal)
+            button.addTarget(self, action: #selector(like), for: .touchUpInside)
+        }
         starBtn = UIBarButtonItem(customView: button)
         
         calendarBtn = UIBarButtonItem(image: UIImage(named: "Calendar"), style: .done, target: self, action: #selector(saveCalendarAlert(_:)))

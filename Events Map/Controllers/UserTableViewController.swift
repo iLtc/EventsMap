@@ -35,17 +35,17 @@ class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignI
         
         self.navigationItem.largeTitleDisplayMode = .always
         
-        var error: NSError?
-        GGLContext.sharedInstance().configureWithError(&error)
-        if error != nil {
-            print(error ?? "some error")
-            return
-        }
-        GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().delegate = self
-        let googleSignInButton = GIDSignInButton()
-        googleSignInButton.center = view.center
-        view.addSubview(googleSignInButton)
+//        var error: NSError?
+//        GGLContext.sharedInstance().configureWithError(&error)
+//        if error != nil {
+//            print(error ?? "some error")
+//            return
+//        }
+//        GIDSignIn.sharedInstance().uiDelegate = self
+//        GIDSignIn.sharedInstance().delegate = self
+//        let googleSignInButton = GIDSignInButton()
+//        googleSignInButton.center = view.center
+//        view.addSubview(googleSignInButton)
 
         
 

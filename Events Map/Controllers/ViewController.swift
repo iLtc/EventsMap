@@ -194,12 +194,15 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         let likeBtn: UIButton = {
             let button = UIButton(frame: CGRect(x: 15, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
-            button.setImage(UIImage(named: "star-default"), for: .normal)
+            if self.event.liked {
+                button.setImage(UIImage(named: "star-filled"), for: .normal)
+            } else {
+                button.setImage(UIImage(named: "star-default"), for: .normal)
+            }
             
             button.backgroundColor = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
             button.layer.cornerRadius = 8
             button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
-            button.tag = 0
             return button
         }()
         
@@ -213,7 +216,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             button.backgroundColor = .lightGray
             
             button.layer.cornerRadius = 8
-//            button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
             return button
         }()
         
@@ -263,10 +265,10 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         },
                        completion: { Void in
                         })
-        if sender.tag == 0 {
-            self.like(sender)
-        } else if sender.tag == 1 {
+        if self.event.liked {
             self.unlike(sender)
+        } else {
+            self.like(sender)
         }
         
     }
@@ -275,7 +277,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         if event.like() {
             print("Liked")
             sender.setImage(UIImage(named: "star-filled"), for: .normal)
-            sender.tag = 1
             
         } else {
             let alertController = MDCAlertController(title: nil, message: "You need to login.")
@@ -295,7 +296,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         print("unlike")
         event.unlike()
         sender.setImage(UIImage(named: "star-default"), for: .normal)
-        sender.tag = 0
     }
     
     @objc func shareBtnPressed(_ sender: UIButton) {
