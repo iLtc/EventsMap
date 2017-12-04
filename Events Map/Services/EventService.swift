@@ -257,4 +257,10 @@ class EventService {
             }
         }
     }
+    
+    func countViews(_ event: Event) {
+        let parameters = ["eid": event.id]
+        
+        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/views", method: .post, parameters: parameters)
+    }
 }
