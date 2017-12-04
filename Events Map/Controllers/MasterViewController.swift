@@ -81,7 +81,7 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
         let rightBar = MDCButtonBar()
         
         let searchActionItem = UIBarButtonItem(image: UIImage(named: "Search-blue"), style: .done, target: self, action: #selector(searchEvent))
-        let filterActionItem = UIBarButtonItem(image: UIImage(named: "Filter"), style: .done, target: self, action: #selector(showFilter))
+        let filterActionItem = UIBarButtonItem(image: MDCIcons.imageFor_ic_reorder(), style: .done, target: self, action: #selector(showFilter))
         
         
         rightBar.items = [searchActionItem, filterActionItem]
