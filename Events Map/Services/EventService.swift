@@ -70,6 +70,18 @@ class EventService {
                         event.owned = true
                     }
                     
+                    if subJson["likes"].stringValue != "null" {
+                        if let likes = Int(subJson["likes"].stringValue) {
+                            event.likes = likes
+                        }
+                    }
+                    
+                    if subJson["views"].stringValue != "null" {
+                        if let views = Int(subJson["views"].stringValue) {
+                            event.views = views
+                        }
+                    }
+                    
                     events.append(event)
                 }
             }
@@ -125,6 +137,18 @@ class EventService {
                     
                     if subJson["owned"].stringValue == "true" {
                         event.owned = true
+                    }
+                    
+                    if subJson["likes"].stringValue != "null" {
+                        if let likes = Int(subJson["likes"].stringValue) {
+                            event.likes = likes
+                        }
+                    }
+                    
+                    if subJson["views"].stringValue != "null" {
+                        if let views = Int(subJson["views"].stringValue) {
+                            event.views = views
+                        }
                     }
                     
                     events.append(event)
