@@ -99,6 +99,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
             setCloseBtn()
         }
         
+        event.countViews()
     }
 
     override func didReceiveMemoryWarning() {
