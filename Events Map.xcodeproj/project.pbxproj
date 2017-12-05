@@ -34,6 +34,7 @@
 		2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */; };
 		2D1ABD151FCA0963004DAF67 /* CircularTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */; };
 		2D2D61B71FD5B4ED0028B9AF /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */; };
+		2D2D61B91FD620200028B9AF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61B81FD620200028B9AF /* DetailView.swift */; };
 		2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */; };
 		2D7093971FD0BD9000F5A538 /* AddEventTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */; };
 		2D957CA61FD3590D00E1B6FD /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */; };
@@ -44,7 +45,6 @@
 		2D957CAF1FD3A9FA00E1B6FD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */; };
 		2D957CB71FD3B2E900E1B6FD /* EventsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */; };
 		2D957CB91FD3D0D900E1B6FD /* InkOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */; };
-		2D957CBD1FD4DEC600E1B6FD /* DetailCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CBC1FD4DEC600E1B6FD /* DetailCardViewController.swift */; };
 		2D957CBF1FD504CD00E1B6FD /* ExpandTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CBE1FD504CD00E1B6FD /* ExpandTransition.swift */; };
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
@@ -103,6 +103,7 @@
 		2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTransition.swift; sourceTree = "<group>"; };
 		2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
+		2D2D61B81FD620200028B9AF /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
 		2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEventTableViewController.xib; sourceTree = "<group>"; };
 		2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -113,7 +114,6 @@
 		2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListCell.swift; sourceTree = "<group>"; };
 		2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkOverlay.swift; sourceTree = "<group>"; };
-		2D957CBC1FD4DEC600E1B6FD /* DetailCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardViewController.swift; sourceTree = "<group>"; };
 		2D957CBE1FD504CD00E1B6FD /* ExpandTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandTransition.swift; sourceTree = "<group>"; };
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -234,8 +234,8 @@
 				2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */,
 				2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */,
 				2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */,
-				2D957CBC1FD4DEC600E1B6FD /* DetailCardViewController.swift */,
 				2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */,
+				2D2D61B81FD620200028B9AF /* DetailView.swift */,
 				2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */,
 				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
@@ -523,6 +523,7 @@
 				2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */,
 				8C26AEF91FCF398500F2A9A9 /* SourceViewController.swift in Sources */,
 				24CDE2E91FC7D2850051C3BB /* UserTableViewController.swift in Sources */,
+				2D2D61B91FD620200028B9AF /* DetailView.swift in Sources */,
 				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
 				8C2E12471FD348250056512C /* google-login.m in Sources */,
@@ -547,7 +548,6 @@
 				24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */,
 				243887AA1FAF8635000C012C /* EventModel.swift in Sources */,
 				2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */,
-				2D957CBD1FD4DEC600E1B6FD /* DetailCardViewController.swift in Sources */,
 				2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */,
 				2D957CAF1FD3A9FA00E1B6FD /* EventsListViewController.swift in Sources */,
 				242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */,
