@@ -251,6 +251,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
     
     // MARK: - Google Login
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        print(user)
         if error != nil {
             print(error ?? "some error")
             return
