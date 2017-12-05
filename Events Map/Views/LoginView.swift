@@ -13,7 +13,7 @@ import FBSDKLoginKit
 import GoogleSignIn
 import GGLCore
 
-class LoginView: UIView, GIDSignInDelegate, GIDSignInUIDelegate {
+class LoginView: UIView, GIDSignInUIDelegate {
     
     let popoverMenu = PopOverView()
     public var parentImg: UIImageView?
@@ -146,7 +146,6 @@ class LoginView: UIView, GIDSignInDelegate, GIDSignInUIDelegate {
             return
         }
         GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().delegate = self
         let googleSignInButton = GIDSignInButton(frame: CGRect(x: 10, y: demoBtn.frame.maxY + 90, width: frame.width - 20, height: 40))
         googleSignInButton.alpha = 0
         self.addSubview(googleSignInButton)
@@ -158,6 +157,22 @@ class LoginView: UIView, GIDSignInDelegate, GIDSignInUIDelegate {
         self.sizeToFit()
         blurEffectView.sizeToFit()
         popoverMenu.presentView(self)
+        
+    }
+    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
+    }
+    
+    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
+        self.parentVC?.present(viewController, animated: true, completion: nil)
+    }
+
+    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
+        self.parentVC?.dismiss(animated: true, completion: nil)
+    }
+    
+    // Google sign out
+    func didTapSignOut(sender: AnyObject) {
+        GIDSignIn.sharedInstance().signOut()
     }
     
     required init?(coder aDecoder: NSCoder) {

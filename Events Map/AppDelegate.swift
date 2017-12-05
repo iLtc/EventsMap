@@ -13,17 +13,30 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import UserNotifications
 import GoogleSignIn
+import FirebaseCore
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate{
-
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
+    
     var window: UIWindow?
     var isNotify: Bool = false
-
-    func application(_app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print(error.localizedDescription)
+            return
+        }
+        print("User signin google")
     }
     
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user:GIDGoogleUser!,
+                withError error: Error!) {
+        print("Sign out Google" )
+    }
+    
+    func application(_ _app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -33,7 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        
+        GIDSignIn.sharedInstance().delegate = self
+
         var mainViewController = UIViewController()
         let userDefault = UserDefaults.standard
         if userDefault.bool(forKey: "GetStarted") {
