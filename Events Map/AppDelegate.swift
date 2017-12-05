@@ -14,6 +14,7 @@ import FBSDKLoginKit
 import UserNotifications
 import GoogleSignIn
 import FirebaseCore
+import GGLCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
@@ -26,7 +27,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
             print(error.localizedDescription)
             return
         }
-        print(user)
+        
+        if let vc = AppDelegate.getCurrentViewController() as? UserTableViewController {
+            let loadingView = vc.activityIndicator("Loading......")
+            let imageURL = user.profile.imageURL(withDimension: 320)!
+            
+            UserService.instance.addUser(pid: user.userID, name: user.profile.name, picURL: imageURL.absoluteString, platform:.google) { user in
+                loadingView.removeFromSuperview()
+                
+                let image = UIImage.gif(url: user.picURL)!
+                
+                vc.UserImage.image = image.resizeImage(targetSize: (vc.UserImage.frame.size))
+                vc.UserName.text = user.name
+                vc.tableView.reloadData()
+            }
+        }
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user:GIDGoogleUser!,
@@ -42,6 +57,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.makeKeyAndVisible()
+        
+        var configureError: NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
         GIDSignIn.sharedInstance().delegate = self
 
         var mainViewController = UIViewController()
@@ -68,6 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        print(url)
         if url.scheme == "fb444439642616561" {
             return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         }
@@ -205,6 +225,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         print("Notification Reset")
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         isNotify = false
+    }
+    
+    // Returns the most recently presented UIViewController (visible)
+    class func getCurrentViewController() -> UIViewController? {
+        
+        // If the root view is a navigation controller, we can just return the visible ViewController
+        if let navigationController = getNavigationController() {
+            
+            return navigationController.visibleViewController
+        }
+        
+        // Otherwise, we must get the root UIViewController and iterate through presented views
+        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+            
+            var currentController: UIViewController! = rootController
+            
+            // Each ViewController keeps track of the view it has presented, so we
+            // can move from the head to the tail, which will always be the current view
+            while( currentController.presentedViewController != nil ) {
+                
+                currentController = currentController.presentedViewController
+            }
+            return currentController
+        }
+        return nil
+    }
+    
+    // Returns the navigation controller if it exists
+    class func getNavigationController() -> UINavigationController? {
+        
+        if let navigationController = UIApplication.shared.keyWindow?.rootViewController  {
+            
+            return navigationController as? UINavigationController
+        }
+        return nil
     }
 }
 

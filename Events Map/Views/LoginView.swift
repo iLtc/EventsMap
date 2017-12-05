@@ -242,5 +242,6 @@ class LoginView: UIView, GIDSignInUIDelegate {
             print(error ?? "some error")
             return
         }
+        print(123)
     }
 }
