@@ -181,12 +181,13 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let vc = DetailViewController()
         vc.event = events[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
         
-        tableView.deselectRow(at: indexPath, animated: true)
     }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

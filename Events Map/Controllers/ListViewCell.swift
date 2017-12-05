@@ -15,7 +15,7 @@ class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
     @IBOutlet weak var eventImageView: UIImageView!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventLocationLabel: UILabel!
-    
+    fileprivate var inkOverlay = InkOverlay()
     var event: Event?
     
     override func awakeFromNib() {
@@ -24,6 +24,10 @@ class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
  self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
         self.isUserInteractionEnabled = true
         self.selectionStyle = .none
+        
+        inkOverlay.frame = self.bounds
+        inkOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(inkOverlay)
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
@@ -42,6 +46,11 @@ class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
 
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView?.image = nil
     }
     
     
