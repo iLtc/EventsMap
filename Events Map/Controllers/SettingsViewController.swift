@@ -29,7 +29,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         notiSwitch.setOn((appDelegate?.isNotify)!, animated: true)
         
         notiSwitch.addTarget(self, action: #selector(switchIsChanged(_:)), for: .valueChanged)
-        self.navigationItem.title = "User"
+        self.navigationItem.title = "Settings"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -122,7 +122,8 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         case 1:
             switch indexPath.row {
             case 0:
-                break
+                let vc = AboutTableViewController(style: .grouped)
+                self.navigationController?.pushViewController(vc, animated: true)
             case 1:
                 sendEmail()
             default:

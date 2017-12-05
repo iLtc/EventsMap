@@ -42,7 +42,7 @@ class CategoryViewController: UITableViewController {
         self.navigationItem.title = "Category"
         self.tableView.allowsMultipleSelection = true
         let rightButtonItem = UIBarButtonItem.init(
-            title: "Done",
+            title: "Select All",
             style: .done,
             target: self,
             action: #selector(rightButtonAction(sender:))
@@ -51,7 +51,21 @@ class CategoryViewController: UITableViewController {
     }
     
     @objc func rightButtonAction(sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
+        if sender.title == "Select All" {
+            EventService.instance.setCategories(categories: category)
+            for cell in tableView.visibleCells {
+                cell.accessoryType = .checkmark
+            }
+            sender.title = "Empty"
+        }
+        else {
+            sender.title = "Select All"
+            let empty:[String] = []
+            EventService.instance.setCategories(categories: empty)
+            for cell in tableView.visibleCells {
+                cell.accessoryType = .none
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

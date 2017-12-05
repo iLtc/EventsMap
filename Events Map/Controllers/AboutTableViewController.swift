@@ -1,27 +1,26 @@
 //
-//  SortViewController.swift
+//  AboutTableViewController.swift
 //  Events Map
 //
-//  Created by ricardo on 11/30/17.
+//  Created by Alan Luo on 12/4/17.
 //  Copyright © 2017 The University of Iowa. All rights reserved.
 //
 
 import UIKit
 
-class SortViewController: UITableViewController {
-
-    let Time:[String] = ["Today", "Tomorrow", "This Week"]
-    let Popularity:[String] = ["Most Viewed", "Most Liked"]
+class AboutTableViewController: UITableViewController {
+    
     override init(style: UITableViewStyle) {
-        super.init(style: .grouped)
+        super.init(style: style)
+        tableView.separatorStyle = .none
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Sort"
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -29,6 +28,7 @@ class SortViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -38,43 +38,23 @@ class SortViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if section == 0 {
-            return 3
-        }
-        else {
-           return 2
-        }
+        return 0
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Time"
-        }
-        else {
-            return "Popularity"
-        }
-    }
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        if indexPath.section == 0 {
-            cell.textLabel?.text = Time[indexPath.row]
-        }
-        else {
-            cell.textLabel?.text = Popularity[indexPath.row]
-        }
-        cell.accessoryType = .none
-        cell.selectionStyle = .default // to prevent cells from being "highlighted"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+
+        // Configure the cell...
+
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
+    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -120,5 +100,5 @@ class SortViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
