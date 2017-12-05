@@ -122,7 +122,8 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         case 1:
             switch indexPath.row {
             case 0:
-                break
+                let vc = AboutTableViewController(style: .grouped)
+                self.navigationController?.pushViewController(vc, animated: true)
             case 1:
                 sendEmail()
             default:
