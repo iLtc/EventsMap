@@ -30,9 +30,12 @@
 		24CA0E341FC8BDEF00D1AEDF /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CA0E331FC8BDEF00D1AEDF /* ListViewController.swift */; };
 		24CDE2E91FC7D2850051C3BB /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */; };
 		24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CFC58B1FC62DDC003C9BA3 /* UserService.swift */; };
+		24DCFDF91FD61C200031CACF /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DCFDF71FD61C200031CACF /* AboutTableViewController.swift */; };
+		24DCFDFA1FD61C200031CACF /* AboutTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24DCFDF81FD61C200031CACF /* AboutTableViewController.xib */; };
 		2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */; };
 		2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */; };
 		2D1ABD151FCA0963004DAF67 /* CircularTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */; };
+		2D2D61B71FD5B4ED0028B9AF /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */; };
 		2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */; };
 		2D7093971FD0BD9000F5A538 /* AddEventTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */; };
 		2D957CA61FD3590D00E1B6FD /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */; };
@@ -43,6 +46,8 @@
 		2D957CAF1FD3A9FA00E1B6FD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */; };
 		2D957CB71FD3B2E900E1B6FD /* EventsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */; };
 		2D957CB91FD3D0D900E1B6FD /* InkOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */; };
+		2D957CBD1FD4DEC600E1B6FD /* DetailCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CBC1FD4DEC600E1B6FD /* DetailCardViewController.swift */; };
+		2D957CBF1FD504CD00E1B6FD /* ExpandTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CBE1FD504CD00E1B6FD /* ExpandTransition.swift */; };
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
@@ -96,9 +101,12 @@
 		24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewController.swift; sourceTree = "<group>"; };
 		24CFC58A1FC61944003C9BA3 /* Events Map.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Events Map.entitlements"; sourceTree = "<group>"; };
 		24CFC58B1FC62DDC003C9BA3 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		24DCFDF71FD61C200031CACF /* AboutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
+		24DCFDF81FD61C200031CACF /* AboutTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutTableViewController.xib; sourceTree = "<group>"; };
 		2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTransition.swift; sourceTree = "<group>"; };
+		2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
 		2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
 		2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEventTableViewController.xib; sourceTree = "<group>"; };
 		2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +117,8 @@
 		2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListCell.swift; sourceTree = "<group>"; };
 		2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkOverlay.swift; sourceTree = "<group>"; };
+		2D957CBC1FD4DEC600E1B6FD /* DetailCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardViewController.swift; sourceTree = "<group>"; };
+		2D957CBE1FD504CD00E1B6FD /* ExpandTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandTransition.swift; sourceTree = "<group>"; };
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
@@ -204,6 +214,7 @@
 				244520521FC3756500D1B956 /* DatePick.swift */,
 				2D9816D71FC4E86100CDBF44 /* LoginView.swift */,
 				2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */,
+				2D957CBE1FD504CD00E1B6FD /* ExpandTransition.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,9 +238,12 @@
 				2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */,
 				2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */,
 				2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */,
+				2D957CBC1FD4DEC600E1B6FD /* DetailCardViewController.swift */,
+				2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */,
 				2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */,
 				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
+				24DCFDF71FD61C200031CACF /* AboutTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -242,6 +256,7 @@
 				24CA0E2C1FC8B50100D1AEDF /* ListViewCell.xib */,
 				2D957CA91FD35B8D00E1B6FD /* SearchTextCell.xib */,
 				2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */,
+				24DCFDF81FD61C200031CACF /* AboutTableViewController.xib */,
 				2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */,
 			);
 			path = Xibs;
@@ -392,6 +407,7 @@
 				243887AE1FAF89C7000C012C /* Config.plist in Resources */,
 				2D957CA71FD3590D00E1B6FD /* SearchViewController.xib in Resources */,
 				8C2E12441FD347E60056512C /* GoogleService-Info.plist in Resources */,
+				24DCFDFA1FD61C200031CACF /* AboutTableViewController.xib in Resources */,
 				242505F71FA2B21E006E0408 /* LaunchScreen.storyboard in Resources */,
 				242505F41FA2B21E006E0408 /* Assets.xcassets in Resources */,
 				24CA0E2E1FC8B50100D1AEDF /* ListViewCell.xib in Resources */,
@@ -520,6 +536,8 @@
 				2D957CA61FD3590D00E1B6FD /* SearchViewController.swift in Sources */,
 				2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */,
 				24CA0E321FC8B97D00D1AEDF /* resize-image.swift in Sources */,
+				2D957CBF1FD504CD00E1B6FD /* ExpandTransition.swift in Sources */,
+				24DCFDF91FD61C200031CACF /* AboutTableViewController.swift in Sources */,
 				8C46AF341FCB804100ABA5FC /* CategoryViewController.swift in Sources */,
 				2D957CB91FD3D0D900E1B6FD /* InkOverlay.swift in Sources */,
 				2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */,
@@ -533,9 +551,11 @@
 				8C2E12491FD349610056512C /* SortViewController.swift in Sources */,
 				24CA0E2D1FC8B50100D1AEDF /* ListViewCell.swift in Sources */,
 				2D957CB71FD3B2E900E1B6FD /* EventsListCell.swift in Sources */,
+				2D2D61B71FD5B4ED0028B9AF /* CardDetailViewController.swift in Sources */,
 				24CFC58C1FC62DDC003C9BA3 /* UserService.swift in Sources */,
 				243887AA1FAF8635000C012C /* EventModel.swift in Sources */,
 				2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */,
+				2D957CBD1FD4DEC600E1B6FD /* DetailCardViewController.swift in Sources */,
 				2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */,
 				2D957CAF1FD3A9FA00E1B6FD /* EventsListViewController.swift in Sources */,
 				242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */,

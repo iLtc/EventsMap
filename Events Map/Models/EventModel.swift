@@ -19,6 +19,8 @@ class Event {
     public var description: String
     public var liked = false
     public var owned = false
+    public var views = 0
+    public var likes = 0
     public var photos: [String] = []
     public var geo: [String: String] = [
         "latitude": "",
@@ -58,6 +60,10 @@ class Event {
     
     func save(_ callback: @escaping ((Event) -> Void) ) {
         EventService.instance.addEvent(self, callback)
+    }
+    
+    func countViews() {
+        EventService.instance.countViews(self)
     }
     
     func debug() -> String {
