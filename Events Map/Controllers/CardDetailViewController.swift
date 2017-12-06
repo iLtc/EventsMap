@@ -22,6 +22,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     let moreBtn = MDCFloatingButton()
     let likesBtn = MDCFloatingButton()
     let calendarBtn = MDCFloatingButton()
+    let viewsBtn = MDCFloatingButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -85,6 +86,14 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         calendarBtn.sizeToFit()
         calendarBtn.addTarget(self, action: #selector(saveCalendarAlert(_:)), for: .touchUpInside)
         view.addSubview(calendarBtn)
+        // Likes button
+        viewsBtn.frame = CGRect(x: 30, y: view.frame.maxY - 253, width: 0, height: 0)
+        viewsBtn.setImage(#imageLiteral(resourceName: "md-people"), for: .normal)
+        viewsBtn.backgroundColor = UIColor(red:0.55, green:0.76, blue:0.29, alpha:1.0)
+        viewsBtn.alpha = 0
+        viewsBtn.sizeToFit()
+        viewsBtn.addTarget(self, action: #selector(viewsBtnPressed(_:)), for: .touchUpInside)
+        view.addSubview(viewsBtn)
         
         // AppBar view
         appBar.headerViewController.headerView.trackingScrollView = scrollView
@@ -243,8 +252,30 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         let highlightController = MDCFeatureHighlightViewController(highlightedView: sender, andShow: displayedButton, completion: completion)
         
         highlightController.titleColor = .white
-        highlightController.titleText = String(event.views)
+        highlightController.titleText = String(event.likes)
         highlightController.bodyText = "See how many people like this event."
+        highlightController.bodyColor = .white
+        highlightController.outerHighlightColor =
+            sender.backgroundColor!.withAlphaComponent(kMDCFeatureHighlightOuterHighlightAlpha)
+        present(highlightController, animated: true, completion:nil)
+        
+    }
+    
+    // Views button pressed
+    @objc func viewsBtnPressed(_ sender: MDCFloatingButton) {
+        // Highlight Controller
+        let completion = {(accepted: Bool) in
+            
+        }
+        let displayedButton = MDCFloatingButton(frame: sender.frame, shape: .largeIcon)
+        displayedButton.setImage(MDCIcons.imageFor_ic_arrow_back()?.withRenderingMode(.alwaysTemplate), for: .normal)
+        displayedButton.backgroundColor = sender.titleColor(for: .normal)
+        displayedButton.tintColor = sender.backgroundColor
+        let highlightController = MDCFeatureHighlightViewController(highlightedView: sender, andShow: displayedButton, completion: completion)
+        
+        highlightController.titleColor = .white
+        highlightController.titleText = String(event.views)
+        highlightController.bodyText = "See how many people viewed this event."
         highlightController.bodyColor = .white
         highlightController.outerHighlightColor =
             sender.backgroundColor!.withAlphaComponent(kMDCFeatureHighlightOuterHighlightAlpha)
@@ -270,6 +301,11 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 248
                 self.calendarBtn.alpha = 1
             }, completion: nil)
+            UIButton.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.viewsBtn.frame.origin.y = self.view.frame.maxY - 319
+                self.viewsBtn.alpha = 1
+            }, completion: nil)
         } else if sender.tag == 1 { // Collapse
             sender.tag = 0 // More close
             UIButton.animate(withDuration: 0.15, delay: 0.05, options: .curveEaseOut, animations: {
@@ -283,6 +319,11 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 182
                 self.calendarBtn.alpha = 0
+            }, completion: nil)
+            UIButton.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+                
+                self.viewsBtn.frame.origin.y = self.view.frame.maxY - 253
+                self.viewsBtn.alpha = 0
             }, completion: nil)
         }
     }
