@@ -142,7 +142,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         titleLabel.font = MDCTypography.titleFont()
         titleLabel.sizeToFit()
         titleLabel.alpha = 0
-        navigationItem.titleView = titleLabel
+        appBar.navigationBar.titleView = titleLabel
         
         shareBtn = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(share(_:)))
         shareBtn.image = UIImage(named: "md-share")
