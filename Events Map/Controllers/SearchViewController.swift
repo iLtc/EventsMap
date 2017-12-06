@@ -19,6 +19,13 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
     var filteredEvents = [Event]()
     private var isSearching = false
     
+    override func viewWillAppear(_ animated: Bool) {
+        EventService.instance.getEvents { (events) in
+            self.events = events
+            self.collectionView?.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,9 +39,6 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
 //        searchBar.delegate = self
 //        searchBar.showsCancelButton = true
 //        searchBar.becomeFirstResponder()
-        EventService.instance.getEvents { (events) in
-            self.events = events
-        }
         
         // AppBar view
         addChildViewController(appBar.headerViewController)

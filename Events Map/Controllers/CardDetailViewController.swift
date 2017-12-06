@@ -48,7 +48,6 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ViewDidLoad")
         
         
         view.backgroundColor = .white
@@ -163,6 +162,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
                 CATransaction.setAnimationTimingFunction(quantumEaseInOut)
                 self.scrollView.alpha = 1
             }, completion: { (finished) in
+                print("count", self.event.views)
                 self.event.countViews()
             })
         })
