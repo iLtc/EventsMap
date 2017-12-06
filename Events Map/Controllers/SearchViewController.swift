@@ -111,12 +111,16 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
+        let vc = CardDetailViewController()
+        var event = Event()
         if isSearching {
-            vc.event = filteredEvents[indexPath.row]
+            event = filteredEvents[indexPath.row]
+            
         } else {
-            vc.event = events[indexPath.row]
+            event = events[indexPath.row]
         }
+        vc.event = event
+        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
         present(vc, animated: true, completion: nil)
     }
     /*
