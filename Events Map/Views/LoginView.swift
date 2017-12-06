@@ -212,6 +212,12 @@ class LoginView: UIView, GIDSignInUIDelegate {
             return
         }
         GIDSignIn.sharedInstance().uiDelegate = self
+        
+        if let parentVC = parentVC as? UserTableViewController {
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            delegate.userTableViewController = parentVC
+        }
+        
         GIDSignIn.sharedInstance().signIn()
         
         popoverMenu.dismiss()
