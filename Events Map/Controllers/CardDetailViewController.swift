@@ -64,6 +64,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         moreBtn.frame = CGRect(x: 30, y: view.frame.maxY - 106, width: 0, height: 0)
         moreBtn.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
         moreBtn.setImage(#imageLiteral(resourceName: "md-more"), for: .normal)
+        moreBtn.alpha = 0
         moreBtn.tag = 0
         moreBtn.addTarget(self, action: #selector(moreBtnPressed), for: .touchUpInside)
         moreBtn.sizeToFit()
@@ -140,6 +141,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         titleLabel.text = event.title
         titleLabel.textColor = .white
         titleLabel.font = MDCTypography.titleFont()
+        titleLabel.numberOfLines = 0
         titleLabel.sizeToFit()
         titleLabel.alpha = 0
         appBar.navigationBar.titleView = titleLabel
@@ -158,6 +160,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         navigationItem.rightBarButtonItems = [shareBtn, likeBtn]
         DispatchQueue.main.async(execute: {
             UIView.animate(withDuration: 0.33, delay: 0.1, options: .curveEaseOut, animations: {
+                self.moreBtn.alpha = 1
                 let quantumEaseInOut = CAMediaTimingFunction.mdc_function(withType: .easeInOut)
                 CATransaction.setAnimationTimingFunction(quantumEaseInOut)
                 self.scrollView.alpha = 1
@@ -308,14 +311,14 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             }, completion: nil)
         } else if sender.tag == 1 { // Collapse
             sender.tag = 0 // More close
-            UIButton.animate(withDuration: 0.15, delay: 0.05, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.15, delay: 0.1, options: .curveEaseOut, animations: {
                 sender.setImage(#imageLiteral(resourceName: "md-more").withRenderingMode(.alwaysTemplate), for: .normal)
                 sender.tintColor = .white
                 sender.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
                 self.likesBtn.frame.origin.y = self.view.frame.maxY - 111
                 self.likesBtn.alpha = 0
             }, completion: nil)
-            UIButton.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.15, delay: 0.05, options: .curveEaseOut, animations: {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 182
                 self.calendarBtn.alpha = 0
@@ -376,6 +379,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             self.appBar.headerViewController.headerView.minimumHeight = self.headerContentView.frame.maxY
             self.headerContentView.alpha = scaleRatio
             self.appBar.headerViewController.headerView.shadowColor = .clear
+            
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
                 self.titleLabel.alpha = 0
 //                self.headerContentView.alpha = 1
