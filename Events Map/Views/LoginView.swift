@@ -75,14 +75,22 @@ class LoginView: UIView, GIDSignInUIDelegate {
             return button
         }()
         
-        let fbLogoutBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: 10, y: titleLabel.frame.height + 90, width: frame.width - 20, height: 40))
+        addSubview(facebookBtn)
+        
+        UIButton.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
+            facebookBtn.frame.origin.y = titleLabel.frame.height + 40
+            facebookBtn.alpha = 1
+        }, completion: nil)
+        
+        // Google button
+        let googleBtn: UIButton = {
+            let button = UIButton(frame: CGRect(x: 10, y: facebookBtn.frame.maxY + 70, width: frame.width - 20, height: 40))
             let imageView = UIImageView(frame: CGRect(x: 50, y: 6, width: 29, height: 29))
-            imageView.image = UIImage(named: "Facebook")
+            imageView.image = UIImage(named: "Google")
             button.addSubview(imageView)
             let label = UILabel()
-            label.text = "Logout"
-            label.textColor = .white
+            label.text = "Login with Google"
+            label.textColor = UIColor(red: 117/255, green: 117/255, blue: 117/255, alpha: 1)
             label.font = UIFont.boldSystemFont(ofSize: 20)
             label.textAlignment = .center
             label.sizeToFit()
@@ -92,33 +100,25 @@ class LoginView: UIView, GIDSignInUIDelegate {
             button.alpha = 0
             button.layer.cornerRadius = 4
             button.layer.shadowRadius = 4
-            button.backgroundColor = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
+            button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
             button.isUserInteractionEnabled = true
-            button.addTarget(self, action: #selector(fbLogout(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(gLogin(_:)), for: .touchUpInside)
             button.titleLabel?.textColor = .white
             button.clipsToBounds = true
-            button.setBackgroundColor(color: UIColor(red:0.43, green:0.52, blue:0.71, alpha:1.0), forState: .highlighted)
+            button.setBackgroundColor(color: UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1), forState: .highlighted)
             return button
         }()
-        if FBSDKAccessToken.current() == nil {
-            self.addSubview(facebookBtn)
-        } else {
-            self.addSubview(fbLogoutBtn)
-        }
+        
+        addSubview(googleBtn)
         
         UIButton.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
-            facebookBtn.frame.origin.y = titleLabel.frame.height + 40
-            facebookBtn.alpha = 1
-        }, completion: nil)
-        
-        UIButton.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
-            fbLogoutBtn.frame.origin.y = titleLabel.frame.height + 40
-            fbLogoutBtn.alpha = 1
+            googleBtn.frame.origin.y = facebookBtn.frame.maxY + 20
+            googleBtn.alpha = 1
         }, completion: nil)
         
         // Demo user button
         let demoBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: 10, y: facebookBtn.frame.maxY + 70, width: frame.width - 20, height: 40))
+            let button = UIButton(frame: CGRect(x: 10, y: googleBtn.frame.maxY + 70, width: frame.width - 20, height: 40))
             button.alpha = 0
             button.layer.cornerRadius = 4
             button.layer.shadowRadius = 4
@@ -133,25 +133,10 @@ class LoginView: UIView, GIDSignInUIDelegate {
         }()
         
         self.addSubview(demoBtn)
-        UIButton.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseOut, animations: {
-            demoBtn.frame.origin.y = facebookBtn.frame.maxY + 20
-            demoBtn.alpha = 1
-        }, completion: nil)
         
-        // Google button
-        var error: NSError?
-        GGLContext.sharedInstance().configureWithError(&error)
-        if error != nil {
-            print(error ?? "some error")
-            return
-        }
-        GIDSignIn.sharedInstance().uiDelegate = self
-        let googleSignInButton = GIDSignInButton(frame: CGRect(x: 10, y: demoBtn.frame.maxY + 90, width: frame.width - 20, height: 40))
-        googleSignInButton.alpha = 0
-        self.addSubview(googleSignInButton)
-        UIButton.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseOut, animations: {
-            googleSignInButton.frame.origin.y = demoBtn.frame.maxY + 20
-            googleSignInButton.alpha = 1
+        UIButton.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseOut, animations: {
+            demoBtn.frame.origin.y = googleBtn.frame.maxY + 20
+            demoBtn.alpha = 1
         }, completion: nil)
         
         self.sizeToFit()
@@ -159,7 +144,9 @@ class LoginView: UIView, GIDSignInUIDelegate {
         popoverMenu.presentView(self)
         
     }
-    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
@@ -170,24 +157,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
         self.parentVC?.dismiss(animated: true, completion: nil)
     }
     
-    // Google sign out
-    func didTapSignOut(sender: AnyObject) {
-        GIDSignIn.sharedInstance().signOut()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Facebook Login
-    @objc func fbLogout(_ sender: UIButton) {
-        let loginManager = LoginManager()
-        loginManager.logOut()
-        UserService.instance.logout()
-        self.parentImg?.image = UIImage(named: "Contacts")
-        popoverMenu.dismiss()
-    }
-    
     @objc func fbLogin(_ sender: UIButton) {
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions: [ .publicProfile], viewController: nil, completion: { (loginResult) in
@@ -231,6 +201,22 @@ class LoginView: UIView, GIDSignInUIDelegate {
         }
     }
     
+    // Mark: - Google Login
+    
+    @objc func gLogin(_ sender: UIButton) {
+        // Google button
+        var error: NSError?
+        GGLContext.sharedInstance().configureWithError(&error)
+        if error != nil {
+            print(error ?? "some error")
+            return
+        }
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().signIn()
+        
+        popoverMenu.dismiss()
+    }
+    
     // MARK: - Demo Login
     @objc func demoLogin() {
         loadingView = parentVC?.activityIndicator("Loading......")
@@ -251,21 +237,11 @@ class LoginView: UIView, GIDSignInUIDelegate {
     
     // MARK: - Google Login
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        print(user)
         if error != nil {
             print(error ?? "some error")
             return
         }
+        print(123)
     }
-    
-    
-    
-    
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }
