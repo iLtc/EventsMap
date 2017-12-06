@@ -21,7 +21,6 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         zoomableImageView = UIImageView(frame: .zero)
         zoomableImageView.backgroundColor = .clear
         zoomableImageView.contentMode = .scaleAspectFill
@@ -32,27 +31,6 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         self.view.addSubview(zoomableView)
         self.view.addSubview(zoomableImageView)
         
-        
-        let activityIndicator = MDCActivityIndicator(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        activityIndicator.center = CGPoint(x: view.frame.midX, y: 200)
-        let blue = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-        let teal = UIColor(red:0.00, green:0.59, blue:0.53, alpha:1.0)
-        let green = UIColor(red:0.30, green:0.69, blue:0.31, alpha:1.0)
-        let amber = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
-        let red = UIColor(red:0.96, green:0.26, blue:0.21, alpha:1.0)
-        activityIndicator.cycleColors = [blue, teal, green, amber, red]
-        activityIndicator.startAnimating()
-        collectionView?.addSubview(activityIndicator)
-        EventService.instance.getAllUserEvents { (events) in
-            self.events = events.reversed()
-//            for index in 0...events.count {
-//                let indexPath = IndexPath(item: index, section: 0)
-//                self.collectionView?.insertItems(at: [indexPath])
-//            }
-            
-            self.collectionView?.reloadData()
-            activityIndicator.removeFromSuperview()
-        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -75,13 +53,13 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         appBar.headerViewController.headerView.trackingScrollView = self.collectionView
         appBar.navigationBar.tintColor = UIColor.black
         appBar.addSubviewsToParent()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back",
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(dismissView)
         )
         
-        title = "Liked Events"
+        title = "Your Events"
     }
     
     @objc func dismissView() {
@@ -98,12 +76,17 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        view.tag = 1
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.collectionView?.collectionViewLayout.invalidateLayout()
         UIView.animate(withDuration: 0.15, animations: {
             self.appBar.headerViewController.view.alpha = 1
         }, completion: nil)
+        reload()
     }
     
     var cellFrame: CGRect?
@@ -174,14 +157,16 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
     }
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.alpha = 0
-        let transform = CATransform3DScale(CATransform3DIdentity, 0.8, 0.8, 1)
-        cell.layer.transform = transform
-        let delay = Double(indexPath.row % 3) * 0.1
-        UIView.animate(withDuration: 0.5, delay: delay, options: .curveEaseOut, animations: {
-            cell.alpha = 1
-            cell.layer.transform = CATransform3DIdentity
-        }, completion: nil)
+        if self.view.tag != 1 {
+            cell.alpha = 0
+            let transform = CATransform3DScale(CATransform3DIdentity, 0.8, 0.8, 1)
+            cell.layer.transform = transform
+            let delay = Double(indexPath.row % 3) * 0.1
+            UIView.animate(withDuration: 0.5, delay: delay, options: .curveEaseOut, animations: {
+                cell.alpha = 1
+                cell.layer.transform = CATransform3DIdentity
+            }, completion: nil)
+        }
 
     }
     /*
@@ -243,6 +228,27 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
                 })
             })
         }
+    }
+    
+    func reload() {
+        let activityIndicator = MDCActivityIndicator(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        activityIndicator.center = CGPoint(x: view.frame.midX, y: 200)
+        let blue = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+        let teal = UIColor(red:0.00, green:0.59, blue:0.53, alpha:1.0)
+        let green = UIColor(red:0.30, green:0.69, blue:0.31, alpha:1.0)
+        let amber = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
+        let red = UIColor(red:0.96, green:0.26, blue:0.21, alpha:1.0)
+        activityIndicator.cycleColors = [blue, teal, green, amber, red]
+        activityIndicator.startAnimating()
+        collectionView?.addSubview(activityIndicator)
+        EventService.instance.getAllUserEvents { (events) in
+            
+            self.events = events.reversed()
+            self.collectionView?.reloadData()
+            
+            activityIndicator.removeFromSuperview()
+        }
+        
     }
     // MARK: UICollectionViewDelegate
 
