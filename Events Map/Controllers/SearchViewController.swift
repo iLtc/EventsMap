@@ -164,11 +164,31 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
                 event = events[indexPath.row]
             }
             cell.textLabel?.text = event.title
-            
+            let startDate = event.date as Date
+            let endDate = event.endDate as Date
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE, MMM dd HH:mm"
+            let endFormatter = DateFormatter()
+            endFormatter.dateFormat = "HH:mm"
+            var eventStartDate = String()
+            var eventEndDate = String()
+            if (Calendar.current.isDate(startDate, inSameDayAs: endDate)) {
+                eventStartDate = formatter.string(from: startDate)
+                eventEndDate = endFormatter.string(from: endDate)
+            } else {
+                eventStartDate = formatter.string(from: startDate)
+                eventEndDate = formatter.string(from: endDate)
+                
+            }
+            cell.detailTextLabel?.text = eventStartDate + " - " + eventEndDate
             return cell
         } else {
             return MDCCollectionViewTextCell()
         }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 
     // MARK: UICollectionViewDelegate
