@@ -22,18 +22,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     var window: UIWindow?
     var isNotify: Bool = false
     
+    var userTableViewController: UserTableViewController?
+    var loadingView: UIView?
+    
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print(error.localizedDescription)
             return
         }
         
-        if let vc = AppDelegate.getCurrentViewController() as? UserTableViewController {
-            let loadingView = vc.activityIndicator("Loading......")
-            let imageURL = user.profile.imageURL(withDimension: 320)!
-            
-            UserService.instance.addUser(pid: user.userID, name: user.profile.name, picURL: imageURL.absoluteString, platform:.google) { user in
-                loadingView.removeFromSuperview()
+        if let vc = userTableViewController {
+            loadingView = vc.activityIndicator("Loading......")
+        }
+        
+        let imageURL = user.profile.imageURL(withDimension: 320)!
+        
+        UserService.instance.addUser(pid: user.userID, name: user.profile.name, picURL: imageURL.absoluteString, platform:.google) { user in
+            if let vc = self.userTableViewController {
+                self.loadingView?.removeFromSuperview()
                 
                 let image = UIImage.gif(url: user.picURL)!
                 
