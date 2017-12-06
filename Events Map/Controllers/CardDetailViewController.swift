@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 import MaterialComponents
 
 class CardDetailViewController: UIViewController, UIScrollViewDelegate {
@@ -18,7 +19,9 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     var cardHeaderView = UIView()
     let titleLabel = UILabel()
     var shareBtn = UIBarButtonItem()
-    let floatBtn = MDCFloatingButton()
+    let moreBtn = MDCFloatingButton()
+    let likesBtn = MDCFloatingButton()
+    let calendarBtn = MDCFloatingButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -56,13 +59,32 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(scrollView)
         scrollView.delegate = self
         
-        
-        floatBtn.frame = CGRect(x: 30, y: view.frame.maxY - 106, width: 0, height: 0)
-        floatBtn.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-        floatBtn.setImage(#imageLiteral(resourceName: "md-more"), for: .normal)
-        floatBtn.addTarget(self, action: #selector(floatBtnPressed(_:)), for: .touchUpInside)
-        floatBtn.sizeToFit()
-        view.addSubview(floatBtn)
+        // MARK: - Side function buttons
+        // More button
+        moreBtn.frame = CGRect(x: 30, y: view.frame.maxY - 106, width: 0, height: 0)
+        moreBtn.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+        moreBtn.setImage(#imageLiteral(resourceName: "md-more"), for: .normal)
+        moreBtn.tag = 0
+        moreBtn.addTarget(self, action: #selector(moreBtnPressed), for: .touchUpInside)
+        moreBtn.sizeToFit()
+        view.addSubview(moreBtn)
+        // Likes button
+        likesBtn.frame = CGRect(x: 30, y: view.frame.maxY - 111, width: 0, height: 0)
+        likesBtn.setImage(#imageLiteral(resourceName: "md-favorite"), for: .normal)
+        likesBtn.backgroundColor = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
+        likesBtn.alpha = 0
+        likesBtn.sizeToFit()
+        likesBtn.addTarget(self, action: #selector(likesBtnPressed(_:)), for: .touchUpInside)
+        view.addSubview(likesBtn)
+        // Calendar button
+        calendarBtn.frame = CGRect(x: 30, y: view.frame.maxY - 182, width: 0, height: 0)
+        calendarBtn.setImage(#imageLiteral(resourceName: "md-calendar").withRenderingMode(.alwaysTemplate), for: .normal)
+        calendarBtn.tintColor = .white
+        calendarBtn.backgroundColor = UIColor(red:0.96, green:0.26, blue:0.21, alpha:1.0)
+        calendarBtn.alpha = 0
+        calendarBtn.sizeToFit()
+        calendarBtn.addTarget(self, action: #selector(saveCalendarAlert(_:)), for: .touchUpInside)
+        view.addSubview(calendarBtn)
         
         // AppBar view
         appBar.headerViewController.headerView.trackingScrollView = scrollView
@@ -161,7 +183,55 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         // Do any additional setup after loading the view.
     }
     
-    @objc func floatBtnPressed(_ sender: MDCFloatingButton) {
+    // Mark: add to calendar alert
+    @objc func saveCalendarAlert(_ sender: Any) {
+        let alertController = MDCAlertController(title: nil, message: "Add this event to calendar.")
+        let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+        alertController.addAction(cancelAction)
+        let confirmAction = MDCAlertAction(title: "Add") { (action) in
+            self.addCalendarEvent(action)
+        }
+        alertController.addAction(confirmAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    // Mark: add calendar event method
+    func addCalendarEvent (_ sender: Any) {
+        let eventStore = EKEventStore()
+        
+        //let calendars = eventStore.calendars(for: .event)
+        
+        eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
+            if (granted) && (error == nil) {
+                
+                let newEvent = EKEvent(eventStore: eventStore)
+                newEvent.calendar = eventStore.defaultCalendarForNewEvents
+                newEvent.title = self.event.title
+                newEvent.location = self.event.location
+                newEvent.notes = self.event.description
+                newEvent.startDate = self.event.date as Date!
+                newEvent.endDate = self.event.endDate as Date!
+                newEvent.isAllDay = self.event.isAllDay
+                
+                do {
+                    try eventStore.save(newEvent, span: .thisEvent, commit: true)
+                    
+                    self.dismiss(animated: true, completion: nil)
+                } catch {
+                    let alert = MDCAlertController(title: nil, message: (error as NSError).localizedDescription)
+                    let OKAction = MDCAlertAction(title: "OK", handler: nil)
+                    alert.addAction(OKAction)
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }
+                
+            }
+        }
+    }
+    
+    // Likes button pressed
+    @objc func likesBtnPressed(_ sender: MDCFloatingButton) {
         // Highlight Controller
         let completion = {(accepted: Bool) in
             
@@ -173,14 +243,48 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         let highlightController = MDCFeatureHighlightViewController(highlightedView: sender, andShow: displayedButton, completion: completion)
         
         highlightController.titleColor = .white
-        highlightController.titleText = "Just how you want it"
-        highlightController.bodyText = "Tap the star button to like and unlike event, tap share button to share this event to your friends."
+        highlightController.titleText = String(event.views)
+        highlightController.bodyText = "See how many people like this event."
         highlightController.bodyColor = .white
         highlightController.outerHighlightColor =
             sender.backgroundColor!.withAlphaComponent(kMDCFeatureHighlightOuterHighlightAlpha)
         present(highlightController, animated: true, completion:nil)
         
+    }
+    
+    // More button pressed
+    @objc func moreBtnPressed(_ sender: MDCFloatingButton) {
         
+        if sender.tag == 0 { // Expand
+            
+            sender.tag = 1 // More open
+            UIButton.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                sender.setImage(#imageLiteral(resourceName: "md-collapse").withRenderingMode(.alwaysTemplate), for: .normal)
+                sender.tintColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+                sender.backgroundColor = .white
+                self.likesBtn.frame.origin.y = self.view.frame.maxY - 177
+                self.likesBtn.alpha = 1
+            }, completion: nil)
+            UIButton.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.calendarBtn.frame.origin.y = self.view.frame.maxY - 248
+                self.calendarBtn.alpha = 1
+            }, completion: nil)
+        } else if sender.tag == 1 { // Collapse
+            sender.tag = 0 // More close
+            UIButton.animate(withDuration: 0.15, delay: 0.05, options: .curveEaseOut, animations: {
+                sender.setImage(#imageLiteral(resourceName: "md-more").withRenderingMode(.alwaysTemplate), for: .normal)
+                sender.tintColor = .white
+                sender.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+                self.likesBtn.frame.origin.y = self.view.frame.maxY - 111
+                self.likesBtn.alpha = 0
+            }, completion: nil)
+            UIButton.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+                
+                self.calendarBtn.frame.origin.y = self.view.frame.maxY - 182
+                self.calendarBtn.alpha = 0
+            }, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
