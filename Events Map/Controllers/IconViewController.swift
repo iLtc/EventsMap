@@ -89,7 +89,7 @@ class IconViewController: UITableViewController {
     }
     
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return .slide
+        return .fade
     }
     
     override func didReceiveMemoryWarning() {
@@ -146,6 +146,10 @@ class IconViewController: UITableViewController {
             let headerView = appBar.headerViewController.headerView
             headerView.trackingScrollWillEndDragging(withVelocity: velocity, targetContentOffset: targetContentOffset)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat.MDFloat.listItemHeight
     }
     /*
     
