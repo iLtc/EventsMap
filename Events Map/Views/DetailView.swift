@@ -8,7 +8,7 @@
 
 import UIKit
 import MaterialComponents
-class testDetailView: UIScrollView {
+class DetailView: UIScrollView {
     
     var event: Event = Event()
     
@@ -66,7 +66,6 @@ class testDetailView: UIScrollView {
         titleLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(titleLabel)
         self.addSubview(titleIcon)
-        UIColor.black
         
         
         dateIcon.frame.origin = CGPoint(x: labelPadding, y: titleLabel.frame.maxY + labelPadding)
@@ -145,9 +144,9 @@ class testDetailView: UIScrollView {
         self.backgroundColor = .white
         
         self.contentSize = CGSize(width: self.frame.width, height: titleLabel.frame.size.height + dateLabel.frame.size.height + addressLabel.frame.size.height +  labelDesc.frame.size.height + 5*labelPadding)
-        inkOverlay.frame = CGRect(origin: .zero, size: contentSize)
-        inkOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.addSubview(inkOverlay)
+//        inkOverlay.frame = CGRect(origin: .zero, size: contentSize)
+//        inkOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        self.addSubview(inkOverlay)
     }
     
     

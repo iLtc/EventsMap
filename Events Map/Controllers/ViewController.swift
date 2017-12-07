@@ -420,8 +420,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         UIButton.animate(withDuration: 0.1) {
             sender.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         }
-        let vc = DetailViewController()
+        let vc = CardDetailViewController()
         vc.event = self.event
+        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -181,9 +181,10 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let vc = DetailViewController()
-        vc.event = events[indexPath.row]
+        let event = events[indexPath.row]
+        let vc = CardDetailViewController()
+        vc.event = event
+        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
         navigationController?.pushViewController(vc, animated: true)
         
     }

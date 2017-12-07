@@ -13,16 +13,17 @@ import MaterialComponents
 class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     
     var event: Event!
-    var scrollView = testDetailView()
+    var scrollView = DetailView()
     fileprivate let appBar = MDCAppBar()
     var headerContentView = UIImageView(frame: .zero)
     var cardHeaderView = UIView()
     let titleLabel = UILabel()
     var shareBtn = UIBarButtonItem()
     let moreBtn = MDCFloatingButton()
-    let likesBtn = MDCFloatingButton()
+    let webBtn = MDCFloatingButton()
     let calendarBtn = MDCFloatingButton()
     let viewsBtn = MDCFloatingButton()
+    let likesBtn = MDCFloatingButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -46,12 +47,26 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hide the navigation bar on the this view controller
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show the navigation bar on other view controllers
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         view.backgroundColor = .white
-        scrollView = testDetailView(frame: self.view.bounds)
+        scrollView = DetailView(frame: self.view.bounds)
         scrollView.alpha = 0
         scrollView.backgroundColor = .white
         scrollView.event = event
@@ -70,13 +85,13 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         moreBtn.sizeToFit()
         view.addSubview(moreBtn)
         // Likes button
-        likesBtn.frame = CGRect(x: 30, y: view.frame.maxY - 111, width: 0, height: 0)
-        likesBtn.setImage(#imageLiteral(resourceName: "md-favorite"), for: .normal)
-        likesBtn.backgroundColor = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
-        likesBtn.alpha = 0
-        likesBtn.sizeToFit()
-        likesBtn.addTarget(self, action: #selector(likesBtnPressed(_:)), for: .touchUpInside)
-        view.addSubview(likesBtn)
+        webBtn.frame = CGRect(x: 30, y: view.frame.maxY - 111, width: 0, height: 0)
+        webBtn.setImage(#imageLiteral(resourceName: "md-browser").withRenderingMode(.alwaysTemplate).tint(with: .white), for: .normal)
+        webBtn.backgroundColor = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
+        webBtn.alpha = 0
+        webBtn.sizeToFit()
+        webBtn.addTarget(self, action: #selector(openURL), for: .touchUpInside)
+        view.addSubview(webBtn)
         // Calendar button
         calendarBtn.frame = CGRect(x: 30, y: view.frame.maxY - 182, width: 0, height: 0)
         calendarBtn.setImage(#imageLiteral(resourceName: "md-calendar").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -86,7 +101,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         calendarBtn.sizeToFit()
         calendarBtn.addTarget(self, action: #selector(saveCalendarAlert(_:)), for: .touchUpInside)
         view.addSubview(calendarBtn)
-        // Likes button
+        // Views button
         viewsBtn.frame = CGRect(x: 30, y: view.frame.maxY - 253, width: 0, height: 0)
         viewsBtn.setImage(#imageLiteral(resourceName: "md-people"), for: .normal)
         viewsBtn.backgroundColor = UIColor(red:0.55, green:0.76, blue:0.29, alpha:1.0)
@@ -94,6 +109,15 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         viewsBtn.sizeToFit()
         viewsBtn.addTarget(self, action: #selector(viewsBtnPressed(_:)), for: .touchUpInside)
         view.addSubview(viewsBtn)
+        
+        // Likes button
+        likesBtn.frame = CGRect(x: 30, y: view.frame.maxY - 324, width: 0, height: 0)
+        likesBtn.setImage(#imageLiteral(resourceName: "md-favorite"), for: .normal)
+        likesBtn.backgroundColor = UIColor(red:0.91, green:0.12, blue:0.39, alpha:1.0)
+        likesBtn.alpha = 0
+        likesBtn.sizeToFit()
+        likesBtn.addTarget(self, action: #selector(likesBtnPressed(_:)), for: .touchUpInside)
+        view.addSubview(likesBtn)
         
         // AppBar view
         appBar.headerViewController.headerView.trackingScrollView = scrollView
@@ -141,7 +165,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         titleLabel.text = event.title
         titleLabel.textColor = .white
         titleLabel.font = MDCTypography.titleFont()
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 3
         titleLabel.sizeToFit()
         titleLabel.alpha = 0
         appBar.navigationBar.titleView = titleLabel
@@ -193,6 +217,15 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         
         // setHeaderView()
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func openURL() {
+        guard let url = URL(string: event.url) else {
+            return //be safe
+        }
+        let webViewController = WebViewController()
+        webViewController.url = url
+        present(webViewController, animated: true, completion: nil)
     }
     
     // Mark: add to calendar alert
@@ -292,41 +325,51 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         if sender.tag == 0 { // Expand
             
             sender.tag = 1 // More open
-            UIButton.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 sender.setImage(#imageLiteral(resourceName: "md-collapse").withRenderingMode(.alwaysTemplate), for: .normal)
                 sender.tintColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
                 sender.backgroundColor = .white
-                self.likesBtn.frame.origin.y = self.view.frame.maxY - 177
-                self.likesBtn.alpha = 1
+                self.webBtn.frame.origin.y = self.view.frame.maxY - 177
+                self.webBtn.alpha = 1
             }, completion: nil)
-            UIButton.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 248
                 self.calendarBtn.alpha = 1
             }, completion: nil)
-            UIButton.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
                 self.viewsBtn.frame.origin.y = self.view.frame.maxY - 319
                 self.viewsBtn.alpha = 1
             }, completion: nil)
+            UIButton.animate(withDuration: 0.4, delay: 0.3, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.likesBtn.frame.origin.y = self.view.frame.maxY - 390
+                self.likesBtn.alpha = 1
+            }, completion: nil)
         } else if sender.tag == 1 { // Collapse
             sender.tag = 0 // More close
-            UIButton.animate(withDuration: 0.15, delay: 0.1, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.15, delay: 0.15, options: .curveEaseOut, animations: {
                 sender.setImage(#imageLiteral(resourceName: "md-more").withRenderingMode(.alwaysTemplate), for: .normal)
                 sender.tintColor = .white
                 sender.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-                self.likesBtn.frame.origin.y = self.view.frame.maxY - 111
-                self.likesBtn.alpha = 0
+                self.webBtn.frame.origin.y = self.view.frame.maxY - 111
+                self.webBtn.alpha = 0
             }, completion: nil)
-            UIButton.animate(withDuration: 0.15, delay: 0.05, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.15, delay: 0.1, options: .curveEaseOut, animations: {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 182
                 self.calendarBtn.alpha = 0
             }, completion: nil)
-            UIButton.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+            UIButton.animate(withDuration: 0.15, delay: 0.05, options: .curveEaseOut, animations: {
                 
                 self.viewsBtn.frame.origin.y = self.view.frame.maxY - 253
                 self.viewsBtn.alpha = 0
+            }, completion: nil)
+            UIButton.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+                
+                self.likesBtn.frame.origin.y = self.view.frame.maxY - 324
+                self.likesBtn.alpha = 0
             }, completion: nil)
         }
     }
@@ -337,6 +380,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func dismissDetail() {
+        navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
