@@ -44,16 +44,13 @@ class testDetailView: UIScrollView {
         let title = event.title
         let desc = event.description
         let address = event.location
-        let likes = event.likes
-        let website = event.url
-        let views = event.views
         let labelPadding: CGFloat = 50
         
         titleIcon.frame.origin = CGPoint(x: labelPadding, y: labelPadding)
         titleLabel.font = MDCTypography.headlineFont()
         titleLabel.textColor = .black
         titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 0
         
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -69,7 +66,7 @@ class testDetailView: UIScrollView {
         titleLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(titleLabel)
         self.addSubview(titleIcon)
-        
+        UIColor.black
         
         
         dateIcon.frame.origin = CGPoint(x: labelPadding, y: titleLabel.frame.maxY + labelPadding)

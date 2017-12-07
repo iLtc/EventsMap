@@ -36,8 +36,7 @@
 		2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */; };
 		2D1ABD151FCA0963004DAF67 /* CircularTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */; };
 		2D2D61B71FD5B4ED0028B9AF /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */; };
-		2D2D61B91FD620200028B9AF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61B81FD620200028B9AF /* DetailView.swift */; };
-		2D2D61BB1FD68BF10028B9AF /* testDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61BA1FD68BF10028B9AF /* testDetailView.swift */; };
+		2D2D61BB1FD68BF10028B9AF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61BA1FD68BF10028B9AF /* DetailView.swift */; };
 		2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */; };
 		2D7093971FD0BD9000F5A538 /* AddEventTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */; };
 		2D957CA61FD3590D00E1B6FD /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */; };
@@ -55,6 +54,8 @@
 		2DD111DD1FD8510F00AB0E49 /* IconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */; };
 		2DD111E01FD8515B00AB0E49 /* IconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DE1FD8515B00AB0E49 /* IconCell.swift */; };
 		2DD111E11FD8515B00AB0E49 /* IconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DD111DF1FD8515B00AB0E49 /* IconCell.xib */; };
+		2DD111E31FD8AD2300AB0E49 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111E21FD8AD2300AB0E49 /* WebViewController.swift */; };
+		2DD111E51FD99B2D00AB0E49 /* material-design-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111E41FD99B2D00AB0E49 /* material-design-extension.swift */; };
 		8C26AEF91FCF398500F2A9A9 /* SourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C26AEF81FCF398500F2A9A9 /* SourceViewController.swift */; };
 		8C2E12441FD347E60056512C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C2E12431FD347E60056512C /* GoogleService-Info.plist */; };
 		8C2E12471FD348250056512C /* google-login.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2E12461FD348250056512C /* google-login.m */; };
@@ -111,8 +112,7 @@
 		2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTransition.swift; sourceTree = "<group>"; };
 		2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
-		2D2D61B81FD620200028B9AF /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		2D2D61BA1FD68BF10028B9AF /* testDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testDetailView.swift; sourceTree = "<group>"; };
+		2D2D61BA1FD68BF10028B9AF /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
 		2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEventTableViewController.xib; sourceTree = "<group>"; };
 		2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +130,8 @@
 		2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewController.swift; sourceTree = "<group>"; };
 		2DD111DE1FD8515B00AB0E49 /* IconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCell.swift; sourceTree = "<group>"; };
 		2DD111DF1FD8515B00AB0E49 /* IconCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconCell.xib; sourceTree = "<group>"; };
+		2DD111E21FD8AD2300AB0E49 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		2DD111E41FD99B2D00AB0E49 /* material-design-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "material-design-extension.swift"; sourceTree = "<group>"; };
 		364B4EDF7B0BBB5D55635A9C /* Pods-Events Map.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.debug.xcconfig"; sourceTree = "<group>"; };
 		687E7DC15DAC17C76C4086E5 /* Pods-Events Map.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Events Map.release.xcconfig"; path = "Pods/Target Support Files/Pods-Events Map/Pods-Events Map.release.xcconfig"; sourceTree = "<group>"; };
 		8C26AEF81FCF398500F2A9A9 /* SourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceViewController.swift; sourceTree = "<group>"; };
@@ -218,7 +220,7 @@
 		247BA0691FC6170C00CBFDC6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2D2D61BA1FD68BF10028B9AF /* testDetailView.swift */,
+				2D2D61BA1FD68BF10028B9AF /* DetailView.swift */,
 				245404091FBB4F2200206838 /* MapsCell.swift */,
 				244520521FC3756500D1B956 /* DatePick.swift */,
 				2D9816D71FC4E86100CDBF44 /* LoginView.swift */,
@@ -248,7 +250,7 @@
 				2D957CAE1FD3A9FA00E1B6FD /* EventsListViewController.swift */,
 				2D957CB61FD3B2E900E1B6FD /* EventsListCell.swift */,
 				2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */,
-				2D2D61B81FD620200028B9AF /* DetailView.swift */,
+				2DD111E21FD8AD2300AB0E49 /* WebViewController.swift */,
 				2D957CB81FD3D0D900E1B6FD /* InkOverlay.swift */,
 				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
@@ -282,6 +284,7 @@
 				24CA0E2F1FC8B95800D1AEDF /* set-btn-background-color.swift */,
 				24CA0E311FC8B97D00D1AEDF /* resize-image.swift */,
 				240FA1301FCF638F0038D2EC /* activity-indicator.swift */,
+				2DD111E41FD99B2D00AB0E49 /* material-design-extension.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -545,7 +548,6 @@
 				8C26AEF91FCF398500F2A9A9 /* SourceViewController.swift in Sources */,
 				24CDE2E91FC7D2850051C3BB /* UserTableViewController.swift in Sources */,
 				2DD111E01FD8515B00AB0E49 /* IconCell.swift in Sources */,
-				2D2D61B91FD620200028B9AF /* DetailView.swift in Sources */,
 				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
 				8C2E12471FD348250056512C /* google-login.m in Sources */,
@@ -554,12 +556,14 @@
 				24CA0E321FC8B97D00D1AEDF /* resize-image.swift in Sources */,
 				2D957CBF1FD504CD00E1B6FD /* ExpandTransition.swift in Sources */,
 				24DCFDF91FD61C200031CACF /* AboutTableViewController.swift in Sources */,
+				2DD111E51FD99B2D00AB0E49 /* material-design-extension.swift in Sources */,
 				8C46AF341FCB804100ABA5FC /* CategoryViewController.swift in Sources */,
 				2D957CB91FD3D0D900E1B6FD /* InkOverlay.swift in Sources */,
 				2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */,
+				2DD111E31FD8AD2300AB0E49 /* WebViewController.swift in Sources */,
 				2D1ABD151FCA0963004DAF67 /* CircularTransition.swift in Sources */,
 				2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */,
-				2D2D61BB1FD68BF10028B9AF /* testDetailView.swift in Sources */,
+				2D2D61BB1FD68BF10028B9AF /* DetailView.swift in Sources */,
 				243887AC1FAF88A0000C012C /* EventService.swift in Sources */,
 				244520531FC3756600D1B956 /* DatePick.swift in Sources */,
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
