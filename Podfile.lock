@@ -60,6 +60,7 @@ PODS:
   - GTMSessionFetcher/Core (1.1.12)
   - GTMSessionFetcher/Full (1.1.12):
     - GTMSessionFetcher/Core (= 1.1.12)
+  - lottie-ios (2.1.4)
   - Material (2.12.16):
     - Material/Core (= 2.12.16)
   - Material/Core (2.12.16):
@@ -417,6 +418,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - GoogleSignIn
+  - lottie-ios
   - Material (~> 2.0)
   - MaterialComponents
   - paper-onboarding (~> 2.0.1)
@@ -440,6 +442,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
+  lottie-ios: 94fa2d82547ce3adf1e61157653ba99999fd279f
   Material: 00fdeb39f5d97dc19f09b160e8b95c47e2ed708d
   MaterialComponents: 3ddc6b0457477b1bf0e779cc69afbe451dea4b55
   MDFInternationalization: 701340ce6995837458cc141b41bfc472f0c11e1c
@@ -452,6 +455,6 @@ SPEC CHECKSUMS:
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: b8f28576861e06f9145150be8004e132365fcff7
+PODFILE CHECKSUM: f737f6b818555e0bd268c4e9753fff8ddb910214
 
 COCOAPODS: 1.3.1
