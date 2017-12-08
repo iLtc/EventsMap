@@ -47,6 +47,11 @@ class MasterViewController: UIPageViewController, UIViewControllerTransitioningD
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prefersHomeIndicatorAutoHidden() -> Bool
+    {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

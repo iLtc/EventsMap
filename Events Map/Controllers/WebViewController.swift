@@ -13,19 +13,32 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
     
     let appBar = MDCAppBar()
     let webView = UIWebView()
-    let bottonBar = MDCButtonBar()
+    let buttonBar = MDCButtonBar()
     let progressView = MDCProgressView()
-    let searchBar = UISearchBar()
+    let tintColor = UIColor.MDColor.blue
+//    let searchBar = UISearchBar()
     var refreshBtn = UIBarButtonItem()
+    var back = UIBarButtonItem()
+    var forward = UIBarButtonItem()
     var url: URL?
+    var webTitle: String?
+    var bottomPadding: CGFloat = 0
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        view.backgroundColor = .white
         webView.backgroundColor = .white
 //        activityIndicator.hidden = false
         addChildViewController(appBar.headerViewController)
-        appBar.headerViewController.headerView.backgroundColor = UIColor(red:0.27, green:0.54, blue:1.00, alpha:1.0) //UIColor(red:0.80, green:0.86, blue:0.22, alpha:1.0) // Lime
-        webView.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height - 56))
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let topBlurEffectView = UIVisualEffectView(effect: blurEffect)
+        topBlurEffectView.frame = appBar.headerViewController.headerView.frame
+        appBar.headerViewController.headerView.insertSubview(topBlurEffectView, at: 0)
+        appBar.headerViewController.headerView.backgroundColor = .clear //UIColor(red:0.80, green:0.86, blue:0.22, alpha:1.0) // Lime
+        topBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        webView.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height - 44 - bottomPadding))
         webView.scrollView.delegate = self
         webView.delegate = self
         view.addSubview(webView)
@@ -34,9 +47,8 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         
         let progressViewHeight = CGFloat(2)
         progressView.frame = CGRect(x: 0, y: view.bounds.height/2 - progressViewHeight, width: view.bounds.width, height: progressViewHeight)
-        progressView.progressTintColor = UIColor.MDColor.orange
+        progressView.progressTintColor = tintColor
         progressView.backwardProgressAnimationMode = .animate
-
         
         
         if url != nil {
@@ -54,61 +66,78 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
             self.present(alertController, animated: true, completion: nil)
         }
         appBar.headerViewController.headerView.trackingScrollView = webView.scrollView
-        appBar.navigationBar.tintColor = UIColor.white
+        appBar.navigationBar.tintColor = tintColor
         appBar.addSubviewsToParent()
         
         let backBtn = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(dismissWeb))
         let origImage = MDCIcons.imageFor_ic_arrow_back()
         let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
         backBtn.image = tintedImage
-        backBtn.tintColor = .white
+        backBtn.tintColor = tintColor
         
-        refreshBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "md-refresh"), style: .done, target: self, action: #selector(reload(_:)))
+        refreshBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "md-refresh").withRenderingMode(.alwaysTemplate), style: .done, target: self, action: #selector(reload(_:)))
+        refreshBtn.tintColor = tintColor
         
         let browserBtn = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(openURL))
-        browserBtn.title = "Open"
-        browserBtn.image = #imageLiteral(resourceName: "md-open-new")
-        browserBtn.tintColor = .white
+        browserBtn.image = #imageLiteral(resourceName: "md-open-new").withRenderingMode(.alwaysTemplate)
+        browserBtn.tintColor = tintColor
         
-        let back = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(loadBack))
-        back.image = #imageLiteral(resourceName: "md-back")
-        back.tintColor = .white
-        back.title = "Back"
         
-        let forward = UIBarButtonItem(image: #imageLiteral(resourceName: "md-forward"), style: .done, target: self, action: #selector(loadForward))
-        forward.tintColor = .white
-        forward.title = "Forward"
+        back = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(loadBack))
+        back.image = #imageLiteral(resourceName: "md-back").withRenderingMode(.alwaysTemplate)
+        back.tintColor = tintColor
+        back.isEnabled = false
         
-        searchBar.delegate = self
-        searchBar.showsCancelButton = false
-        searchBar.searchBarStyle = .minimal
-        searchBar.isTranslucent = true
-        searchBar.barStyle = .default
-        searchBar.text = url?.absoluteString
-        searchBar.placeholder = "Search"
-        searchBar.textContentType = UITextContentType.URL
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.textColor = .white
-        textFieldInsideSearchBar?.layer.cornerRadius = 6
+        
+        
+        forward = UIBarButtonItem(image: #imageLiteral(resourceName: "md-forward").withRenderingMode(.alwaysTemplate), style: .done, target: self, action: #selector(loadForward))
+        forward.tintColor = tintColor
+        
+        
+//        searchBar.delegate = self
+//        searchBar.showsCancelButton = false
+//        searchBar.searchBarStyle = .minimal
+//        searchBar.isTranslucent = true
+//        searchBar.barStyle = .default
+//        searchBar.text = url?.absoluteString
+//        searchBar.placeholder = "Search"
+//        searchBar.textContentType = UITextContentType.URL
+//        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+//        textFieldInsideSearchBar?.textColor = .white
+//        textFieldInsideSearchBar?.layer.cornerRadius = 6
 //        searchBar.tintColor = UIColor(red:0.31, green:0.76, blue:0.97, alpha:1.0)
 //        searchBar.backgroundColor = UIColor(red:0.27, green:0.54, blue:1.00, alpha:1.0)
-        appBar.navigationBar.titleView = searchBar
+//        appBar.navigationBar.titleView = searchBar
+        appBar.navigationBar.title = webTitle
         appBar.headerStackView.bottomBar = progressView
         
-        appBar.navigationBar.tintColor = .white
+        appBar.navigationBar.tintColor = tintColor
         navigationItem.leftBarButtonItem = backBtn
         navigationItem.rightBarButtonItem = refreshBtn
+        
+        let buttonWidth = view.frame.width/3
+        forward.width = buttonWidth
+        back.width = buttonWidth
+        browserBtn.width = buttonWidth
 //        navigationItem.title = "Browser"
 //        let navigationbarAppearance = UINavigationBar.appearance()
 //        navigationbarAppearance.tintColor = .white
 //        navigationbarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.white]
         // Do any additional setup after loading the view.
-        bottonBar.frame.origin = CGPoint(x: 0, y: view.frame.maxY - 56)
-        bottonBar.backgroundColor = UIColor(red:0.27, green:0.54, blue:1.00, alpha:1.0)
-        bottonBar.items = [back, forward, browserBtn]
-        bottonBar.sizeToFit()
-        bottonBar.frame.size.width = view.frame.width
-        view.addSubview(bottonBar)
+        buttonBar.frame.origin = CGPoint(x: 0, y: view.frame.maxY - 44 - bottomPadding)
+        buttonBar.backgroundColor = .clear
+        
+        buttonBar.items = [back, forward, browserBtn]
+        buttonBar.frame.size = CGSize(width: view.frame.width, height: 44)
+        let bottomBlurEffectView = UIVisualEffectView(effect: blurEffect)
+        bottomBlurEffectView.frame = CGRect(origin: .zero, size: buttonBar.frame.size)
+        buttonBar.insertSubview(bottomBlurEffectView, at: 0)
+        buttonBar.clipsToBounds = true
+        
+        let safeBlurView = UIVisualEffectView(effect: blurEffect)
+        safeBlurView.frame = CGRect(x: 0, y: view.frame.maxY - bottomPadding, width: view.frame.width, height: bottomPadding)
+        view.addSubview(safeBlurView)
+        view.addSubview(buttonBar)
     }
     
     @objc func reload(_ sender: UIBarButtonItem) {
@@ -165,17 +194,28 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         
         startAndShowProgressView()
         refreshBtn.tag = 0
-        refreshBtn.image = #imageLiteral(resourceName: "md-close")
+        refreshBtn.image = #imageLiteral(resourceName: "md-close").withRenderingMode(.alwaysTemplate)
+        if webView.canGoBack {
+            back.isEnabled = true
+        } else {
+            back.isEnabled = false
+        }
+        if webView.canGoForward {
+            forward.isEnabled = true
+        } else {
+            forward.isEnabled = false
+        }
 //        activityIndicator.startAnimating()
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView){
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         completeAndHideProgressView()
+        
         if let urlText = webView.request?.url?.absoluteString {
-            searchBar.text = urlText
+//            searchBar.text = urlText
             refreshBtn.tag = 1
-            refreshBtn.image = #imageLiteral(resourceName: "md-refresh")
+            refreshBtn.image = #imageLiteral(resourceName: "md-refresh").withRenderingMode(.alwaysTemplate)
             
         }
 //        activityIndicator.stopAnimating()
@@ -183,7 +223,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
     }
 
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
-        let alertController = MDCAlertController(title: nil, message: "URL is invaild.")
+        let alertController = MDCAlertController(title: nil, message: "Load failed.")
         
         let confirmAction = MDCAlertAction(title: "OK") { (action) in
             
@@ -232,7 +272,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return .default
     }
     
     override func didReceiveMemoryWarning() {
