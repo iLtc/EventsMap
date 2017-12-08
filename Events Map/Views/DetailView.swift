@@ -147,6 +147,7 @@ class DetailView: UIScrollView {
 //        inkOverlay.frame = CGRect(origin: .zero, size: contentSize)
 //        inkOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //        self.addSubview(inkOverlay)
+//        layoutIfNeeded()
     }
     
     
