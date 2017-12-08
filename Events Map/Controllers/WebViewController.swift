@@ -21,7 +21,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        webView.backgroundColor = .white
 //        activityIndicator.hidden = false
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.backgroundColor = UIColor(red:0.27, green:0.54, blue:1.00, alpha:1.0) //UIColor(red:0.80, green:0.86, blue:0.22, alpha:1.0) // Lime
