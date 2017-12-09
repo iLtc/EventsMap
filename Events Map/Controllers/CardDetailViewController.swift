@@ -23,7 +23,6 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     let webBtn = MDCFloatingButton()
     let calendarBtn = MDCFloatingButton()
     let viewsBtn = MDCFloatingButton()
-    let likesBtn = MDCFloatingButton()
     var bottomPadding: CGFloat = 0
     
     init() {
@@ -111,15 +110,6 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         viewsBtn.sizeToFit()
         viewsBtn.addTarget(self, action: #selector(viewsBtnPressed(_:)), for: .touchUpInside)
         view.addSubview(viewsBtn)
-        
-        // Likes button
-        likesBtn.frame = CGRect(x: 30, y: view.frame.maxY - 111, width: 0, height: 0)
-        likesBtn.setImage(#imageLiteral(resourceName: "md-favorite"), for: .normal)
-        likesBtn.backgroundColor = UIColor(red:0.91, green:0.12, blue:0.39, alpha:1.0)
-        likesBtn.alpha = 0
-        likesBtn.sizeToFit()
-        likesBtn.addTarget(self, action: #selector(likesBtnPressed(_:)), for: .touchUpInside)
-        view.addSubview(likesBtn)
         
         // AppBar view
         appBar.headerViewController.headerView.trackingScrollView = scrollView
@@ -281,28 +271,6 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    // Likes button pressed
-    @objc func likesBtnPressed(_ sender: MDCFloatingButton) {
-        // Highlight Controller
-        let completion = {(accepted: Bool) in
-            
-        }
-        let displayedButton = MDCFloatingButton(frame: sender.frame, shape: .largeIcon)
-        displayedButton.setImage(MDCIcons.imageFor_ic_arrow_back()?.withRenderingMode(.alwaysTemplate), for: .normal)
-        displayedButton.backgroundColor = sender.titleColor(for: .normal)
-        displayedButton.tintColor = sender.backgroundColor
-        let highlightController = MDCFeatureHighlightViewController(highlightedView: sender, andShow: displayedButton, completion: completion)
-        
-        highlightController.titleColor = .white
-        highlightController.titleText = String(event.likes)
-        highlightController.bodyText = "See how many people like this event."
-        highlightController.bodyColor = .white
-        highlightController.outerHighlightColor =
-            sender.backgroundColor!.withAlphaComponent(kMDCFeatureHighlightOuterHighlightAlpha)
-        present(highlightController, animated: true, completion:nil)
-        
-    }
-    
     // Views button pressed
     @objc func viewsBtnPressed(_ sender: MDCFloatingButton) {
         // Highlight Controller
@@ -316,8 +284,10 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         let highlightController = MDCFeatureHighlightViewController(highlightedView: sender, andShow: displayedButton, completion: completion)
         
         highlightController.titleColor = .white
-        highlightController.titleText = String(event.views)
-        highlightController.bodyText = "See how many people viewed this event."
+        highlightController.titleText = ""
+        highlightController.bodyText =
+            String(event.views + 1) + " people viewed this event.\n"
+            + String(event.likes) + " people like this event."
         highlightController.bodyColor = .white
         highlightController.outerHighlightColor =
             sender.backgroundColor!.withAlphaComponent(kMDCFeatureHighlightOuterHighlightAlpha)
@@ -329,15 +299,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     @objc func moreBtnPressed(_ sender: MDCFloatingButton) {
         
         if sender.tag == 0 { // Expand
-            
             sender.tag = 1 // More open
-            UIButton.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                sender.setImage(#imageLiteral(resourceName: "md-collapse").withRenderingMode(.alwaysTemplate), for: .normal)
-                sender.tintColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-                sender.backgroundColor = .white
-                self.likesBtn.frame.origin.y = self.view.frame.maxY - 177
-                self.likesBtn.alpha = 1
-            }, completion: nil)
             UIButton.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 248
@@ -355,13 +317,6 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             }, completion: nil)
         } else if sender.tag == 1 { // Collapse
             sender.tag = 0 // More close
-            UIButton.animate(withDuration: 0.15, delay: 0.15, options: .curveEaseOut, animations: {
-                sender.setImage(#imageLiteral(resourceName: "md-more").withRenderingMode(.alwaysTemplate), for: .normal)
-                sender.tintColor = .white
-                sender.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-                self.likesBtn.frame.origin.y = self.view.frame.maxY - 111
-                self.likesBtn.alpha = 0
-            }, completion: nil)
             UIButton.animate(withDuration: 0.15, delay: 0.1, options: .curveEaseOut, animations: {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 182
