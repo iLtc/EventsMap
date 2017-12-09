@@ -476,6 +476,17 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             if event.like() {
                 sender.tag = 0
                 sender.image = UIImage(named: "md-star")
+            } else {
+                let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+                alertController.addAction(cancelAction)
+                let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                    let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 270))
+                    loginView.parentVC = self
+                }
+                alertController.addAction(confirmAction)
+                
+                self.present(alertController, animated: true, completion: nil)
             }
         }
     }
