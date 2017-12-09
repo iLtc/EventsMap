@@ -10,6 +10,7 @@ import UIKit
 
 class AboutTableViewController: UITableViewController {
     
+    let cellTitle = ["Icons", "Licenses"]
     override init(style: UITableViewStyle) {
         super.init(style: style)
         tableView.separatorStyle = .none
@@ -44,11 +45,10 @@ class AboutTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         if section == 0 {
             return 3
         } else {
-            return 1
+            return 2
         }
     }
     
@@ -84,7 +84,8 @@ class AboutTableViewController: UITableViewController {
             }
         } else {
             let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-            cell.textLabel?.text = "Icons"
+            cell.textLabel?.text = cellTitle[indexPath.row]
+            
             return cell
         }
     }
@@ -94,7 +95,7 @@ class AboutTableViewController: UITableViewController {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                openURL(url: URL(string: "https://iLtc.io")!, title: "Yizhen Chen")
+                openURL(url: URL(string: "https://iLtc.io")!, title: "Tiancheng Luo")
             case 1:
                 openURL(url: URL(string: "https://homepage.divms.uiowa.edu/~ychen261/")!, title: "Yizhen Chen")
             case 2:
@@ -103,8 +104,14 @@ class AboutTableViewController: UITableViewController {
                 fatalError("Error row")
             }
         } else {
-            let vc = IconViewController(nibName: nil, bundle: nil)
-            present(vc, animated: true, completion: nil)
+            if indexPath.row == 0 {
+                let vc = IconViewController(nibName: nil, bundle: nil)
+                present(vc, animated: true, completion: nil)
+            } else {
+                let vc = LicencesViewController()
+                navigationController?.pushViewController(vc, animated: true)
+            }
+            
         }
     }
     

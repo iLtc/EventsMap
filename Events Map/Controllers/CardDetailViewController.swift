@@ -286,8 +286,8 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         highlightController.titleColor = .white
         highlightController.titleText = ""
         highlightController.bodyText =
-            String(event.views + 1) + " people viewed this event.\n"
-            + String(event.likes) + " people like this event."
+            String(event.views + 1) + " viewes\n"
+            + String(event.likes) + " likes"
         highlightController.bodyColor = .white
         highlightController.outerHighlightColor =
             sender.backgroundColor!.withAlphaComponent(kMDCFeatureHighlightOuterHighlightAlpha)

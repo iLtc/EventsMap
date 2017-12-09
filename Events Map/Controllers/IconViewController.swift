@@ -41,9 +41,9 @@ class IconViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var childViewControllerForStatusBarStyle: UIViewController? {
-        return appBar.headerViewController
-    }
+//    override var childViewControllerForStatusBarStyle: UIViewController? {
+//        return appBar.headerViewController
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,10 +86,6 @@ class IconViewController: UITableViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-    
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return .fade
     }
     
     override func didReceiveMemoryWarning() {
