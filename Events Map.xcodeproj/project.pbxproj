@@ -51,6 +51,8 @@
 		2D9816D81FC4E86100CDBF44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D71FC4E86100CDBF44 /* LoginView.swift */; };
 		2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */; };
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
+		2DD060031FDC4DBF007B71B0 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 2DD060021FDC4DBF007B71B0 /* loader.json */; };
+		2DD060051FDC50DA007B71B0 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 2DD060041FDC50DA007B71B0 /* loading.json */; };
 		2DD111DD1FD8510F00AB0E49 /* IconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */; };
 		2DD111E01FD8515B00AB0E49 /* IconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DE1FD8515B00AB0E49 /* IconCell.swift */; };
 		2DD111E11FD8515B00AB0E49 /* IconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DD111DF1FD8515B00AB0E49 /* IconCell.xib */; };
@@ -127,6 +129,8 @@
 		2D9816D71FC4E86100CDBF44 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = "Events Map/Views/LoginView.swift"; sourceTree = SOURCE_ROOT; };
 		2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
+		2DD060021FDC4DBF007B71B0 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
+		2DD060041FDC50DA007B71B0 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewController.swift; sourceTree = "<group>"; };
 		2DD111DE1FD8515B00AB0E49 /* IconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCell.swift; sourceTree = "<group>"; };
 		2DD111DF1FD8515B00AB0E49 /* IconCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconCell.xib; sourceTree = "<group>"; };
@@ -279,6 +283,8 @@
 		24A06A661FB00C6100F433CC /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				2DD060021FDC4DBF007B71B0 /* loader.json */,
+				2DD060041FDC50DA007B71B0 /* loading.json */,
 				24A06A671FB00C7D00F433CC /* string-truncate.swift */,
 				244E8E831FB2AC8C0043996B /* download-image.swift */,
 				24CA0E2F1FC8B95800D1AEDF /* set-btn-background-color.swift */,
@@ -421,7 +427,9 @@
 			files = (
 				243887AE1FAF89C7000C012C /* Config.plist in Resources */,
 				2D957CA71FD3590D00E1B6FD /* SearchViewController.xib in Resources */,
+				2DD060031FDC4DBF007B71B0 /* loader.json in Resources */,
 				8C2E12441FD347E60056512C /* GoogleService-Info.plist in Resources */,
+				2DD060051FDC50DA007B71B0 /* loading.json in Resources */,
 				24DCFDFA1FD61C200031CACF /* AboutTableViewController.xib in Resources */,
 				242505F71FA2B21E006E0408 /* LaunchScreen.storyboard in Resources */,
 				242505F41FA2B21E006E0408 /* Assets.xcassets in Resources */,
