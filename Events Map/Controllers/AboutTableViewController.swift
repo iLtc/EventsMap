@@ -10,6 +10,7 @@ import UIKit
 
 class AboutTableViewController: UITableViewController {
     
+    let cellTitle = ["Icons", "Licenses"]
     override init(style: UITableViewStyle) {
         super.init(style: style)
         tableView.separatorStyle = .none
@@ -43,13 +44,13 @@ class AboutTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return 2
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-        cell.textLabel?.text = "Icons"
+        cell.textLabel?.text = cellTitle[indexPath.row]
         // Configure the cell...
 
         return cell
@@ -57,8 +58,15 @@ class AboutTableViewController: UITableViewController {
     
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = IconViewController(nibName: nil, bundle: nil)
-        present(vc, animated: true, completion: nil)
+        switch indexPath.row {
+        case 0:
+            let vc = IconViewController(nibName: nil, bundle: nil)
+            present(vc, animated: true, completion: nil)
+        default:
+            let vc = LicencesViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     /*
     // Override to support conditional editing of the table view.
