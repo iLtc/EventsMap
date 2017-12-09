@@ -53,6 +53,7 @@
 		2D9816DC1FC4E8A700CDBF44 /* UserTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */; };
 		2DD060031FDC4DBF007B71B0 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 2DD060021FDC4DBF007B71B0 /* loader.json */; };
 		2DD060051FDC50DA007B71B0 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 2DD060041FDC50DA007B71B0 /* loading.json */; };
+		2DD060071FDC833E007B71B0 /* LicencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD060061FDC833E007B71B0 /* LicencesViewController.swift */; };
 		2DD111DD1FD8510F00AB0E49 /* IconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */; };
 		2DD111E01FD8515B00AB0E49 /* IconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DE1FD8515B00AB0E49 /* IconCell.swift */; };
 		2DD111E11FD8515B00AB0E49 /* IconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DD111DF1FD8515B00AB0E49 /* IconCell.xib */; };
@@ -131,6 +132,7 @@
 		2D9816DB1FC4E8A700CDBF44 /* UserTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewController.xib; sourceTree = "<group>"; };
 		2DD060021FDC4DBF007B71B0 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
 		2DD060041FDC50DA007B71B0 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		2DD060061FDC833E007B71B0 /* LicencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicencesViewController.swift; sourceTree = "<group>"; };
 		2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewController.swift; sourceTree = "<group>"; };
 		2DD111DE1FD8515B00AB0E49 /* IconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCell.swift; sourceTree = "<group>"; };
 		2DD111DF1FD8515B00AB0E49 /* IconCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconCell.xib; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				24CDE2E81FC7D2850051C3BB /* UserTableViewController.swift */,
 				2D9816D91FC4E89C00CDBF44 /* SettingsViewController.swift */,
 				24DCFDF71FD61C200031CACF /* AboutTableViewController.swift */,
+				2DD060061FDC833E007B71B0 /* LicencesViewController.swift */,
 				2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */,
 				2DD111DE1FD8515B00AB0E49 /* IconCell.swift */,
 				2DD111DF1FD8515B00AB0E49 /* IconCell.xib */,
@@ -589,6 +592,7 @@
 				2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */,
 				2D957CAF1FD3A9FA00E1B6FD /* EventsListViewController.swift in Sources */,
 				242505ED1FA2B21E006E0408 /* AppDelegate.swift in Sources */,
+				2DD060071FDC833E007B71B0 /* LicencesViewController.swift in Sources */,
 				243887B21FAF8A7A000C012C /* ConfigService.swift in Sources */,
 				C5E7C7981FB2D46300DFAF8D /* DetailViewController.swift in Sources */,
 				244520551FC3759600D1B956 /* MasterViewController.swift in Sources */,
