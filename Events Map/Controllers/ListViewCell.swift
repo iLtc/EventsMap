@@ -12,7 +12,7 @@ import MaterialComponents
 class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
     
     @IBOutlet weak var eventTitleLabel: UILabel!
-    @IBOutlet weak var eventImageView: UIImageView!
+    @IBOutlet weak var eventImageView: customImageView!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventLocationLabel: UILabel!
     fileprivate var inkOverlay = InkOverlay()
@@ -58,8 +58,8 @@ class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
         self.event = event
         
         eventTitleLabel.text = event.title
-        
-        eventImageView.image = UIImage.gif(url: event.photos[0])?.resizeImage(targetSize: eventImageView.frame.size)
+        eventImageView.downloadedFrom(link: event.photos[0])
+//        eventImageView.image = UIImage.gif(url: event.photos[0])?.resizeImage(targetSize: eventImageView.frame.size)
         eventImageView.layer.cornerRadius = 10
         eventImageView.clipsToBounds = true
         

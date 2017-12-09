@@ -162,7 +162,7 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
             let transform = CATransform3DScale(CATransform3DIdentity, 0.8, 0.8, 1)
             cell.layer.transform = transform
             let delay = Double(indexPath.row % 3) * 0.1
-            UIView.animate(withDuration: 0.5, delay: delay, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.33, delay: delay, options: .curveEaseOut, animations: {
                 cell.alpha = 1
                 cell.layer.transform = CATransform3DIdentity
             }, completion: nil)
@@ -241,13 +241,16 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         activityIndicator.cycleColors = [blue, teal, green, amber, red]
         activityIndicator.startAnimating()
         collectionView?.addSubview(activityIndicator)
-        EventService.instance.getAllUserEvents { (events) in
-            
-            self.events = events.reversed()
-            self.collectionView?.reloadData()
-            
-            activityIndicator.removeFromSuperview()
+        DispatchQueue.main.async {
+            EventService.instance.getAllUserEvents { (events) in
+                
+                self.events = events.reversed()
+                self.collectionView?.reloadData()
+                
+                activityIndicator.removeFromSuperview()
+            }
         }
+        
         
     }
     // MARK: UICollectionViewDelegate

@@ -124,8 +124,10 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
             event = events[indexPath.row]
         }
         vc.event = event
-        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
+//        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
+        vc.headerContentView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
         present(vc, animated: true, completion: nil)
+        
     }
     /*
     // MARK: - Navigation

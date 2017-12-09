@@ -295,7 +295,7 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
         // set imageView UI
         let asset = NSDataAsset(name: "Loading")
         let gifImage = UIImage.gif(data: (asset?.data)!)
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.width * 0.67))
+        let imageView = customImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.width * 0.67))
         let imageInkController = MDCInkTouchController(view: imageView)
         imageInkController.addInkView()
         imageView.isUserInteractionEnabled = true

@@ -15,7 +15,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     var event: Event!
     var scrollView = DetailView()
     fileprivate let appBar = MDCAppBar()
-    var headerContentView = UIImageView(frame: .zero)
+    var headerContentView = customImageView(frame: .zero)
     var cardHeaderView = UIView()
     let titleLabel = UILabel()
     var shareBtn = UIBarButtonItem()

@@ -90,8 +90,10 @@ class ListViewController: UITableViewController {
             }
             
             self.events = events
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
             
-            self.tableView.reloadData()
         }
     }
     
@@ -184,7 +186,7 @@ class ListViewController: UITableViewController {
         let event = events[indexPath.row]
         let vc = CardDetailViewController()
         vc.event = event
-        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
+        vc.headerContentView.downloadedFrom(link: event.photos[0])
         navigationController?.pushViewController(vc, animated: true)
         
     }
