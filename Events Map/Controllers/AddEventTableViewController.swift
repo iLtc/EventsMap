@@ -290,6 +290,11 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             return
         }
         
+        if startDateInput.date!.compare(endDateInput.date! as Date) == .orderedDescending {
+            showAlert("Start date should not be late than end date!")
+            return
+        }
+        
         EventService.instance.uploadImage(imageView.image!) { imageURL in
             let event = Event(
                     id: "default",
