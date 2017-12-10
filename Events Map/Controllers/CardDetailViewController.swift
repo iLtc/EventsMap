@@ -23,6 +23,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     let webBtn = MDCFloatingButton()
     let calendarBtn = MDCFloatingButton()
     let viewsBtn = MDCFloatingButton()
+    let navigationBtn = MDCFloatingButton()
     var bottomPadding: CGFloat = 0
     
     init() {
@@ -110,6 +111,15 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         viewsBtn.sizeToFit()
         viewsBtn.addTarget(self, action: #selector(viewsBtnPressed(_:)), for: .touchUpInside)
         view.addSubview(viewsBtn)
+        
+        // Likes button
+        navigationBtn.frame = CGRect(x: 30, y: view.frame.maxY - 111, width: 0, height: 0)
+        navigationBtn.setImage(#imageLiteral(resourceName: "md-navigation").withRenderingMode(.alwaysOriginal).tint(with: .white), for: .normal)
+        navigationBtn.backgroundColor = UIColor.MDColor.lightBlue
+        navigationBtn.alpha = 0
+        navigationBtn.sizeToFit()
+//        navigationBtn.addTarget(self, action: #selector(likesBtnPressed(_:)), for: .touchUpInside)
+        view.addSubview(navigationBtn)
         
         // AppBar view
         appBar.headerViewController.headerView.trackingScrollView = scrollView
@@ -278,7 +288,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             
         }
         let displayedButton = MDCFloatingButton(frame: sender.frame, shape: .largeIcon)
-        displayedButton.setImage(MDCIcons.imageFor_ic_arrow_back()?.withRenderingMode(.alwaysTemplate), for: .normal)
+        displayedButton.setImage(#imageLiteral(resourceName: "md-close").withRenderingMode(.alwaysTemplate), for: .normal)
         displayedButton.backgroundColor = sender.titleColor(for: .normal)
         displayedButton.tintColor = sender.backgroundColor
         let highlightController = MDCFeatureHighlightViewController(highlightedView: sender, andShow: displayedButton, completion: completion)
@@ -300,6 +310,14 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         
         if sender.tag == 0 { // Expand
             sender.tag = 1 // More open
+            
+            UIButton.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                sender.setImage(#imageLiteral(resourceName: "md-close").withRenderingMode(.alwaysTemplate), for: .normal)
+                sender.tintColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+                sender.backgroundColor = .white
+                self.navigationBtn.frame.origin.y = self.view.frame.maxY - 177
+                self.navigationBtn.alpha = 1
+            }, completion: nil)
             UIButton.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 248
@@ -317,6 +335,13 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             }, completion: nil)
         } else if sender.tag == 1 { // Collapse
             sender.tag = 0 // More close
+            UIButton.animate(withDuration: 0.15, delay: 0.15, options: .curveEaseOut, animations: {
+                sender.setImage(#imageLiteral(resourceName: "md-more").withRenderingMode(.alwaysTemplate), for: .normal)
+                sender.tintColor = .white
+                sender.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+                self.navigationBtn.frame.origin.y = self.view.frame.maxY - 111
+                self.navigationBtn.alpha = 0
+            }, completion: nil)
             UIButton.animate(withDuration: 0.15, delay: 0.1, options: .curveEaseOut, animations: {
                 
                 self.calendarBtn.frame.origin.y = self.view.frame.maxY - 182
@@ -356,7 +381,6 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             bottomPadding = view.safeAreaInsets.bottom
             print("safe:", bottomPadding)
         }
-//        scrollView.contentSize = CGSize(width: bottomView.bounds.size.width, height: 400)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -385,7 +409,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             
             })
         } else if scaleRatio <= 1{
-            self.appBar.headerViewController.headerView.minimumHeight = self.headerContentView.frame.maxY
+            self.appBar.headerViewController.headerView.minimumHeight = self.headerContentView.frame.maxY * scaleRatio
             self.headerContentView.alpha = scaleRatio
             self.appBar.headerViewController.headerView.shadowColor = .clear
             
@@ -398,8 +422,8 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             }, completion: nil)
         }
         
-        self.headerContentView.transform = CGAffineTransform(translationX: 0, y: scrollOffsetY * 0.1 )
-        
+//        self.headerContentView.transform = CGAffineTransform(translationX: 0, y: scrollOffsetY * 0.1 )
+        self.headerContentView.frame.size.height = appBar.headerViewController.headerView.frame.height
         
         
         
