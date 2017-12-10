@@ -133,7 +133,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         headerContentView.contentMode = .scaleAspectFill
-//        headerContentView.clipsToBounds = true
+        headerContentView.clipsToBounds = true
         headerContentView.frame = appBar.headerViewController.headerView.frame
         headerContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         let gradient = CAGradientLayer()
@@ -152,7 +152,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         gradientChangeAnimation.isRemovedOnCompletion = false
         gradient.add(gradientChangeAnimation, forKey: "colorChange")
         appBar.headerViewController.headerView.insertSubview(headerContentView, at: 0)
-        appBar.headerViewController.headerView.clipsToBounds = true
+//        appBar.headerViewController.headerView.clipsToBounds = true
         appBar.addSubviewsToParent()
         let backBtn = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(dismissDetail))
         
@@ -434,6 +434,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         let mapView = MapView(frame: CGRect(origin: sender.center, size: CGSize(width: 250, height: 100)))
         mapView.tag = 1
         mapView.event = self.event
+        mapView.layer.cornerRadius = 8
         mapView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         mapView.layoutIfNeeded()
         

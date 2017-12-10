@@ -25,10 +25,8 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
         let blurEffect = UIBlurEffect(style: .extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = appBar.headerViewController.headerView.bounds
-        appBar.headerViewController.headerView.insertSubview(blurEffectView, at: 0)
-        
-        appBar.headerViewController.headerView.clipsToBounds = true
-        
+        appBar.headerViewController.headerView.contentView.insertSubview(blurEffectView, at: 0)
+        appBar.headerViewController.headerView.contentView.clipsToBounds = true
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.trackingScrollView = scrollView
         appBar.addSubviewsToParent()
@@ -268,6 +266,10 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    override var childViewControllerForStatusBarStyle: UIViewController? {
+        return appBar.headerViewController
     }
     
     // MARK: UIScrollViewDelegate

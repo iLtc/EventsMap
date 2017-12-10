@@ -67,17 +67,17 @@ class CreationTransition: NSObject {
             
             showView.layer.shadowOpacity = 1
             // Expand width
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
                 self.showView.frame.size.width = width
             }, completion: nil)
             
             // Expand height
-            UIView.animate(withDuration: 0.3, delay: 0.05, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0.05, options: .curveEaseOut, animations: {
                 self.showView.frame.size.height = height
             }, completion: nil)
             
             // Alpha animate
-            UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
                 self.dimmingView.alpha = 1
                 self.showView.alpha = 1
                 self.showView.layer.shadowPath = UIBezierPath(rect: self.showView.bounds).cgPath
@@ -86,7 +86,7 @@ class CreationTransition: NSObject {
             })
             
             // FloatBtn animate
-            UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 3, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 3, options: .curveEaseOut, animations: {
                 self.floatBtn.transform = CGAffineTransform.identity
             }, completion: nil)
             
