@@ -75,40 +75,6 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         
     }
     
-    func getCoordinate( addressString : String,
-                        completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
-            if error == nil {
-                if let placemark = placemarks?[0] {
-                    let location = placemark.location!
-                    
-                    completionHandler(location.coordinate, nil)
-                    return
-                }
-            }
-            
-            completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
-        }
-    }
-    
-    func getGeocoder(_ address: String) -> CLLocationCoordinate2D {
-        let geoCoder = CLGeocoder()
-        var coordinate = CLLocationCoordinate2D()
-        geoCoder.geocodeAddressString(address) { (placemarks, error) in
-            guard
-                let placemarks = placemarks,
-                let location = placemarks.first?.location
-                else {
-                    // handle no location found
-                    return
-            }
-            coordinate = location.coordinate
-            // Use your location
-        }
-        return coordinate
-    }
-    
     @objc func keyboardWillShow(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -323,34 +289,35 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             showAlert("Please choose an event end date!")
             return
         }
+        
+        EventService.instance.uploadImage(imageView.image!) { imageURL in
+            let event = Event(
+                    id: "default",
+                    title: self.eventTitle.text!,
+                    url: "default",
+                    date: self.startDateInput.date!,
+                    endDate: self.endDateInput.date!,
+                    isAllDay: false,
+                    location: self.addressField.text!,
+                    description: self.descripInput.text!)
 
-        //if eventTitle.text == "" || addressField.text == "" || startDateInput.date == "" || endDateInput.date == "" || descripInput.text == "" || imageHasPicked == false {
+            event.photos.append(imageURL)
             
-        //}
+            if let coordinate = self.coordinate {
+                event.geo["latitude"] = String(describing: coordinate["la"]!)
+                event.geo["longitude"] = String(describing: coordinate["lo"]!)
+                
+            }
+
+            event.categories.append("Events Map")
         
-//        EventService.instance.uploadImage(imageView.image!) { imageURL in
-//            let event = Event(id: "default", title: self.eventTitle.text!, url: "default", date: self.startDateInput.date, endDate: self.endDateInput.date, isAllDay: false, location: self.addressField.text!, description: self.descripInput.text!)
-//
-//            event.photos.append(imageURL)
-//
-//
-//            if let location = self.address {
-//                self.getCoordinate(addressString: location, completionHandler: { (coordinate, error) in
-//                    event.geo["latitude"] = String(coordinate.latitude)
-//                    event.geo["longitude"] = String(coordinate.longitude)
-//                    print(event.geo)
-//                })
-//            }
-//
-//
-//            event.categories.append("Events Map")
-        
-//            event.save() { event in
-//                let vc = DetailViewController()
-//                vc.event = event
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
-//        }
+            event.save() { event in
+                let vc = CardDetailViewController()
+                vc.event = event
+                vc.headerContentView.image = UIImage.gif(url: event.photos[0])
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
         
     }
     
