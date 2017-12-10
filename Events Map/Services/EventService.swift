@@ -26,6 +26,9 @@ class EventService {
         if let categories = defaults.array(forKey: "CurrentCategories") {
             parameters["categories"] = (categories as! [String]).joined(separator: ",")
         }
+        if let sort = defaults.string(forKey: "CurrentSort") {
+            parameters["sort"] = sort
+        }
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost"), parameters: parameters).responseJSON { response in
             var events: [Event] = []
@@ -209,6 +212,18 @@ class EventService {
         defaults.set(sources, forKey: "CurrentSources")
     }
     
+    func getCurrentSort(_ callback: @escaping ((String) -> Void)) {
+        if let sort = defaults.string(forKey: "CurrentSort") {
+            callback(sort)
+        } else {
+            callback("Start Time")
+        }
+    }
+    
+    func setSort(sort: String) {
+        defaults.set(sort, forKey: "CurrentSort")
+    }
+    
     func like(_ event: Event) -> Bool {
         if let user = UserService.instance.getCurrentUser() {
             let parameters = ["id": user.id]
@@ -276,6 +291,7 @@ class EventService {
                 let json = JSON(result)
                 
                 event.id = json["id"].stringValue
+                event.url = "https://events.iltcapp.net/events/" + json["id"].stringValue
                 
                 callback(event)
             }
