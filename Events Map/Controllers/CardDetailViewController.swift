@@ -434,7 +434,9 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         let mapView = MapView(frame: CGRect(origin: sender.center, size: CGSize(width: 250, height: 100)))
         mapView.tag = 1
         mapView.event = self.event
-//        mapView.layoutIfNeeded()
+        mapView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        mapView.layoutIfNeeded()
+        
         creation.presentView(startPoint: sender.center, toView: mapView)
     }
     
