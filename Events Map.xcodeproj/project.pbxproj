@@ -35,6 +35,7 @@
 		2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */; };
 		2D1ABD111FC74B9D004DAF67 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */; };
 		2D1ABD151FCA0963004DAF67 /* CircularTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */; };
+		2D1EF84E1FDCFAD90099CF85 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1EF84D1FDCFAD90099CF85 /* MapView.swift */; };
 		2D2D61B71FD5B4ED0028B9AF /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */; };
 		2D2D61BB1FD68BF10028B9AF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61BA1FD68BF10028B9AF /* DetailView.swift */; };
 		2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */; };
@@ -115,6 +116,7 @@
 		2D1ABD0C1FC56E16004DAF67 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2D1ABD101FC74B9D004DAF67 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTransition.swift; sourceTree = "<group>"; };
+		2D1EF84D1FDCFAD90099CF85 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2D2D61B61FD5B4ED0028B9AF /* CardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
 		2D2D61BA1FD68BF10028B9AF /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			children = (
 				2D2D61BA1FD68BF10028B9AF /* DetailView.swift */,
 				245404091FBB4F2200206838 /* MapsCell.swift */,
+				2D1EF84D1FDCFAD90099CF85 /* MapView.swift */,
 				244520521FC3756500D1B956 /* DatePick.swift */,
 				2D9816D71FC4E86100CDBF44 /* LoginView.swift */,
 				2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */,
@@ -564,6 +567,7 @@
 				8C26AEF91FCF398500F2A9A9 /* SourceViewController.swift in Sources */,
 				24CDE2E91FC7D2850051C3BB /* UserTableViewController.swift in Sources */,
 				2DD111E01FD8515B00AB0E49 /* IconCell.swift in Sources */,
+				2D1EF84E1FDCFAD90099CF85 /* MapView.swift in Sources */,
 				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
 				2DD060091FDCC205007B71B0 /* CreationTransition.swift in Sources */,
