@@ -135,6 +135,21 @@ class ListViewController: UITableViewController {
                 sender.tag = 1
             }, completion: nil)
         } else if sender.tag == 1 {
+            if UserService.instance.getCurrentUser() == nil {
+                let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+                alertController.addAction(cancelAction)
+                let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                    let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 270))
+                    loginView.parentVC = self
+                }
+                alertController.addAction(confirmAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+                return
+            }
+            
             let vc = AddEventTableViewController()
             navigationController?.pushViewController(vc, animated: true)
         }

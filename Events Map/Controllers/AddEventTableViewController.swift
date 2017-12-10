@@ -12,17 +12,6 @@ import MaterialComponents
 import GooglePlaces
 
 class AddEventTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
-    
-    // Declare variables to hold address form values.
-    var street_number: String = ""
-    var route: String = ""
-    var neighborhood: String = ""
-    var locality: String = ""
-    var administrative_area_level_1: String = ""
-    var country: String = ""
-    var postal_code: String = ""
-    var postal_code_suffix: String = ""
-    
     // Parameters
     var address: String?
     var coordinate: [String: Double]?
@@ -84,40 +73,6 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             object: nil
         )
         
-    }
-    
-    func getCoordinate( addressString : String,
-                        completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
-            if error == nil {
-                if let placemark = placemarks?[0] {
-                    let location = placemark.location!
-                    
-                    completionHandler(location.coordinate, nil)
-                    return
-                }
-            }
-            
-            completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
-        }
-    }
-    
-    func getGeocoder(_ address: String) -> CLLocationCoordinate2D {
-        let geoCoder = CLGeocoder()
-        var coordinate = CLLocationCoordinate2D()
-        geoCoder.geocodeAddressString(address) { (placemarks, error) in
-            guard
-                let placemarks = placemarks,
-                let location = placemarks.first?.location
-                else {
-                    // handle no location found
-                    return
-            }
-            coordinate = location.coordinate
-            // Use your location
-        }
-        return coordinate
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -302,54 +257,73 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func saveBtnPressed() {
-        // TODO: Check if form has been filled completed
-        
-        EventService.instance.uploadImage(imageView.image!) { imageURL in
-            let event = Event(id: "default", title: self.eventTitle.text!, url: "default", date: self.startDateInput.date, endDate: self.endDateInput.date, isAllDay: false, location: self.addressField.text!, description: self.descripInput.text!)
-            
-            event.photos.append(imageURL)
-            
-            
-            if let location = self.address {
-                self.getCoordinate(addressString: location, completionHandler: { (coordinate, error) in
-                    event.geo["latitude"] = String(coordinate.latitude)
-                    event.geo["longitude"] = String(coordinate.longitude)
-                    print(event.geo)
-                })
-            }
-            
-            
-            event.categories.append("Events Map")
-            
-//            event.save() { event in
-//                let vc = DetailViewController()
-//                vc.event = event
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
-        }
-        
+    func showAlert(_ message: String) {
+        let alertController = MDCAlertController(title: nil, message: message)
+        let cancelAction = MDCAlertAction(title: "OK", handler: nil)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
-    // Populate the address form fields.
-    func fillAddressForm() {
-        addressField.text = street_number + " " + route + ", " + locality + ", " + administrative_area_level_1 + ", " + country
-        address = street_number + " " + route + ", " + locality + ", " + administrative_area_level_1 + " " + postal_code
-//        if postal_code_suffix != "" {
-//            addressField.text += postal_code + "-" + postal_code_suffix
-//        } else {
-//            postal_code_field.text = postal_code
-//        }
+    @objc func saveBtnPressed() {
+        if eventTitle.text! == "" {
+            showAlert("Please choose an event title!")
+            return
+        }
         
-        // Clear values for next time.
-        street_number = ""
-        route = ""
-        neighborhood = ""
-        locality = ""
-        administrative_area_level_1  = ""
-        country = ""
-        postal_code = ""
-        postal_code_suffix = ""
+        if imageHasPicked == false {
+            showAlert("Please choose an event image!")
+            return
+        }
+        
+        if addressField.text! == "" {
+            showAlert("Please fill an event address!")
+            return
+        }
+        
+        if startDateInput.date == nil {
+            showAlert("Please choose an event start date!")
+            return
+        }
+        
+        if endDateInput.date == nil {
+            showAlert("Please choose an event end date!")
+            return
+        }
+        
+        if startDateInput.date!.compare(endDateInput.date! as Date) == .orderedDescending {
+            showAlert("Start date should not be late than end date!")
+            return
+        }
+        
+        EventService.instance.uploadImage(imageView.image!) { imageURL in
+            let event = Event(
+                    id: "default",
+                    title: self.eventTitle.text!,
+                    url: "default",
+                    date: self.startDateInput.date!,
+                    endDate: self.endDateInput.date!,
+                    isAllDay: false,
+                    location: self.addressField.text!,
+                    description: self.descripInput.text!)
+
+            event.photos.append(imageURL)
+            
+            if let coordinate = self.coordinate {
+                event.geo["latitude"] = String(describing: coordinate["la"]!)
+                event.geo["longitude"] = String(describing: coordinate["lo"]!)
+                
+            }
+
+            event.categories.append("Events Map")
+        
+            event.save() { event in
+                let vc = CardDetailViewController()
+                vc.event = event
+                vc.headerContentView.image = UIImage.gif(url: event.photos[0])
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -459,40 +433,16 @@ extension AddEventTableViewController: GMSAutocompleteViewControllerDelegate {
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         // Print place info to the console.
-        print("Place name: \(place.name)")
-        print("Place address: \(place.formattedAddress)")
-        print("Place attributions: \(place.attributions)")
+//        print("Place name: \(place.name)")
+//        print("Place address: \(place.formattedAddress)")
+//        print("Place attributions: \(place.attributions)")
         
-        // Get the address components.
-        if let addressLines = place.addressComponents {
-            // Populate all of the address fields we can find.
-            for field in addressLines {
-                switch field.type {
-                case kGMSPlaceTypeStreetNumber:
-                    street_number = field.name
-                case kGMSPlaceTypeRoute:
-                    route = field.name
-                case kGMSPlaceTypeNeighborhood:
-                    neighborhood = field.name
-                case kGMSPlaceTypeLocality:
-                    locality = field.name
-                case kGMSPlaceTypeAdministrativeAreaLevel1:
-                    administrative_area_level_1 = field.name
-                case kGMSPlaceTypeCountry:
-                    country = field.name
-                case kGMSPlaceTypePostalCode:
-                    postal_code = field.name
-                case kGMSPlaceTypePostalCodeSuffix:
-                    postal_code_suffix = field.name
-                // Print the items we aren't using.
-                default:
-                    print("Type: \(field.type), Name: \(field.name)")
-                }
-            }
+        if let formattedAddress = place.formattedAddress {
+            address = formattedAddress
+            
+            // Change the value the address form.
+            addressField.text = formattedAddress
         }
-        
-        // Call custom function to populate the address form.
-        fillAddressForm()
         
         // Close the autocomplete widget.
         dismiss(animated: true, completion: nil)

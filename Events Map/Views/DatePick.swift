@@ -12,7 +12,7 @@ class DatePick: TextField, UITextFieldDelegate {
     
     let datePicker = UIDatePicker()
     let toolbar = UIToolbar()
-    var date = NSDate()
+    var date: NSDate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,7 +44,7 @@ class DatePick: TextField, UITextFieldDelegate {
     }
     
     @objc func clearPressed() {
-        date = NSDate()
+        date = nil
         text = ""
         self.superview?.endEditing(true)
     }
@@ -52,7 +52,7 @@ class DatePick: TextField, UITextFieldDelegate {
     @objc func donePressed() {
         date = datePicker.date as NSDate
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM dd HH:mm"
+        formatter.dateFormat = "E, MMM d, yyyy h:mm a"
         text = formatter.string(from: datePicker.date)
         self.superview?.endEditing(true)
         
