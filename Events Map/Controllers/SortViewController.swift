@@ -11,7 +11,10 @@ import UIKit
 class SortViewController: UITableViewController {
 
     let Time:[String] = ["Today", "Tomorrow", "This Week"]
-    let Popularity:[String] = ["Most Viewed", "Most Liked"]
+    let Popularity:[String] = ["Start Time", "End Time", "Most Viewed", "Most Liked"]
+    
+    var currentSort: String?
+    
     override init(style: UITableViewStyle) {
         super.init(style: .grouped)
     }
@@ -19,6 +22,7 @@ class SortViewController: UITableViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Sort"
@@ -28,7 +32,13 @@ class SortViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        EventService.instance.getCurrentSort() { sort in
+            self.currentSort = sort
+            self.tableView.reloadData()
+        }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -38,42 +48,65 @@ class SortViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        //return 2
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if section == 0 {
-            return 3
+            //return 3
+            return 4
         }
         else {
            return 2
         }
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Time"
-        }
-        else {
-            return "Popularity"
-        }
-    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0 {
+//            //return "Time"
+//            return "Popularity"
+//        }
+//        else {
+//            return "Popularity"
+//        }
+//    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         if indexPath.section == 0 {
-            cell.textLabel?.text = Time[indexPath.row]
+            //cell.textLabel?.text = Time[indexPath.row]
+            cell.textLabel?.text = Popularity[indexPath.row]
         }
         else {
             cell.textLabel?.text = Popularity[indexPath.row]
         }
-        cell.accessoryType = .none
+        
+        if Popularity[indexPath.row] == currentSort {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         cell.selectionStyle = .default // to prevent cells from being "highlighted"
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if tableView.cellForRow(at: indexPath)?.accessoryType != .checkmark {
+            if let rows = tableView.indexPathsForVisibleRows {
+                for index in rows {
+                    tableView.cellForRow(at: index)?.accessoryType = .none
+                }
+            }
+            
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            tableView.deselectRow(at: indexPath, animated: true)
+            
+            if let sort = tableView.cellForRow(at: indexPath)?.textLabel?.text {
+                EventService.instance.setSort(sort: sort)
+            }
+        }
     }
 
     /*
