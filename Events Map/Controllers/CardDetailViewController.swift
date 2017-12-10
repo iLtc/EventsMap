@@ -87,7 +87,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         moreBtn.sizeToFit()
         view.addSubview(moreBtn)
         // Likes button
-        webBtn.frame = CGRect(x: 30, y: view.frame.maxY - 324, width: 0, height: 0)
+        webBtn.frame = CGRect(x: 30, y: view.frame.maxY - 111, width: 0, height: 0)
         webBtn.setImage(#imageLiteral(resourceName: "md-browser").withRenderingMode(.alwaysTemplate).tint(with: .white), for: .normal)
         webBtn.backgroundColor = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
         webBtn.alpha = 0
@@ -113,12 +113,12 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(viewsBtn)
         
         // Likes button
-        navigationBtn.frame = CGRect(x: 30, y: view.frame.maxY - 111, width: 0, height: 0)
+        navigationBtn.frame = CGRect(x: 30, y: view.frame.maxY - 324, width: 0, height: 0)
         navigationBtn.setImage(#imageLiteral(resourceName: "md-navigation").withRenderingMode(.alwaysOriginal).tint(with: .white), for: .normal)
         navigationBtn.backgroundColor = UIColor.MDColor.lightBlue
         navigationBtn.alpha = 0
         navigationBtn.sizeToFit()
-//        navigationBtn.addTarget(self, action: #selector(likesBtnPressed(_:)), for: .touchUpInside)
+        navigationBtn.addTarget(self, action: #selector(getDirection(_:)), for: .touchUpInside)
         view.addSubview(navigationBtn)
         
         // AppBar view
@@ -296,7 +296,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         highlightController.titleColor = .white
         highlightController.titleText = ""
         highlightController.bodyText =
-            String(event.views + 1) + " viewes\n"
+            String(event.views + 1) + " views\n"
             + String(event.likes) + " likes"
         highlightController.bodyColor = .white
         highlightController.outerHighlightColor =
@@ -315,8 +315,8 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
                 sender.setImage(#imageLiteral(resourceName: "md-close").withRenderingMode(.alwaysTemplate), for: .normal)
                 sender.tintColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
                 sender.backgroundColor = .white
-                self.navigationBtn.frame.origin.y = self.view.frame.maxY - 177
-                self.navigationBtn.alpha = 1
+                self.webBtn.frame.origin.y = self.view.frame.maxY - 177
+                self.webBtn.alpha = 1
             }, completion: nil)
             UIButton.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
@@ -330,8 +330,8 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             }, completion: nil)
             UIButton.animate(withDuration: 0.4, delay: 0.3, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
-                self.webBtn.frame.origin.y = self.view.frame.maxY - 390
-                self.webBtn.alpha = 1
+                self.navigationBtn.frame.origin.y = self.view.frame.maxY - 390
+                self.navigationBtn.alpha = 1
             }, completion: nil)
         } else if sender.tag == 1 { // Collapse
             sender.tag = 0 // More close
@@ -339,8 +339,8 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
                 sender.setImage(#imageLiteral(resourceName: "md-more").withRenderingMode(.alwaysTemplate), for: .normal)
                 sender.tintColor = .white
                 sender.backgroundColor = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-                self.navigationBtn.frame.origin.y = self.view.frame.maxY - 111
-                self.navigationBtn.alpha = 0
+                self.webBtn.frame.origin.y = self.view.frame.maxY - 111
+                self.webBtn.alpha = 0
             }, completion: nil)
             UIButton.animate(withDuration: 0.15, delay: 0.1, options: .curveEaseOut, animations: {
                 
@@ -354,8 +354,8 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
             }, completion: nil)
             UIButton.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
                 
-                self.webBtn.frame.origin.y = self.view.frame.maxY - 324
-                self.webBtn.alpha = 0
+                self.navigationBtn.frame.origin.y = self.view.frame.maxY - 324
+                self.navigationBtn.alpha = 0
             }, completion: nil)
         }
     }
@@ -425,8 +425,17 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
 //        self.headerContentView.transform = CGAffineTransform(translationX: 0, y: scrollOffsetY * 0.1 )
         self.headerContentView.frame.size.height = appBar.headerViewController.headerView.frame.height
         
-        
-        
+    }
+    
+    let creation = CreationTransition()
+    
+    // Get direction
+    @objc func getDirection(_ sender: UIButton) {
+        let mapView = MapView(frame: CGRect(origin: sender.center, size: CGSize(width: 250, height: 100)))
+        mapView.tag = 1
+        mapView.event = self.event
+//        mapView.layoutIfNeeded()
+        creation.presentView(startPoint: sender.center, toView: mapView)
     }
     
     // Mark: share method
