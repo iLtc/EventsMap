@@ -72,7 +72,7 @@ class IconViewController: UITableViewController {
         backBtn.image = tintedImage
         backBtn.tintColor = .white
         
-        navigationItem.leftBarButtonItem = backBtn
+//        navigationItem.leftBarButtonItem = backBtn
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -146,6 +146,14 @@ class IconViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat.MDFloat.listItemHeight
+    }
+    
+    override func viewWillLayoutSubviews() {
+        navigationController?.navigationBar.alpha = 0
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.alpha = 0
     }
     /*
     

@@ -11,6 +11,8 @@ import UIKit
 class AboutTableViewController: UITableViewController {
     
     let cellTitle = ["Icons", "Licenses"]
+    var bottomPadding: CGFloat = 0
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
         tableView.separatorStyle = .none
@@ -18,6 +20,18 @@ class AboutTableViewController: UITableViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if #available(iOS 11.0, *) {
+            bottomPadding = view.safeAreaInsets.bottom
+        }
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.alpha = 1
     }
     
     override func viewDidLoad() {
@@ -106,20 +120,22 @@ class AboutTableViewController: UITableViewController {
         } else {
             if indexPath.row == 0 {
                 let vc = IconViewController(nibName: nil, bundle: nil)
-                present(vc, animated: true, completion: nil)
+                navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = LicencesViewController()
                 navigationController?.pushViewController(vc, animated: true)
             }
             
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func openURL(url: URL, title: String) {
         let webViewController = WebViewController()
         webViewController.url = url
+        webViewController.bottomPadding = self.bottomPadding
         webViewController.webTitle = title
-        present(webViewController, animated: true)
+        navigationController?.pushViewController(webViewController, animated: true)
     }
     
 }

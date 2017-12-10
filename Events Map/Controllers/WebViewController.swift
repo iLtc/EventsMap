@@ -160,8 +160,10 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
             webView.goBack()
         }
     }
+    
     @objc func dismissWeb() {
         dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
@@ -280,6 +282,13 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillLayoutSubviews() {
+        navigationController?.navigationBar.alpha = 0
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.alpha = 0
+    }
 
     /*
     // MARK: - Navigation

@@ -20,19 +20,21 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
         scrollView.backgroundColor = .white
         scrollView.delegate = self
         view.addSubview(scrollView)
-        navigationController?.navigationBar.alpha = 0
         
-        appBar.headerViewController.headerView.backgroundColor = .clear
+        appBar.headerViewController.headerView.backgroundColor = UIColor.clear
         let blurEffect = UIBlurEffect(style: .extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = appBar.headerViewController.headerView.frame
+        blurEffectView.frame = appBar.headerViewController.headerView.bounds
         appBar.headerViewController.headerView.insertSubview(blurEffectView, at: 0)
+        
         appBar.headerViewController.headerView.clipsToBounds = true
+        
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.trackingScrollView = scrollView
         appBar.addSubviewsToParent()
+        appBar.navigationBar.hidesBackButton = false
+        appBar.navigationBar.title = "Licenses"
         // Do any additional setup after loading the view.
-        
         licensesLabel.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: view.frame.height)
         licensesLabel.text = """
         Apache License
@@ -236,12 +238,27 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
         See the License for the specific language governing permissions and
         limitations under the License.
+        
+        =================================
+        
+        Events Map uses Material Design icons, copyright Google Inc. and licensed under CC BY 4.0.
+        
+        This work is licensed under the Creative Commons Attribution 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
         """
         licensesLabel.autoresizingMask = .flexibleHeight
         licensesLabel.numberOfLines = 0
+        licensesLabel.sizeToFit()
         scrollView.addSubview(licensesLabel)
         scrollView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         scrollView.contentSize = CGSize(width: view.frame.width, height: licensesLabel.frame.height + 32)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        navigationController?.navigationBar.alpha = 0
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.alpha = 0
     }
 
     override func didReceiveMemoryWarning() {
@@ -282,7 +299,7 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.navigationBar.alpha = 1
+//        navigationController?.navigationBar.alpha = 1
     }
     /*
     // MARK: - Navigation
