@@ -54,6 +54,7 @@
 		2DD060031FDC4DBF007B71B0 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 2DD060021FDC4DBF007B71B0 /* loader.json */; };
 		2DD060051FDC50DA007B71B0 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 2DD060041FDC50DA007B71B0 /* loading.json */; };
 		2DD060071FDC833E007B71B0 /* LicencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD060061FDC833E007B71B0 /* LicencesViewController.swift */; };
+		2DD060091FDCC205007B71B0 /* CreationTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD060081FDCC205007B71B0 /* CreationTransition.swift */; };
 		2DD111DD1FD8510F00AB0E49 /* IconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */; };
 		2DD111E01FD8515B00AB0E49 /* IconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD111DE1FD8515B00AB0E49 /* IconCell.swift */; };
 		2DD111E11FD8515B00AB0E49 /* IconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DD111DF1FD8515B00AB0E49 /* IconCell.xib */; };
@@ -133,6 +134,7 @@
 		2DD060021FDC4DBF007B71B0 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
 		2DD060041FDC50DA007B71B0 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		2DD060061FDC833E007B71B0 /* LicencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicencesViewController.swift; sourceTree = "<group>"; };
+		2DD060081FDCC205007B71B0 /* CreationTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreationTransition.swift; sourceTree = "<group>"; };
 		2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewController.swift; sourceTree = "<group>"; };
 		2DD111DE1FD8515B00AB0E49 /* IconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCell.swift; sourceTree = "<group>"; };
 		2DD111DF1FD8515B00AB0E49 /* IconCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconCell.xib; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				244520521FC3756500D1B956 /* DatePick.swift */,
 				2D9816D71FC4E86100CDBF44 /* LoginView.swift */,
 				2D1ABD141FCA0963004DAF67 /* CircularTransition.swift */,
+				2DD060081FDCC205007B71B0 /* CreationTransition.swift */,
 				2D957CBE1FD504CD00E1B6FD /* ExpandTransition.swift */,
 			);
 			path = Views;
@@ -563,6 +566,7 @@
 				2DD111E01FD8515B00AB0E49 /* IconCell.swift in Sources */,
 				C54A952D1FB810B400206D11 /* PopOverController.swift in Sources */,
 				24A06A681FB00C7D00F433CC /* string-truncate.swift in Sources */,
+				2DD060091FDCC205007B71B0 /* CreationTransition.swift in Sources */,
 				8C2E12471FD348250056512C /* google-login.m in Sources */,
 				2D957CA61FD3590D00E1B6FD /* SearchViewController.swift in Sources */,
 				2D9816DA1FC4E89C00CDBF44 /* SettingsViewController.swift in Sources */,
