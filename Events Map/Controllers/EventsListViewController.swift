@@ -241,12 +241,10 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         activityIndicator.cycleColors = [blue, teal, green, amber, red]
         activityIndicator.startAnimating()
         collectionView?.addSubview(activityIndicator)
-        DispatchQueue.main.async {
-            EventService.instance.getAllUserEvents { (events) in
-                
-                self.events = events.reversed()
+        EventService.instance.getAllUserEvents { (events) in
+            self.events = events.reversed()
+            DispatchQueue.main.async {
                 self.collectionView?.reloadData()
-                
                 activityIndicator.removeFromSuperview()
             }
         }

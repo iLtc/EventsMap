@@ -82,7 +82,8 @@ class EventsListCell: MDCCollectionViewCell {
     }
     
     func populateCell(_ event: Event) {
-        thumbnailImageView.image = UIImage.gif(url: event.photos[0])
+        thumbnailImageView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
+//        thumbnailImageView.image = UIImage.gif(url: event.photos[0])
         let startDate = event.date as Date
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE, MMM dd HH:mm"
