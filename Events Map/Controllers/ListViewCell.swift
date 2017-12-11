@@ -12,10 +12,10 @@ import MaterialComponents
 class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
     
     @IBOutlet weak var eventTitleLabel: UILabel!
-    @IBOutlet weak var eventImageView: UIImageView!
+    @IBOutlet weak var eventImageView: customImageView!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventLocationLabel: UILabel!
-    
+    fileprivate var inkOverlay = InkOverlay()
     var event: Event?
     
     override func awakeFromNib() {
@@ -24,6 +24,10 @@ class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
  self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
         self.isUserInteractionEnabled = true
         self.selectionStyle = .none
+        
+        inkOverlay.frame = self.bounds
+        inkOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(inkOverlay)
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
@@ -44,13 +48,18 @@ class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
 
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView?.image = nil
+    }
+    
     
     func updateViews(_ event: Event) {
         self.event = event
         
         eventTitleLabel.text = event.title
-        
-        eventImageView.image = UIImage.gif(url: event.photos[0])?.resizeImage(targetSize: eventImageView.frame.size)
+        eventImageView.downloadedFrom(link: event.photos[0])
+//        eventImageView.image = UIImage.gif(url: event.photos[0])?.resizeImage(targetSize: eventImageView.frame.size)
         eventImageView.layer.cornerRadius = 10
         eventImageView.clipsToBounds = true
         

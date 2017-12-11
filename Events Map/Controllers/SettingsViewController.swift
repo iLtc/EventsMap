@@ -51,7 +51,8 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        //return 2
+        return section + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,7 +78,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             case 0:
                 let cell = UITableViewCell()
                 cell.accessoryType = .disclosureIndicator
-                cell.textLabel?.text = "About"
+                cell.textLabel?.text = "About and Help"
                 return cell
             case 1:
                 let cell = UITableViewCell()
@@ -126,6 +127,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 self.navigationController?.pushViewController(vc, animated: true)
             case 1:
                 sendEmail()
+                
             default:
                 fatalError("Error row")
             }

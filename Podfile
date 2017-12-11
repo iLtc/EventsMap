@@ -13,5 +13,5 @@ target ‘Events Map’ do
   pod 'Material', '~> 2.0'
   pod 'Google/SignIn'
   pod 'GoogleSignIn'
-  
+  pod 'lottie-ios'
 end

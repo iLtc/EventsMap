@@ -116,6 +116,7 @@ class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignI
             if let _ = UserService.instance.getCurrentUser() {
                 UserService.instance.logout()
                 LoginManager().logOut()
+                GIDSignIn.sharedInstance().signOut()
                 UserImage.image = UIImage(named: "Contacts")
                 UserName.text = "No User"
                 self.tableView.reloadData()

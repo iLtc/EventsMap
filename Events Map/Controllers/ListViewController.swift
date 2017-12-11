@@ -90,8 +90,10 @@ class ListViewController: UITableViewController {
             }
             
             self.events = events
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
             
-            self.tableView.reloadData()
         }
     }
     
@@ -133,6 +135,21 @@ class ListViewController: UITableViewController {
                 sender.tag = 1
             }, completion: nil)
         } else if sender.tag == 1 {
+            if UserService.instance.getCurrentUser() == nil {
+                let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+                alertController.addAction(cancelAction)
+                let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                    let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 270))
+                    loginView.parentVC = self
+                }
+                alertController.addAction(confirmAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+                return
+            }
+            
             let vc = AddEventTableViewController()
             navigationController?.pushViewController(vc, animated: true)
         }
@@ -181,12 +198,14 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.event = events[indexPath.row]
+        let event = events[indexPath.row]
+        let vc = CardDetailViewController()
+        vc.event = event
+        vc.headerContentView.downloadedFrom(link: event.photos[0])
         navigationController?.pushViewController(vc, animated: true)
         
-        tableView.deselectRow(at: indexPath, animated: true)
     }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -12,7 +12,7 @@ import MaterialComponents
 class EventsListCell: MDCCollectionViewCell {
     
     private let labelHeight: CGFloat = 72
-    var index = 0
+    var index: Int = 0
     
     var titleLabel: UILabel = UILabel()
     var dateLabel: UILabel = UILabel()
@@ -24,7 +24,6 @@ class EventsListCell: MDCCollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        self.alpha = 0
         commonInit()
     }
     
@@ -33,9 +32,6 @@ class EventsListCell: MDCCollectionViewCell {
     }
     
     func commonInit() {
-        UIView.animate(withDuration: 0.4, delay: TimeInterval(Double(index) * 0.2), options: .curveEaseOut, animations: {
-            self.alpha = 1
-        }, completion: nil)
         cellView.frame = bounds
         cellView.backgroundColor = .white
         cellView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -86,12 +82,14 @@ class EventsListCell: MDCCollectionViewCell {
     }
     
     func populateCell(_ event: Event) {
-        thumbnailImageView.image = UIImage.gif(url: event.photos[0])
+        thumbnailImageView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
+//        thumbnailImageView.image = UIImage.gif(url: event.photos[0])
         let startDate = event.date as Date
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE, MMM dd HH:mm"
         dateLabel.text = formatter.string(from: startDate)
         titleLabel.text = event.title
+
     }
     
     override func layoutSubviews() {

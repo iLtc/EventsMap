@@ -139,11 +139,12 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoView.addSubview(indicatorView)
         indicatorView.sizeToFit()
         // Mark: imageView UI
-        let imageView = UIImageView(frame: CGRect(x: 15, y: 15, width: 120, height: 80))
+        let imageView = customImageView(frame: CGRect(x: 15, y: 15, width: 120, height: 80))
         
-        let image = UIImage.gif(url: event.photos[0])
-        imageView.image = image?.resizeImage(targetSize: imageView.frame.size)
-        imageView.contentMode = .scaleToFill
+//        let image = UIImage.gif(url: event.photos[0])
+//        imageView.image = image?.resizeImage(targetSize: imageView.frame.size)
+//        imageView.contentMode = .scaleToFill
+        imageView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         infoView.addSubview(imageView)
@@ -420,8 +421,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         UIButton.animate(withDuration: 0.1) {
             sender.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         }
-        let vc = DetailViewController()
+        let vc = CardDetailViewController()
         vc.event = self.event
+        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -430,6 +432,22 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         UIButton.animate(withDuration: 0.1) {
             sender.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
         }
+        
+        if UserService.instance.getCurrentUser() == nil {
+            let alertController = MDCAlertController(title: nil, message: "You need to login.")
+            let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+            alertController.addAction(cancelAction)
+            let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 270))
+                loginView.parentVC = self
+            }
+            alertController.addAction(confirmAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
         let vc = AddEventTableViewController()
         vc.address = self.address
         vc.coordinate = ["la": (self.coordinate!.latitude) , "lo": (self.coordinate!.longitude)]
@@ -454,34 +472,37 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             present(alert, animated: true)
         }
         
-        // Mark: Remove old markers
-        if(markerBuffer.count > 0){
-            for marker in markerBuffer {
-                marker.map = nil
+        DispatchQueue.main.async {
+            // Mark: Remove old markers
+            if(self.markerBuffer.count > 0){
+                for marker in self.markerBuffer {
+                    marker.map = nil
+                }
+                
+                self.markerBuffer = []
             }
             
-            markerBuffer = []
+            for event in events {
+                if event.geo["latitude"] == "" {
+                    continue
+                }
+                let latitude = event.geo["latitude"]! as NSString
+                let longitude = event.geo["longitude"]! as NSString
+                let marker = GMSMarker()
+                let la = latitude.floatValue
+                let lo = longitude.floatValue
+                marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(la), longitude: CLLocationDegrees(lo))
+                marker.icon = GMSMarker.markerImage(with: .red)
+                marker.title = event.title
+                marker.snippet = "\(event.date)"
+                marker.map = self.mapView
+                
+                marker.userData = event
+                
+                self.markerBuffer.append(marker)
+            }
         }
         
-        for event in events {
-            if event.geo["latitude"] == "" {
-                continue
-            }
-            let latitude = event.geo["latitude"]! as NSString
-            let longitude = event.geo["longitude"]! as NSString
-            let marker = GMSMarker()
-            let la = latitude.floatValue
-            let lo = longitude.floatValue
-            marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(la), longitude: CLLocationDegrees(lo))
-            marker.icon = GMSMarker.markerImage(with: .red)
-            marker.title = event.title
-            marker.snippet = "\(event.date)"
-            marker.map = mapView
-            
-            marker.userData = event
-            
-            markerBuffer.append(marker)
-        }
     }
     
     var locationBegan: CGFloat = 0

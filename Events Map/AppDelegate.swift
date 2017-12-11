@@ -14,6 +14,7 @@ import FBSDKLoginKit
 import UserNotifications
 import GoogleSignIn
 import FirebaseCore
+import GGLCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
@@ -21,21 +22,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     var window: UIWindow?
     var isNotify: Bool = false
     
+    var userTableViewController: UserTableViewController?
+    var loadingView: UIView?
+    
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print(error.localizedDescription)
             return
         }
-        print("User signin google")
+        
+        if let vc = userTableViewController {
+            loadingView = vc.activityIndicator("Loading......")
+        }
+        
+        let imageURL = user.profile.imageURL(withDimension: 320)!
+        
+        UserService.instance.addUser(pid: user.userID, name: user.profile.name, picURL: imageURL.absoluteString, platform:.google) { user in
+            if let vc = self.userTableViewController {
+                self.loadingView?.removeFromSuperview()
+                
+                let image = UIImage.gif(url: user.picURL)!
+                
+                vc.UserImage.image = image.resizeImage(targetSize: (vc.UserImage.frame.size))
+                vc.UserName.text = user.name
+                vc.tableView.reloadData()
+            }
+        }
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user:GIDGoogleUser!,
                 withError error: Error!) {
         print("Sign out Google" )
-    }
-    
-    func application(_ _app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -46,6 +63,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.makeKeyAndVisible()
+        
+        var configureError: NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
         GIDSignIn.sharedInstance().delegate = self
 
         var mainViewController = UIViewController()
@@ -72,11 +93,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if let host = url.host {
-            print(host)
+        print(url)
+        if url.scheme == "fb444439642616561" {
+            return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         }
         
-        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        if url.scheme == "com.googleusercontent.apps.417113963893-78u5q5ht06mffvbb5s0acj2io2i9vhk9" {
+            return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: sourceApplication, annotation: annotation)
+        }
+        
+        return false
     }
 
 
@@ -205,6 +231,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         print("Notification Reset")
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         isNotify = false
+    }
+    
+    // Returns the most recently presented UIViewController (visible)
+    class func getCurrentViewController() -> UIViewController? {
+        
+        // If the root view is a navigation controller, we can just return the visible ViewController
+        if let navigationController = getNavigationController() {
+            
+            return navigationController.visibleViewController
+        }
+        
+        // Otherwise, we must get the root UIViewController and iterate through presented views
+        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+            
+            var currentController: UIViewController! = rootController
+            
+            // Each ViewController keeps track of the view it has presented, so we
+            // can move from the head to the tail, which will always be the current view
+            while( currentController.presentedViewController != nil ) {
+                
+                currentController = currentController.presentedViewController
+            }
+            return currentController
+        }
+        return nil
+    }
+    
+    // Returns the navigation controller if it exists
+    class func getNavigationController() -> UINavigationController? {
+        
+        if let navigationController = UIApplication.shared.keyWindow?.rootViewController  {
+            
+            return navigationController as? UINavigationController
+        }
+        return nil
     }
 }
 

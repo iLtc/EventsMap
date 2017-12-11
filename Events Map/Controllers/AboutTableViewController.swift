@@ -10,6 +10,9 @@ import UIKit
 
 class AboutTableViewController: UITableViewController {
     
+    let cellTitle = ["Icons", "Licenses"]
+    var bottomPadding: CGFloat = 0
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
         tableView.separatorStyle = .none
@@ -19,8 +22,22 @@ class AboutTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if #available(iOS 11.0, *) {
+            bottomPadding = view.safeAreaInsets.bottom
+        }
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.alpha = 1
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = "About and Help"
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -38,67 +55,87 @@ class AboutTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if section == 0 {
+            return 3
+        } else {
+            return 2
+        }
     }
-
-    /*
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Developer"
+        } else {
+            return "Help"
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+                cell.textLabel?.text = "Tiancheng Luo"
+                return cell
+            case 1:
+                let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+                cell.textLabel?.text = "Yizhen Chen"
+                return cell
+            case 2:
+                let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+                cell.textLabel?.text = "Zhenming Wang"
+                return cell
+            default:
+                fatalError("Error row")
+            }
+        } else {
+            let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+            cell.textLabel?.text = cellTitle[indexPath.row]
+            
+            return cell
+        }
     }
-    */
+    
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                openURL(url: URL(string: "https://iLtc.io")!, title: "Tiancheng Luo")
+            case 1:
+                openURL(url: URL(string: "https://homepage.divms.uiowa.edu/~ychen261/")!, title: "Yizhen Chen")
+            case 2:
+                openURL(url: URL(string: "https://homepage.divms.uiowa.edu/~zwang191/")!, title: "Zhenming Wang")
+            default:
+                fatalError("Error row")
+            }
+        } else {
+            if indexPath.row == 0 {
+                let vc = IconViewController(nibName: nil, bundle: nil)
+                navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = LicencesViewController()
+                navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func openURL(url: URL, title: String) {
+        let webViewController = WebViewController()
+        webViewController.url = url
+        webViewController.bottomPadding = self.bottomPadding
+        webViewController.webTitle = title
+        navigationController?.pushViewController(webViewController, animated: true)
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
 }

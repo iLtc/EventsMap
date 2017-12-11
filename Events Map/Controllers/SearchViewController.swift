@@ -19,6 +19,13 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
     var filteredEvents = [Event]()
     private var isSearching = false
     
+    override func viewWillAppear(_ animated: Bool) {
+        EventService.instance.getEvents { (events) in
+            self.events = events
+            self.collectionView?.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,9 +39,6 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
 //        searchBar.delegate = self
 //        searchBar.showsCancelButton = true
 //        searchBar.becomeFirstResponder()
-        EventService.instance.getEvents { (events) in
-            self.events = events
-        }
         
         // AppBar view
         addChildViewController(appBar.headerViewController)
@@ -111,13 +115,19 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
+        let vc = CardDetailViewController()
+        var event = Event()
         if isSearching {
-            vc.event = filteredEvents[indexPath.row]
+            event = filteredEvents[indexPath.row]
+            
         } else {
-            vc.event = events[indexPath.row]
+            event = events[indexPath.row]
         }
+        vc.event = event
+//        vc.headerContentView.image = UIImage.gif(url: event.photos[0])
+        vc.headerContentView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
         present(vc, animated: true, completion: nil)
+        
     }
     /*
     // MARK: - Navigation
@@ -156,11 +166,31 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
                 event = events[indexPath.row]
             }
             cell.textLabel?.text = event.title
-            
+            let startDate = event.date as Date
+            let endDate = event.endDate as Date
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE, MMM dd HH:mm"
+            let endFormatter = DateFormatter()
+            endFormatter.dateFormat = "HH:mm"
+            var eventStartDate = String()
+            var eventEndDate = String()
+            if (Calendar.current.isDate(startDate, inSameDayAs: endDate)) {
+                eventStartDate = formatter.string(from: startDate)
+                eventEndDate = endFormatter.string(from: endDate)
+            } else {
+                eventStartDate = formatter.string(from: startDate)
+                eventEndDate = formatter.string(from: endDate)
+                
+            }
+            cell.detailTextLabel?.text = eventStartDate + " - " + eventEndDate
             return cell
         } else {
             return MDCCollectionViewTextCell()
         }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 
     // MARK: UICollectionViewDelegate
