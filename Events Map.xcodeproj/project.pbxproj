@@ -746,7 +746,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Events Map/Events Map.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FUS7NVY2CP;
+				DEVELOPMENT_TEAM = 625732G463;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GooglePlaces/Frameworks",
@@ -756,7 +756,7 @@
 				INFOPLIST_FILE = "Events Map/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.iLtc.HawkEvents;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.EventsMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events Map/Events Map-Bridging-Header.h";
@@ -776,7 +776,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Events Map/Events Map.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FUS7NVY2CP;
+				DEVELOPMENT_TEAM = 625732G463;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GooglePlaces/Frameworks",
@@ -786,7 +786,7 @@
 				INFOPLIST_FILE = "Events Map/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.iLtc.HawkEvents;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.EventsMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events Map/Events Map-Bridging-Header.h";
