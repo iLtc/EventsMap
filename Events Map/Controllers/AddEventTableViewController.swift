@@ -34,7 +34,6 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     var endDateCell = UITableViewCell()
     var descripCell = UITableViewCell()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Add Event"
