@@ -10,7 +10,9 @@ import UIKit
 import EventKit
 import MaterialComponents
 
-class CardDetailViewController: UIViewController, UIScrollViewDelegate {
+class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewControllerTransitioningDelegate {
+    
+    var existingInteractivePopGestureRecognizerDelegate : UIGestureRecognizerDelegate?
     
     var event: Event!
     var scrollView = DetailView()
@@ -19,12 +21,15 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     var cardHeaderView = UIView()
     let titleLabel = UILabel()
     var shareBtn = UIBarButtonItem()
+    // Side buttons
     let moreBtn = MDCFloatingButton()
     let webBtn = MDCFloatingButton()
     let calendarBtn = MDCFloatingButton()
     let viewsBtn = MDCFloatingButton()
     let navigationBtn = MDCFloatingButton()
+    
     var bottomPadding: CGFloat = 0
+    let transition = CircularTransition()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -33,6 +38,22 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         appBar.navigationBar.tintColor = .white
         
         
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.transitionMode = .present
+        transition.startingPoint = webBtn.center
+        transition.circleColor = webBtn.backgroundColor!
+        
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.transitionMode = .dismiss
+        transition.startingPoint = webBtn.center
+        transition.circleColor = UIColor.white
+        
+        return transition
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,16 +71,31 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        // Hide the navigation bar on the this view controller
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        // Hold reference to current interactivePopGestureRecognizer delegate
+        if navigationController?.interactivePopGestureRecognizer?.delegate != nil {
+            existingInteractivePopGestureRecognizerDelegate = navigationController?.interactivePopGestureRecognizer?.delegate!
+        }
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Set interactivePopGestureRecognizer delegate to nil
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        // Show the navigation bar on other view controllers
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        // Return interactivePopGestureRecognizer delegate to previously held object
+        if existingInteractivePopGestureRecognizerDelegate != nil {
+            navigationController?.interactivePopGestureRecognizer?.delegate = existingInteractivePopGestureRecognizerDelegate!
+        }
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     override func viewDidLoad() {
@@ -145,7 +181,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         let timingFunction = CAMediaTimingFunction.mdc_function(withType: materialCurve)
         let gradientChangeAnimation = CABasicAnimation(keyPath: "colors")
         gradientChangeAnimation.timingFunction = timingFunction
-        gradientChangeAnimation.duration = 0.33
+        gradientChangeAnimation.duration = 0.4
         
         gradientChangeAnimation.toValue = [UIColor.black.cgColor, UIColor.clear.cgColor]
         gradientChangeAnimation.fillMode = kCAFillModeForwards
@@ -230,7 +266,8 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate {
         webViewController.url = url
         webViewController.bottomPadding = self.bottomPadding
         webViewController.webTitle = event.title
-        webViewController.transitionController.transition = MDCMaskedTransition(sourceView: webBtn)
+        webViewController.transitioningDelegate = self
+        webViewController.modalPresentationStyle = .custom
         present(webViewController, animated: true)
     }
     
