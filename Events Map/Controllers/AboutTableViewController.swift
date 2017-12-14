@@ -135,7 +135,8 @@ class AboutTableViewController: UITableViewController {
         webViewController.url = url
         webViewController.bottomPadding = self.bottomPadding
         webViewController.webTitle = title
-        navigationController?.pushViewController(webViewController, animated: true)
+//        navigationController?.pushViewController(webViewController, animated: true)
+        self.show(webViewController, sender: nil)
     }
     
 }

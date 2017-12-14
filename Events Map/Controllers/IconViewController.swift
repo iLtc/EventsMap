@@ -13,6 +13,8 @@ private let identifier = "IconCell"
 
 class IconViewController: UITableViewController {
 
+    var existingInteractivePopGestureRecognizerDelegate : UIGestureRecognizerDelegate?
+    
     let appBar = MDCAppBar()
     let icons: [[Any]] = [
         [#imageLiteral(resourceName: "md-star"), "Favorite"],
@@ -53,17 +55,16 @@ class IconViewController: UITableViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        appBar.headerViewController.headerView.backgroundColor = UIColor(red:1.00, green:0.60, blue:0.00, alpha:1.0)
+        appBar.headerViewController.headerView.backgroundColor = UIColor.MDColor.orange
         
         appBar.headerViewController.headerView.trackingScrollView = tableView
         
         appBar.addSubviewsToParent()
         appBar.navigationBar.hidesBackButton = false
-        let titleView = UILabel()
-        titleView.text = "Icons"
-        titleView.textColor = .white
-        titleView.font = MDCTypography.titleFont()
-        appBar.navigationBar.titleView = titleView
+        appBar.navigationBar.title = "Icons"
+        appBar.navigationBar.titleTextAttributes = [
+            NSAttributedStringKey.font: MDCTypography.titleFont(),
+            NSAttributedStringKey.foregroundColor: UIColor.white]
         
         let backBtn = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(dismissIcon))
         
@@ -82,10 +83,6 @@ class IconViewController: UITableViewController {
     }
     @objc func dismissIcon() {
         dismiss(animated: true, completion: nil)
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
     }
     
     override func didReceiveMemoryWarning() {
@@ -148,12 +145,37 @@ class IconViewController: UITableViewController {
         return CGFloat.MDFloat.listItemHeight
     }
     
-    override func viewWillLayoutSubviews() {
-        navigationController?.navigationBar.alpha = 0
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // Hold reference to current interactivePopGestureRecognizer delegate
+        if navigationController?.interactivePopGestureRecognizer?.delegate != nil {
+            existingInteractivePopGestureRecognizerDelegate = navigationController?.interactivePopGestureRecognizer?.delegate!
+        }
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.alpha = 0
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Set interactivePopGestureRecognizer delegate to nil
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Return interactivePopGestureRecognizer delegate to previously held object
+        if existingInteractivePopGestureRecognizerDelegate != nil {
+            navigationController?.interactivePopGestureRecognizer?.delegate = existingInteractivePopGestureRecognizerDelegate!
+        }
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     /*
     
