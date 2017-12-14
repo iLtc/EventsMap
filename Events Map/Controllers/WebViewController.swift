@@ -11,11 +11,13 @@ import MaterialComponents
 
 class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDelegate, UIWebViewDelegate {
     
+    var existingInteractivePopGestureRecognizerDelegate : UIGestureRecognizerDelegate?
+    
     let appBar = MDCAppBar()
     let webView = UIWebView()
     let buttonBar = MDCButtonBar()
     let progressView = MDCProgressView()
-    let tintColor = UIColor.MDColor.blue
+    let tintColor = UIColor.white
 //    let searchBar = UISearchBar()
     var refreshBtn = UIBarButtonItem()
     var back = UIBarButtonItem()
@@ -27,16 +29,16 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         view.backgroundColor = .white
         webView.backgroundColor = .white
 //        activityIndicator.hidden = false
         addChildViewController(appBar.headerViewController)
-        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffect = UIBlurEffect(style: .dark)
         let topBlurEffectView = UIVisualEffectView(effect: blurEffect)
         topBlurEffectView.frame = appBar.headerViewController.headerView.frame
         appBar.headerViewController.headerView.insertSubview(topBlurEffectView, at: 0)
-        appBar.headerViewController.headerView.backgroundColor = .clear //UIColor(red:0.80, green:0.86, blue:0.22, alpha:1.0) // Lime
+        appBar.headerViewController.headerView.backgroundColor = .clear
         topBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         webView.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height - 44 - bottomPadding))
         webView.scrollView.delegate = self
@@ -47,7 +49,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         
         let progressViewHeight = CGFloat(2)
         progressView.frame = CGRect(x: 0, y: view.bounds.height/2 - progressViewHeight, width: view.bounds.width, height: progressViewHeight)
-        progressView.progressTintColor = tintColor
+        progressView.progressTintColor = UIColor.MDColor.blue
         progressView.backwardProgressAnimationMode = .animate
         
         
@@ -108,7 +110,11 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
 //        searchBar.tintColor = UIColor(red:0.31, green:0.76, blue:0.97, alpha:1.0)
 //        searchBar.backgroundColor = UIColor(red:0.27, green:0.54, blue:1.00, alpha:1.0)
 //        appBar.navigationBar.titleView = searchBar
+        
         appBar.navigationBar.title = webTitle
+        appBar.navigationBar.titleTextAttributes = [
+            NSAttributedStringKey.font: MDCTypography.titleFont(),
+            NSAttributedStringKey.foregroundColor: UIColor.white]
         appBar.headerStackView.bottomBar = progressView
         
         appBar.navigationBar.tintColor = tintColor
@@ -273,8 +279,9 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         }
     }
     
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
+        return .lightContent
     }
     
     override func didReceiveMemoryWarning() {
@@ -282,14 +289,34 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillLayoutSubviews() {
-        navigationController?.navigationBar.alpha = 0
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // Hold reference to current interactivePopGestureRecognizer delegate
+        if navigationController?.interactivePopGestureRecognizer?.delegate != nil {
+            existingInteractivePopGestureRecognizerDelegate = navigationController?.interactivePopGestureRecognizer?.delegate!
+        }
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.alpha = 0
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Set interactivePopGestureRecognizer delegate to nil
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Return interactivePopGestureRecognizer delegate to previously held object
+        if existingInteractivePopGestureRecognizerDelegate != nil {
+            navigationController?.interactivePopGestureRecognizer?.delegate = existingInteractivePopGestureRecognizerDelegate!
+        }
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
     /*
     // MARK: - Navigation
 

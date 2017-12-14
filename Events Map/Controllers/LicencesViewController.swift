@@ -11,6 +11,8 @@ import MaterialComponents
 
 class LicencesViewController: UIViewController, UIScrollViewDelegate {
 
+    var existingInteractivePopGestureRecognizerDelegate : UIGestureRecognizerDelegate?
+    
     let appBar = MDCAppBar()
     let scrollView = UIScrollView()
     let licensesLabel = UILabel()
@@ -22,16 +24,21 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(scrollView)
         
         appBar.headerViewController.headerView.backgroundColor = UIColor.clear
-        let blurEffect = UIBlurEffect(style: .extraLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = appBar.headerViewController.headerView.bounds
-        appBar.headerViewController.headerView.contentView.insertSubview(blurEffectView, at: 0)
-        appBar.headerViewController.headerView.contentView.clipsToBounds = true
         addChildViewController(appBar.headerViewController)
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = appBar.headerViewController.headerView.frame
+        appBar.headerViewController.headerView.insertSubview(blurEffectView, at: 0)
+//        appBar.headerViewController.headerView.contentView.clipsToBounds = true
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        appBar.navigationBar.tintColor = .white
         appBar.headerViewController.headerView.trackingScrollView = scrollView
         appBar.addSubviewsToParent()
         appBar.navigationBar.hidesBackButton = false
         appBar.navigationBar.title = "Licenses"
+        appBar.navigationBar.titleTextAttributes = [
+            NSAttributedStringKey.font: MDCTypography.titleFont(),
+            NSAttributedStringKey.foregroundColor: UIColor.white]
         // Do any additional setup after loading the view.
         licensesLabel.frame = CGRect(x: 16, y: 16, width: view.frame.width - 32, height: view.frame.height)
         licensesLabel.text = """
@@ -251,25 +258,42 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
         scrollView.contentSize = CGSize(width: view.frame.width, height: licensesLabel.frame.height + 32)
     }
     
-    override func viewWillLayoutSubviews() {
-        navigationController?.navigationBar.alpha = 0
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.alpha = 0
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // Hold reference to current interactivePopGestureRecognizer delegate
+        if navigationController?.interactivePopGestureRecognizer?.delegate != nil {
+            existingInteractivePopGestureRecognizerDelegate = navigationController?.interactivePopGestureRecognizer?.delegate!
+        }
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Set interactivePopGestureRecognizer delegate to nil
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Return interactivePopGestureRecognizer delegate to previously held object
+        if existingInteractivePopGestureRecognizerDelegate != nil {
+            navigationController?.interactivePopGestureRecognizer?.delegate = existingInteractivePopGestureRecognizerDelegate!
+        }
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    override var childViewControllerForStatusBarStyle: UIViewController? {
-        return appBar.headerViewController
     }
     
     // MARK: UIScrollViewDelegate
@@ -298,10 +322,6 @@ class LicencesViewController: UIViewController, UIScrollViewDelegate {
             let headerView = appBar.headerViewController.headerView
             headerView.trackingScrollWillEndDragging(withVelocity: velocity, targetContentOffset: targetContentOffset)
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-//        navigationController?.navigationBar.alpha = 1
     }
     /*
     // MARK: - Navigation
