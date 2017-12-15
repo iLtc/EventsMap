@@ -15,7 +15,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     // Parameters
     var address: String?
     var coordinate: [String: Double]?
-    
+    var isSaved = false
     var imageHasPicked = false
     
     // Input Views
@@ -335,9 +335,10 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
                 let vc = CardDetailViewController()
                 vc.event = event
                 vc.headerContentView.image = UIImage.gif(url: event.photos[0])
-                self.dismiss(animated: true, completion: {
-                    self.show(vc, sender: nil)
-                })
+                self.isSaved = true
+                self.present(vc, animated: true, completion: nil)
+                
+
             }
         }
         
@@ -403,6 +404,9 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if isSaved {
+            self.dismiss(animated: true, completion: nil)
+        }
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         // Hold reference to current interactivePopGestureRecognizer delegate
