@@ -19,7 +19,7 @@ class CircularTransition: NSObject {
     
     var circleColor = UIColor.white
     
-    var duration = 0.3
+    var duration = 0.33
     
     enum CircularTransitionMode:Int {
         case present, dismiss, pop
@@ -61,12 +61,19 @@ extension CircularTransition:UIViewControllerAnimatedTransitioning {
                 
                 UIView.animate(withDuration: duration, animations: { 
                     self.circle.transform = CGAffineTransform.identity
+                    
                     presentedView.transform = CGAffineTransform.identity
-                    presentedView.alpha = 1
+                    
                     presentedView.center = viewCenter
                     
                 }, completion: { (success:Bool) in
-                    transitionContext.completeTransition(success)
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                        self.circle.backgroundColor = presentedView.backgroundColor
+                        presentedView.alpha = 1
+                    }, completion: { (finished:Bool) in
+                        transitionContext.completeTransition(finished)
+                    })
+                    
                 })
             }
             

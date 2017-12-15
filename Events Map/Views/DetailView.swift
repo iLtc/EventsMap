@@ -46,7 +46,7 @@ class DetailView: UIScrollView {
         let address = event.location
         let labelPadding: CGFloat = 50
         
-        titleIcon.frame.origin = CGPoint(x: labelPadding, y: labelPadding)
+        titleIcon.frame.origin = CGPoint(x: 30, y: labelPadding)
         titleLabel.font = MDCTypography.headlineFont()
         titleLabel.textColor = .black
         titleLabel.lineBreakMode = .byWordWrapping
@@ -68,7 +68,7 @@ class DetailView: UIScrollView {
         self.addSubview(titleIcon)
         
         
-        dateIcon.frame.origin = CGPoint(x: labelPadding, y: titleLabel.frame.maxY + labelPadding)
+        dateIcon.frame.origin = CGPoint(x: 30, y: titleLabel.frame.maxY + labelPadding)
         dateIcon.alpha = 0.75
         dateLabel.font = MDCTypography.subheadFont()
         dateLabel.lineBreakMode = .byWordWrapping
@@ -104,7 +104,7 @@ class DetailView: UIScrollView {
         
         
         addressIcon.alpha = 0.5
-        addressIcon.frame.origin = CGPoint(x: labelPadding, y: dateLabel.frame.maxY + labelPadding)
+        addressIcon.frame.origin = CGPoint(x: 30, y: dateLabel.frame.maxY + labelPadding)
         addressLabel.font = MDCTypography.subheadFont()
         addressLabel.lineBreakMode = .byWordWrapping
         addressLabel.numberOfLines = 2
@@ -121,7 +121,7 @@ class DetailView: UIScrollView {
         self.addSubview(addressIcon)
         self.addSubview(addressLabel)
         
-        descIcon.frame.origin = CGPoint(x: labelPadding, y: addressLabel.frame.maxY + labelPadding)
+        descIcon.frame.origin = CGPoint(x: 30, y: addressLabel.frame.maxY + labelPadding)
         descIcon.alpha = 0.25
         self.addSubview(descIcon)
         labelDesc.lineBreakMode = .byWordWrapping
