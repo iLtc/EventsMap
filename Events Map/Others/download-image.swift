@@ -46,7 +46,7 @@ extension UIImageView {
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
         contentMode = mode
         
-        image = UIImage.gif(data: (NSDataAsset(name: "Loading")?.data)!)
+        image = nil
         
 //        let animationView = LOTAnimationView(name: "loader")
 //        animationView.frame = frame
