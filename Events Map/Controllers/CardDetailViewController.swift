@@ -175,7 +175,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
         let gradient = CAGradientLayer()
         gradient.frame = headerContentView.frame
         gradient.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
-        gradient.locations = [-0.3, 0.4]
+        gradient.locations = [-0.4, 0.4]
         headerContentView.layer.insertSublayer(gradient, at: 0)
         let materialCurve = MDCAnimationTimingFunction.easeOut
         let timingFunction = CAMediaTimingFunction.mdc_function(withType: materialCurve)
@@ -455,6 +455,11 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
 //                self.headerContentView.alpha = 1
                 self.appBar.headerViewController.headerView.backgroundColor = .white
                 
+                
+            }, completion: nil)
+        } else {
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
+                self.headerContentView.alpha = 1
                 
             }, completion: nil)
         }
