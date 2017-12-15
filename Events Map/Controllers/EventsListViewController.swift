@@ -209,7 +209,7 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         
         DispatchQueue.main.async {
             self.zoomableImageView.image = cell.thumbnailImageView.image
-            UIView.animate(withDuration: 0.33, delay: 0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
                 self.appBar.headerViewController.view.alpha = 0
                 let quantumEaseInOut = CAMediaTimingFunction.mdc_function(withType: .easeInOut)
                 CATransaction.setAnimationTimingFunction(quantumEaseInOut)

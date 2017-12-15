@@ -424,7 +424,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let vc = CardDetailViewController()
         vc.event = self.event
         vc.headerContentView.image = UIImage.gif(url: event.photos[0])
-        navigationController?.pushViewController(vc, animated: true)
+        self.show(vc, sender: nil)
     }
     
     // Mark: AddView tap action
@@ -451,8 +451,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let vc = AddEventTableViewController()
         vc.address = self.address
         vc.coordinate = ["la": (self.coordinate!.latitude) , "lo": (self.coordinate!.longitude)]
-        
-        navigationController?.pushViewController(vc, animated: true)
+        self.show(vc, sender: nil)
     }
     
     
