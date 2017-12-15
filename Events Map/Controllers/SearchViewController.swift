@@ -30,6 +30,7 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
         super.viewDidLoad()
         
         styler.cellStyle = .card
+        view.backgroundColor = .white
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
