@@ -154,7 +154,6 @@ class IconViewController: UITableViewController {
             existingInteractivePopGestureRecognizerDelegate = navigationController?.interactivePopGestureRecognizer?.delegate!
         }
         setNeedsStatusBarAppearanceUpdate()
-        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

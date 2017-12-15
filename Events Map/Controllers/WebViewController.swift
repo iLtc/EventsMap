@@ -298,7 +298,6 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
             existingInteractivePopGestureRecognizerDelegate = navigationController?.interactivePopGestureRecognizer?.delegate!
         }
         setNeedsStatusBarAppearanceUpdate()
-        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {

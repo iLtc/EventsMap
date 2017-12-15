@@ -34,12 +34,28 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
     var endDateCell = UITableViewCell()
     var descripCell = UITableViewCell()
     
+    let appBar = MDCAppBar()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Add Event"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveBtnPressed))
-        
-        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(dismissView))
+        appBar.headerViewController.headerView.backgroundColor = UIColor.clear
+        addChildViewController(appBar.headerViewController)
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = appBar.headerViewController.headerView.frame
+        appBar.headerViewController.headerView.insertSubview(blurEffectView, at: 0)
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        appBar.navigationBar.tintColor = .white
+        appBar.headerViewController.headerView.trackingScrollView = tableView
+        appBar.addSubviewsToParent()
+        appBar.navigationBar.hidesBackButton = true
+        appBar.navigationBar.title = "Add Event"
+        appBar.navigationBar.titleTextAttributes = [
+            NSAttributedStringKey.font: MDCTypography.titleFont(),
+            NSAttributedStringKey.foregroundColor: UIColor.white]
         
         setCellUI()
         
@@ -319,7 +335,9 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
                 let vc = CardDetailViewController()
                 vc.event = event
                 vc.headerContentView.image = UIImage.gif(url: event.photos[0])
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.dismiss(animated: true, completion: {
+                    self.show(vc, sender: nil)
+                })
             }
         }
         
@@ -378,7 +396,50 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             fatalError("Unknown number of rows")
         }
     }
-
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // Hold reference to current interactivePopGestureRecognizer delegate
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    @objc func dismissView() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: UIScrollViewDelegate
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == appBar.headerViewController.headerView.trackingScrollView {
+            appBar.headerViewController.headerView.trackingScrollDidScroll()
+        }
+    }
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == appBar.headerViewController.headerView.trackingScrollView {
+            appBar.headerViewController.headerView.trackingScrollDidEndDecelerating()
+        }
+    }
+    
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == appBar.headerViewController.headerView.trackingScrollView {
+            let headerView = appBar.headerViewController.headerView
+            headerView.trackingScrollDidEndDraggingWillDecelerate(decelerate)
+        }
+    }
+    
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if scrollView == appBar.headerViewController.headerView.trackingScrollView {
+            let headerView = appBar.headerViewController.headerView
+            headerView.trackingScrollWillEndDragging(withVelocity: velocity, targetContentOffset: targetContentOffset)
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

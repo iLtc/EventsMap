@@ -15,6 +15,7 @@ class MapView: UIView {
     var event: Event = Event()
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         let titleLabel = UILabel(frame: CGRect(x: 16, y: 16, width: 0, height: 0))
         titleLabel.text = "Get Directions"
         titleLabel.font = MDCTypography.titleFont()
@@ -58,7 +59,6 @@ class MapView: UIView {
         let mapItem = MKMapItem(placemark: placeMark)
         mapItem.name = event.title
         mapItem.openInMaps(launchOptions: options)
-        
         
         
     }

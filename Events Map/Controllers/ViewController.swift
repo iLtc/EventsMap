@@ -451,7 +451,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let vc = AddEventTableViewController()
         vc.address = self.address
         vc.coordinate = ["la": (self.coordinate!.latitude) , "lo": (self.coordinate!.longitude)]
-        self.show(vc, sender: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
     
