@@ -84,7 +84,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
         
         // Google button
         let googleBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: 10, y: facebookBtn.frame.maxY + 70, width: frame.width - 20, height: 40))
+            let button = UIButton(frame: CGRect(x: 10, y: facebookBtn.frame.maxY + 90, width: frame.width - 20, height: 40))
             let imageView = UIImageView(frame: CGRect(x: 50, y: 6, width: 29, height: 29))
             imageView.image = UIImage(named: "Google")
             button.addSubview(imageView)
@@ -111,7 +111,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
         
         addSubview(googleBtn)
         
-        UIButton.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
+        UIButton.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseOut, animations: {
             googleBtn.frame.origin.y = facebookBtn.frame.maxY + 20
             googleBtn.alpha = 1
         }, completion: nil)
@@ -134,7 +134,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
         
         self.addSubview(demoBtn)
         
-        UIButton.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseOut, animations: {
+        UIButton.animate(withDuration: 0.5, delay: 0.6, options: .curveEaseOut, animations: {
             demoBtn.frame.origin.y = googleBtn.frame.maxY + 20
             demoBtn.alpha = 1
         }, completion: nil)
