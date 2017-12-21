@@ -40,6 +40,7 @@
 		2D2D61BB1FD68BF10028B9AF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D61BA1FD68BF10028B9AF /* DetailView.swift */; };
 		2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */; };
 		2D7093971FD0BD9000F5A538 /* AddEventTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */; };
+		2D8518BD1FEB988D00A661E2 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8518BC1FEB988D00A661E2 /* InfoView.swift */; };
 		2D957CA61FD3590D00E1B6FD /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */; };
 		2D957CA71FD3590D00E1B6FD /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */; };
 		2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */; };
@@ -121,6 +122,7 @@
 		2D2D61BA1FD68BF10028B9AF /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
 		2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEventTableViewController.xib; sourceTree = "<group>"; };
+		2D8518BC1FEB988D00A661E2 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextCell.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				2D2D61BA1FD68BF10028B9AF /* DetailView.swift */,
+				2D8518BC1FEB988D00A661E2 /* InfoView.swift */,
 				245404091FBB4F2200206838 /* MapsCell.swift */,
 				2D1EF84D1FDCFAD90099CF85 /* MapView.swift */,
 				244520521FC3756500D1B956 /* DatePick.swift */,
@@ -578,6 +581,7 @@
 				2D957CBF1FD504CD00E1B6FD /* ExpandTransition.swift in Sources */,
 				24DCFDF91FD61C200031CACF /* AboutTableViewController.swift in Sources */,
 				2DD111E51FD99B2D00AB0E49 /* material-design-extension.swift in Sources */,
+				2D8518BD1FEB988D00A661E2 /* InfoView.swift in Sources */,
 				8C46AF341FCB804100ABA5FC /* CategoryViewController.swift in Sources */,
 				2D957CB91FD3D0D900E1B6FD /* InkOverlay.swift in Sources */,
 				2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */,
