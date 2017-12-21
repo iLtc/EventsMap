@@ -54,10 +54,13 @@ class MapView: UIView {
         let regionDistance: CLLocationDistance = 1000;
         let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
         let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span),
+            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault] as [String : Any]
         let placeMark = MKPlacemark(coordinate: coordinates)
         let mapItem = MKMapItem(placemark: placeMark)
-        mapItem.name = event.title
+        mapItem.name = event.location
         mapItem.openInMaps(launchOptions: options)
         
         
