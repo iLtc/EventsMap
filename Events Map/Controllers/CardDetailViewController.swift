@@ -223,10 +223,10 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
         }
         
         let deleteBtn = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(deleteBtnPressed(_:)))
-        deleteBtn.image = UIImage(named: "md-delete")
+        deleteBtn.image = UIImage(named: "md-delete-1")
         
         if event.owned {
-            navigationItem.rightBarButtonItems = [deleteBtn, shareBtn, likeBtn]
+            navigationItem.rightBarButtonItems = [shareBtn, likeBtn, deleteBtn]
         } else {
             navigationItem.rightBarButtonItems = [shareBtn, likeBtn]
         }
