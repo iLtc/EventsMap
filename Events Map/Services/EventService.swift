@@ -303,4 +303,20 @@ class EventService {
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/views", method: .post, parameters: parameters)
     }
+    
+    func delete(_ event: Event, _ callback: @escaping ((String, String) -> Void)) {
+        var parameters: [String: Any] = [:]
+        if let user = UserService.instance.getCurrentUser() {
+            parameters["uid"] = user.id
+        }else{
+            callback("Failed", "User Not Login")
+        }
+        
+        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id, method: .delete, parameters: parameters).responseJSON { response in
+            if let result = response.result.value {
+                let json = JSON(result)
+                callback(json["status"].stringValue, json["error"].stringValue)
+            }
+        }
+    }
 }

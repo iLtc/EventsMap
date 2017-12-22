@@ -66,6 +66,12 @@ class Event {
         EventService.instance.countViews(self)
     }
     
+    func delete(_ callback: @escaping ((String, String) -> Void)) {
+        EventService.instance.delete(self) {status, error in
+            callback(status, error)
+        }
+    }
+    
     func debug() -> String {
         return "id: \(self.id), title: \(self.title.trunc(7)), url: \(self.url.trunc(7)), date: \(self.date), location: \(self.location.trunc(7)), description: \(self.description.trunc(21)), photos: \(self.photos.joined(separator: ", ").trunc(7)), geo: \(self.geo), categories: \(self.categories.joined(separator: ", ").trunc(21))"
     }
