@@ -167,6 +167,9 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
             appBar.headerViewController.headerView.maximumHeight = 160
         }
         
+        if headerContentView.image == nil {
+            headerContentView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
+        }
         headerContentView.contentMode = .scaleAspectFill
         headerContentView.clipsToBounds = true
         headerContentView.frame = appBar.headerViewController.headerView.frame
