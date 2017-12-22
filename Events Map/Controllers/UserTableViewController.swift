@@ -126,7 +126,7 @@ class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignI
             
         case 1:
             let vc = EventsListViewController()
-            present(vc, animated: true, completion: nil)
+            show(vc, sender: nil)
             
         case 2:
             // Push SettingsVC
@@ -147,11 +147,14 @@ class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignI
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if let user = UserService.instance.getCurrentUser() {
-            let image = UIImage.gif(url: user.picURL)
-            self.UserImage.image = image?.resizeImage(targetSize: self.UserImage.frame.size)
-            UserName.text = user.name
+        DispatchQueue.main.async {
+            if let user = UserService.instance.getCurrentUser() {
+                let image = UIImage.gif(url: user.picURL)
+                self.UserImage.image = image?.resizeImage(targetSize: self.UserImage.frame.size)
+                self.UserName.text = user.name
+            }
         }
+        
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
