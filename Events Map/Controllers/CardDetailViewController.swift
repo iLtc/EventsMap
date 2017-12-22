@@ -223,7 +223,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
         }
         
         let deleteBtn = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(deleteBtnPressed(_:)))
-        deleteBtn.image = UIImage(named: "md-delete-1")
+        deleteBtn.image = UIImage(named: "md-delete")
         
         if event.owned {
             navigationItem.rightBarButtonItems = [shareBtn, likeBtn, deleteBtn]
@@ -537,26 +537,34 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
     
     // Mark: delete method
     @objc func deleteBtnPressed(_ sender: Any?) {
-        let loadingView = activityIndicator("Loading......")
-        event.delete() { status, error in
-            loadingView.removeFromSuperview()
-            
-            if status == "Success" {
-                let alertController = MDCAlertController(title: nil, message: "Delete Success!")
-                let confirmAction = MDCAlertAction(title: "Done") { (action) in
-                    self.dismissDetail()
+        let alertController = MDCAlertController(title: nil, message: "Are you sure you want to delete this event?")
+        let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+        alertController.addAction(cancelAction)
+        let confirmAction = MDCAlertAction(title: "Delete") { (action) in
+            let loadingView = self.activityIndicator("Loading......")
+            self.event.delete() { status, error in
+                loadingView.removeFromSuperview()
+                
+                if status == "Success" {
+                    let alertController = MDCAlertController(title: nil, message: "Delete Success!")
+                    let confirmAction = MDCAlertAction(title: "Done") { (action) in
+                        self.dismissDetail()
+                    }
+                    alertController.addAction(confirmAction)
+                    
+                    self.present(alertController, animated: true, completion: nil)
+                } else {
+                    let alertController = MDCAlertController(title: nil, message: "Error: " + error)
+                    let confirmAction = MDCAlertAction(title: "Cancel", handler: nil)
+                    alertController.addAction(confirmAction)
+                    
+                    self.present(alertController, animated: true, completion: nil)
                 }
-                alertController.addAction(confirmAction)
-                
-                self.present(alertController, animated: true, completion: nil)
-            } else {
-                let alertController = MDCAlertController(title: nil, message: "Error: " + error)
-                let confirmAction = MDCAlertAction(title: "Cancel", handler: nil)
-                alertController.addAction(confirmAction)
-                
-                self.present(alertController, animated: true, completion: nil)
             }
         }
+        alertController.addAction(confirmAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     
