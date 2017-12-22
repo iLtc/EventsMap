@@ -41,6 +41,8 @@
 		2D7093961FD0BD9000F5A538 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */; };
 		2D7093971FD0BD9000F5A538 /* AddEventTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */; };
 		2D8518BD1FEB988D00A661E2 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8518BC1FEB988D00A661E2 /* InfoView.swift */; };
+		2D8518C01FEB9EAA00A661E2 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8518BE1FEB9EAA00A661E2 /* EventCell.swift */; };
+		2D8518C11FEB9EAA00A661E2 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D8518BF1FEB9EAA00A661E2 /* EventCell.xib */; };
 		2D957CA61FD3590D00E1B6FD /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */; };
 		2D957CA71FD3590D00E1B6FD /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */; };
 		2D957CAA1FD35B8D00E1B6FD /* SearchTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */; };
@@ -123,6 +125,8 @@
 		2D7093941FD0BD9000F5A538 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
 		2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEventTableViewController.xib; sourceTree = "<group>"; };
 		2D8518BC1FEB988D00A661E2 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		2D8518BE1FEB9EAA00A661E2 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		2D8518BF1FEB9EAA00A661E2 /* EventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
 		2D957CA41FD3590D00E1B6FD /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		2D957CA81FD35B8D00E1B6FD /* SearchTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextCell.swift; sourceTree = "<group>"; };
@@ -234,6 +238,8 @@
 			children = (
 				2D2D61BA1FD68BF10028B9AF /* DetailView.swift */,
 				2D8518BC1FEB988D00A661E2 /* InfoView.swift */,
+				2D8518BE1FEB9EAA00A661E2 /* EventCell.swift */,
+				2D8518BF1FEB9EAA00A661E2 /* EventCell.xib */,
 				245404091FBB4F2200206838 /* MapsCell.swift */,
 				2D1EF84D1FDCFAD90099CF85 /* MapView.swift */,
 				244520521FC3756500D1B956 /* DatePick.swift */,
@@ -437,6 +443,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D8518C11FEB9EAA00A661E2 /* EventCell.xib in Resources */,
 				243887AE1FAF89C7000C012C /* Config.plist in Resources */,
 				2D957CA71FD3590D00E1B6FD /* SearchViewController.xib in Resources */,
 				2DD060031FDC4DBF007B71B0 /* loader.json in Resources */,
@@ -589,6 +596,7 @@
 				2D1ABD151FCA0963004DAF67 /* CircularTransition.swift in Sources */,
 				2D1ABD0D1FC56E16004DAF67 /* UserModel.swift in Sources */,
 				2D2D61BB1FD68BF10028B9AF /* DetailView.swift in Sources */,
+				2D8518C01FEB9EAA00A661E2 /* EventCell.swift in Sources */,
 				243887AC1FAF88A0000C012C /* EventService.swift in Sources */,
 				244520531FC3756600D1B956 /* DatePick.swift in Sources */,
 				242505EF1FA2B21E006E0408 /* ViewController.swift in Sources */,
