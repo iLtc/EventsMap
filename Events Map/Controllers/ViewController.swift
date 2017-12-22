@@ -151,7 +151,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         let closeBtn:UIButton = {
             let button = UIButton(frame: CGRect(center: CGPoint(x: containerView.bounds.maxX - 40, y: 10), size: .zero))
-            button.setImage(#imageLiteral(resourceName: "Clear"), for: .normal)
+            button.setImage(UIImage(named: "Close1"), for: .normal)
+            //button.setImage(, for: .normal)
             button.sizeToFit()
             button.layer.cornerRadius = button.bounds.width/2
             button.addTarget(self, action: #selector(removeView), for: .touchUpInside)
