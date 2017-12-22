@@ -119,19 +119,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let origin = CGPoint(x: 0, y: self.view.bounds.height)
         let rect = CGRect(origin: origin, size: size)
         
-        let infoView = InfoView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: size), style: .plain)
-        
-        infoView.layer.cornerRadius = 16
-//        infoView.layer.shadowRadius = 4
-//        infoView.layer.shadowColor = UIColor.black.cgColor
-//        infoView.layer.shadowOpacity = 0.5
-//        infoView.layer.shadowOffset = CGSize(width: 1, height: 1)
-//        infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
-        infoView.parentVC = self
-        infoView.events = [self.event]
-        
         let containerView = ShadowView(frame: rect)
-        containerView.backgroundColor = .clear
+        containerView.backgroundColor = UIColor(white: 247/255, alpha: 0.5)
         containerView.setElevation(points: 18)
         containerView.layer.cornerRadius = 16
         
@@ -142,16 +131,49 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurEffectView.clipsToBounds = true
         containerView.insertSubview(blurEffectView, at: 0)
-        containerView.addSubview(infoView)
         containerView.tag = 1
-//
-////        let blurEffect = UIBlurEffect(style: .prominent)
-////        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-////        blurEffectView.frame = infoView.bounds
-////        blurEffectView.layer.cornerRadius = 8
-////        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-////
-////        infoView.addSubview(blurEffectView)
+        
+        let infoHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: containerView.frame.width, height: 40))
+        infoHeaderView.backgroundColor = .clear
+        let separator = UIView(frame: CGRect(center: CGPoint(x: infoHeaderView.center.x, y: 40), size: CGSize(width: containerView.frame.width - 30, height: 0.5)))
+        separator.backgroundColor = UIColor(white: 224/255, alpha: 1)
+        infoHeaderView.addSubview(separator)
+        
+        let headerLabel: UILabel = {
+            let label = UILabel(frame: CGRect(x: 15, y: 10, width: 40, height: 10))
+            label.text = "Event Info"
+            label.font = MDCTypography.headlineFont()
+            label.textColor = .lightGray
+            label.sizeToFit()
+            return label
+        }()
+        infoHeaderView.addSubview(headerLabel)
+        
+        let closeBtn:UIButton = {
+            let button = UIButton(frame: CGRect(center: CGPoint(x: containerView.bounds.maxX - 40, y: 10), size: .zero))
+            button.setImage(#imageLiteral(resourceName: "Clear"), for: .normal)
+            button.sizeToFit()
+            button.layer.cornerRadius = button.bounds.width/2
+            button.addTarget(self, action: #selector(removeView), for: .touchUpInside)
+            return button
+        }()
+        infoHeaderView.addSubview(closeBtn)
+        
+        // Mark: Indicator
+        let indicatorView = UIImageView(frame: CGRect(x: containerView.frame.width/2 - 30, y: 5, width: 0, height: 0))
+        indicatorView.image = UIImage(named: "Indicator")
+        infoHeaderView.addSubview(indicatorView)
+        indicatorView.sizeToFit()
+        
+        containerView.addSubview(infoHeaderView)
+        
+        let infoView = InfoView(frame: CGRect(origin: CGPoint(x: 0, y: infoHeaderView.frame.maxY), size: CGSize(width: size.width, height: 110)), style: .plain)
+        
+        infoView.layer.cornerRadius = 16
+        infoView.parentVC = self
+        infoView.events = [self.event]
+        
+        containerView.addSubview(infoView)
 //
 //
 //        // Mark: infoView UI style
