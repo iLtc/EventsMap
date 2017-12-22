@@ -13,6 +13,8 @@ private let reuseIdentifier = "EventCell"
 
 class EventsListViewController: MDCCollectionViewController, UIViewControllerTransitioningDelegate {
     
+    var existingInteractivePopGestureRecognizerDelegate : UIGestureRecognizerDelegate?
+    
     var zoomableImageView = UIImageView()
     var zoomableView = UIView()
     
@@ -49,21 +51,21 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         
         // AppBar view
         addChildViewController(appBar.headerViewController)
-        appBar.headerViewController.headerView.backgroundColor = .white
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = appBar.headerViewController.headerView.frame
+        appBar.headerViewController.headerView.insertSubview(blurEffectView, at: 0)
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        appBar.headerViewController.headerView.backgroundColor = .clear
         appBar.headerViewController.headerView.trackingScrollView = self.collectionView
-        appBar.navigationBar.tintColor = UIColor.black
-        appBar.addSubviewsToParent()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back",
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(dismissView)
-        )
         
-        title = "Your Events"
-    }
-    
-    @objc func dismissView() {
-        self.dismiss(animated: true, completion: nil)
+        appBar.navigationBar.tintColor = .white
+        appBar.addSubviewsToParent()
+        appBar.navigationBar.hidesBackButton = false
+        appBar.navigationBar.title = "Your Events"
+        appBar.navigationBar.titleTextAttributes = [
+            NSAttributedStringKey.font: MDCTypography.titleFont(),
+            NSAttributedStringKey.foregroundColor: UIColor.white]
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -75,18 +77,42 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         self.collectionView?.collectionViewLayout.invalidateLayout()
         
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        view.tag = 1
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.collectionView?.collectionViewLayout.invalidateLayout()
-        UIView.animate(withDuration: 0.15, animations: {
+        UIView.animate(withDuration: 0.25, animations: {
             self.appBar.headerViewController.view.alpha = 1
         }, completion: nil)
         reload()
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // Hold reference to current interactivePopGestureRecognizer delegate
+        if navigationController?.interactivePopGestureRecognizer?.delegate != nil {
+            existingInteractivePopGestureRecognizerDelegate = navigationController?.interactivePopGestureRecognizer?.delegate!
+        }
+        setNeedsStatusBarAppearanceUpdate()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Set interactivePopGestureRecognizer delegate to nil
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.tag = 1
+        // Return interactivePopGestureRecognizer delegate to previously held object
+        if existingInteractivePopGestureRecognizerDelegate != nil {
+            navigationController?.interactivePopGestureRecognizer?.delegate = existingInteractivePopGestureRecognizerDelegate!
+        }
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     var cellFrame: CGRect?
@@ -226,6 +252,7 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
                     self.zoomableImageView.frame = .zero
                     self.zoomableView.frame = .zero
                 })
+                
             })
         }
     }
