@@ -20,25 +20,28 @@ class InfoView: UITableView, UITableViewDataSource, UITableViewDelegate {
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
         
-        infoHeaderView.frame = CGRect(x: 0, y: 0, width: frame.width, height: 30)
-        infoHeaderView.backgroundColor = .white
-        let separator = UIView(frame: CGRect(center: CGPoint(x: infoHeaderView.center.x, y: 30), size: CGSize(width: frame.width - 30, height: 0.5)))
+        infoHeaderView.frame = CGRect(x: 0, y: 0, width: frame.width, height: 40)
+        infoHeaderView.backgroundColor = .clear
+        let separator = UIView(frame: CGRect(center: CGPoint(x: infoHeaderView.center.x, y: 40), size: CGSize(width: frame.width - 30, height: 0.5)))
         separator.backgroundColor = UIColor(white: 224/255, alpha: 1)
         infoHeaderView.addSubview(separator)
+        
+        let headerLabel: UILabel = {
+           let label = UILabel(frame: CGRect(x: 15, y: 10, width: 40, height: 10))
+            label.text = "Event Info"
+            label.font = MDCTypography.headlineFont()
+            label.textColor = .lightGray
+            label.sizeToFit()
+            return label
+        }()
+        infoHeaderView.addSubview(headerLabel)
         
         self.register(UINib(nibName: "EventCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
         self.dataSource = self
         self.delegate = self
         self.alwaysBounceVertical = false
-        
-//        let blurEffect = UIBlurEffect(style: .dark)
-//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//        blurEffectView.frame = self.bounds
-//        blurEffectView.layer.cornerRadius = 8
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        self.addSubview(blurEffectView)
         
         // Mark: Indicator
         let indicatorView = UIImageView(frame: CGRect(x: frame.width/2 - 30, y: 5, width: 0, height: 0))
@@ -80,7 +83,7 @@ class InfoView: UITableView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 40
     }
     
     /*

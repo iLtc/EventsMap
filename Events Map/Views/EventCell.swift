@@ -22,7 +22,7 @@ class EventCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        self.backgroundColor = .clear
         // Mark: event imageView
         eventImage.layer.cornerRadius = 10
         

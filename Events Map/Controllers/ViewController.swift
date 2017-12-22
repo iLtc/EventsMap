@@ -114,23 +114,36 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         if #available(iOS 11.0, *) {
             bottomPadding = view.safeAreaInsets.bottom
         }
-        let size = CGSize(width: self.view.bounds.width, height: 140 + bottomPadding) // first: 180
+        let movePadding:CGFloat = 10
+        let size = CGSize(width: self.view.bounds.width, height: 150 + bottomPadding + movePadding) // first: 180
         let origin = CGPoint(x: 0, y: self.view.bounds.height)
         let rect = CGRect(origin: origin, size: size)
         
-        let infoView = InfoView(frame: rect, style: .plain)
+        let infoView = InfoView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: size), style: .plain)
         
         infoView.layer.cornerRadius = 16
-        infoView.layer.shadowRadius = 4
-        infoView.layer.shadowColor = UIColor.black.cgColor
-        infoView.layer.shadowOpacity = 0.5
-        infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
-        infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
+//        infoView.layer.shadowRadius = 4
+//        infoView.layer.shadowColor = UIColor.black.cgColor
+//        infoView.layer.shadowOpacity = 0.5
+//        infoView.layer.shadowOffset = CGSize(width: 1, height: 1)
+//        infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
         infoView.parentVC = self
         infoView.events = [self.event]
-        infoView.tag = 1
         
+        let containerView = ShadowView(frame: rect)
+        containerView.backgroundColor = .clear
+        containerView.setElevation(points: 18)
+        containerView.layer.cornerRadius = 16
         
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = containerView.bounds
+        blurEffectView.layer.cornerRadius = 16
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.clipsToBounds = true
+        containerView.insertSubview(blurEffectView, at: 0)
+        containerView.addSubview(infoView)
+        containerView.tag = 1
 //
 ////        let blurEffect = UIBlurEffect(style: .prominent)
 ////        let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -255,20 +268,20 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
 //
 //        infoView.frame.size = CGSize(width: self.view.bounds.width, height: imageView.frame.height + detailBtn.frame.height + likeBtn.frame.height + cancelBtn.frame.height + 65)
 //
-        self.view.addSubview(infoView)
+        self.view.addSubview(containerView)
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
-            infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height
+            containerView.frame.origin.y = self.view.bounds.height - containerView.frame.height + movePadding
         }, completion: nil)
 
-        buffer.append(infoView)
+        buffer.append(containerView)
         
         
         
         // Tap InfoView trigger
         //let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(sender:)))
         
-        infoView.isUserInteractionEnabled = true
+        containerView.isUserInteractionEnabled = true
     }
     
     @objc func likeBtnPressed(_ sender: UIButton) {
