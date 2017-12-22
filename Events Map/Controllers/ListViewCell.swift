@@ -21,7 +21,7 @@ class ListViewCell: UITableViewCell, MDCInkTouchControllerDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
- self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
         self.isUserInteractionEnabled = true
         self.selectionStyle = .none
         
