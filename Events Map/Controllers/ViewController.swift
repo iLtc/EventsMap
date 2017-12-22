@@ -100,149 +100,167 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         self.event = event
         
         //Mark: move camera
-        for view in self.view.subviews {
-            if view.restorationIdentifier == "MapView" {
-                let mapView = view as! GMSMapView
-                mapView.animate(toLocation: marker.position)
+        DispatchQueue.main.async {
+            for view in self.view.subviews {
+                if view.restorationIdentifier == "MapView" {
+                    let mapView = view as! GMSMapView
+                    mapView.animate(toLocation: marker.position)
+                }
             }
         }
         
-        
-        let size = CGSize(width: self.view.bounds.width, height: 180) // first: 180
+//
+        var bottomPadding:CGFloat = 0
+        if #available(iOS 11.0, *) {
+            bottomPadding = view.safeAreaInsets.bottom
+        }
+        let size = CGSize(width: self.view.bounds.width, height: 140 + bottomPadding) // first: 180
         let origin = CGPoint(x: 0, y: self.view.bounds.height)
         let rect = CGRect(origin: origin, size: size)
-        let infoView = UIView(frame: rect)
         
-//        let blurEffect = UIBlurEffect(style: .prominent)
-//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//        blurEffectView.frame = infoView.bounds
-//        blurEffectView.layer.cornerRadius = 8
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//
-//        infoView.addSubview(blurEffectView)
+        let infoView = InfoView(frame: rect, style: .plain)
         
-        
-        // Mark: infoView UI style
-        infoView.backgroundColor = UIColor(white: 247/255, alpha: 240.0/255)
-        infoView.tintColor = self.navigationController?.navigationBar.tintColor
-        infoView.layer.cornerRadius = 8
-        infoView.layer.shadowRadius = 2
+        infoView.layer.cornerRadius = 16
+        infoView.layer.shadowRadius = 4
         infoView.layer.shadowColor = UIColor.black.cgColor
         infoView.layer.shadowOpacity = 0.5
         infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
         infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
+        infoView.parentVC = self
+        infoView.events = [self.event]
         infoView.tag = 1
         
-        // Mark: Indicator
-        let indicatorView = UIImageView(frame: CGRect(x: view.frame.width/2 - 30, y: 3, width: 0, height: 0))
-        indicatorView.image = UIImage(named: "Indicator")
-        infoView.addSubview(indicatorView)
-        indicatorView.sizeToFit()
-        // Mark: imageView UI
-        let imageView = customImageView(frame: CGRect(x: 15, y: 15, width: 120, height: 80))
         
-//        let image = UIImage.gif(url: event.photos[0])
-//        imageView.image = image?.resizeImage(targetSize: imageView.frame.size)
-//        imageView.contentMode = .scaleToFill
-        imageView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
-        imageView.layer.cornerRadius = 10
-        imageView.clipsToBounds = true
-        infoView.addSubview(imageView)
-        
-        // Mark: DateLabel UI
-        let dateLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 25, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 0)))
-        dateLabel.font = UIFont.systemFont(ofSize: 12)
-        dateLabel.textColor = .red
-        let startDate = self.event.date as Date
-        let endDate = self.event.endDate as Date
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE, MMM dd HH:mm"
-        let endFormatter = DateFormatter()
-        endFormatter.dateFormat = "HH:mm"
-        var eventStartDate = String()
-        var eventEndDate = String()
-        if (Calendar.current.isDate(startDate, inSameDayAs: endDate)) {
-            eventStartDate = formatter.string(from: startDate)
-            eventEndDate = endFormatter.string(from: endDate)
-        } else {
-            eventStartDate = formatter.string(from: startDate)
-            eventEndDate = formatter.string(from: endDate)
-            
-        }
-        dateLabel.text = eventStartDate + " - " + eventEndDate
-        dateLabel.sizeToFit()
-        infoView.addSubview(dateLabel)
-        
-        // Mark: ContentLabel UI
-        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 25, y: 20 + dateLabel.bounds.height), size: CGSize(width: infoView.bounds.width - imageView.frame.width - 45, height: 0)))
-        contentLabel.font = UIFont.systemFont(ofSize: 15)
-        contentLabel.numberOfLines = 3
-        contentLabel.text = marker.title
-        contentLabel.sizeToFit()
-        infoView.addSubview(contentLabel)
-        
-        // Mark: -- Detail button
-        let detailBtn = UIButton(frame: CGRect(x: 15, y: imageView.frame.maxY + 15, width: infoView.bounds.maxX - 30, height: 40))
-        detailBtn.layer.cornerRadius = 8
-        detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
-        detailBtn.setTitleColor(UIColor.white, for: .normal)
-        detailBtn.setTitle("Detail", for: .normal)
-        detailBtn.isUserInteractionEnabled = true
-        detailBtn.addTarget(self, action: #selector(btnPressedDown(_:)), for: UIControlEvents.touchDown)
-        detailBtn.addTarget(self, action: #selector(infoViewTapped(_:)), for: UIControlEvents.touchUpInside)
-        
-        infoView.addSubview(detailBtn)
-        
-        let likeBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: 15, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
-            if self.event.liked {
-                button.setImage(UIImage(named: "star-filled"), for: .normal)
-            } else {
-                button.setImage(UIImage(named: "star-default"), for: .normal)
-            }
-            
-            button.backgroundColor = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
-            button.layer.cornerRadius = 8
-            button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
-            return button
-        }()
-        
-        infoView.addSubview(likeBtn)
-        
-        let shareBtn: UIButton = {
-            let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 10, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
-            let image = UIImage(named: "share")
-            button.addTarget(self, action: #selector(shareBtnPressed(_:)), for: .touchUpInside)
-            button.setImage(image?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
-            button.backgroundColor = .lightGray
-            
-            button.layer.cornerRadius = 8
-            return button
-        }()
-        
-        infoView.addSubview(shareBtn)
-        
-        let cancelBtn: UIButton = {
-            let button = UIButton(frame: CGRect(origin: CGPoint(x: 15, y: likeBtn.frame.maxY + 10), size: detailBtn.frame.size))
-            button.setTitleColor(UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1), for: .normal)
-            button.setTitle("Cancel", for: .normal)
-            button.setTitleColor(UIColor(red: 90/255, green: 200/255, blue: 250/255, alpha: 1), for: .highlighted)
-            button.layer.cornerRadius = 8
-            button.backgroundColor = .white
-            button.addTarget(self, action: #selector(removeView), for: .touchUpInside)
-            return button
-        }()
-        
-        infoView.addSubview(cancelBtn)
-        
-        infoView.frame.size = CGSize(width: self.view.bounds.width, height: imageView.frame.height + detailBtn.frame.height + likeBtn.frame.height + cancelBtn.frame.height + 65)
-        
+//
+////        let blurEffect = UIBlurEffect(style: .prominent)
+////        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+////        blurEffectView.frame = infoView.bounds
+////        blurEffectView.layer.cornerRadius = 8
+////        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+////
+////        infoView.addSubview(blurEffectView)
+//
+//
+//        // Mark: infoView UI style
+//        infoView.backgroundColor = UIColor(white: 247/255, alpha: 240.0/255)
+//        infoView.tintColor = self.navigationController?.navigationBar.tintColor
+//        infoView.layer.shadowRadius = 2
+//        infoView.layer.shadowColor = UIColor.black.cgColor
+//        infoView.layer.shadowOpacity = 0.5
+//        infoView.layer.shadowOffset = CGSize(width: -1, height: 1)
+//        infoView.layer.shadowPath = UIBezierPath(rect: infoView.bounds).cgPath
+//        infoView.tag = 1
+//
+//        // Mark: Indicator
+//        let indicatorView = UIImageView(frame: CGRect(x: view.frame.width/2 - 30, y: 3, width: 0, height: 0))
+//        indicatorView.image = UIImage(named: "Indicator")
+//        infoView.addSubview(indicatorView)
+//        indicatorView.sizeToFit()
+//        // Mark: imageView UI
+//        let imageView = customImageView(frame: CGRect(x: 15, y: 15, width: 120, height: 80))
+//
+////        let image = UIImage.gif(url: event.photos[0])
+////        imageView.image = image?.resizeImage(targetSize: imageView.frame.size)
+////        imageView.contentMode = .scaleToFill
+//        imageView.downloadedFrom(link: event.photos[0], contentMode: .scaleAspectFill)
+//        imageView.layer.cornerRadius = 10
+//        imageView.clipsToBounds = true
+//        infoView.addSubview(imageView)
+//
+//        // Mark: DateLabel UI
+//        let dateLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 25, y: 10), size: CGSize(width: infoView.bounds.width/2 - 10, height: 0)))
+//        dateLabel.font = UIFont.systemFont(ofSize: 12)
+//        dateLabel.textColor = .red
+//        let startDate = self.event.date as Date
+//        let endDate = self.event.endDate as Date
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "EEE, MMM dd HH:mm"
+//        let endFormatter = DateFormatter()
+//        endFormatter.dateFormat = "HH:mm"
+//        var eventStartDate = String()
+//        var eventEndDate = String()
+//        if (Calendar.current.isDate(startDate, inSameDayAs: endDate)) {
+//            eventStartDate = formatter.string(from: startDate)
+//            eventEndDate = endFormatter.string(from: endDate)
+//        } else {
+//            eventStartDate = formatter.string(from: startDate)
+//            eventEndDate = formatter.string(from: endDate)
+//
+//        }
+//        dateLabel.text = eventStartDate + " - " + eventEndDate
+//        dateLabel.sizeToFit()
+//        infoView.addSubview(dateLabel)
+//
+//        // Mark: ContentLabel UI
+//        let contentLabel = UILabel(frame: CGRect(origin: CGPoint(x: imageView.bounds.width + 25, y: 20 + dateLabel.bounds.height), size: CGSize(width: infoView.bounds.width - imageView.frame.width - 45, height: 0)))
+//        contentLabel.font = UIFont.systemFont(ofSize: 15)
+//        contentLabel.numberOfLines = 3
+//        contentLabel.text = marker.title
+//        contentLabel.sizeToFit()
+//        infoView.addSubview(contentLabel)
+//
+//        // Mark: -- Detail button
+//        let detailBtn = UIButton(frame: CGRect(x: 15, y: imageView.frame.maxY + 15, width: infoView.bounds.maxX - 30, height: 40))
+//        detailBtn.layer.cornerRadius = 8
+//        detailBtn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+//        detailBtn.setTitleColor(UIColor.white, for: .normal)
+//        detailBtn.setTitle("Detail", for: .normal)
+//        detailBtn.isUserInteractionEnabled = true
+//        detailBtn.addTarget(self, action: #selector(btnPressedDown(_:)), for: UIControlEvents.touchDown)
+//        detailBtn.addTarget(self, action: #selector(infoViewTapped(_:)), for: UIControlEvents.touchUpInside)
+//
+//        infoView.addSubview(detailBtn)
+//
+//        let likeBtn: UIButton = {
+//            let button = UIButton(frame: CGRect(x: 15, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
+//            if self.event.liked {
+//                button.setImage(UIImage(named: "star-filled"), for: .normal)
+//            } else {
+//                button.setImage(UIImage(named: "star-default"), for: .normal)
+//            }
+//
+//            button.backgroundColor = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
+//            button.layer.cornerRadius = 8
+//            button.addTarget(self, action: #selector(likeBtnPressed(_:)), for: .touchUpInside)
+//            return button
+//        }()
+//
+//        infoView.addSubview(likeBtn)
+//
+//        let shareBtn: UIButton = {
+//            let button = UIButton(frame: CGRect(x: likeBtn.frame.maxX + 10, y: detailBtn.frame.maxY + 10, width: (infoView.bounds.maxX - 30)/2 - 5, height: 40))
+//            let image = UIImage(named: "share")
+//            button.addTarget(self, action: #selector(shareBtnPressed(_:)), for: .touchUpInside)
+//            button.setImage(image?.resizeImage(targetSize: CGSize(width: 30, height: 30)), for: .normal)
+//            button.backgroundColor = .lightGray
+//
+//            button.layer.cornerRadius = 8
+//            return button
+//        }()
+//
+//        infoView.addSubview(shareBtn)
+//
+//        let cancelBtn: UIButton = {
+//            let button = UIButton(frame: CGRect(origin: CGPoint(x: 15, y: likeBtn.frame.maxY + 10), size: detailBtn.frame.size))
+//            button.setTitleColor(UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1), for: .normal)
+//            button.setTitle("Cancel", for: .normal)
+//            button.setTitleColor(UIColor(red: 90/255, green: 200/255, blue: 250/255, alpha: 1), for: .highlighted)
+//            button.layer.cornerRadius = 8
+//            button.backgroundColor = .white
+//            button.addTarget(self, action: #selector(removeView), for: .touchUpInside)
+//            return button
+//        }()
+//
+//        infoView.addSubview(cancelBtn)
+//
+//        infoView.frame.size = CGSize(width: self.view.bounds.width, height: imageView.frame.height + detailBtn.frame.height + likeBtn.frame.height + cancelBtn.frame.height + 65)
+//
         self.view.addSubview(infoView)
-        
+
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
-            infoView.frame.origin.y = self.view.bounds.height - likeBtn.frame.minY
+            infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height
         }, completion: nil)
-        
+
         buffer.append(infoView)
         
         
@@ -346,10 +364,12 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         self.newEventMarker = marker
         
         //Mark: move camera
-        for view in self.view.subviews {
-            if view.restorationIdentifier == "MapView" {
-                let mapView = view as! GMSMapView
-                mapView.animate(toLocation: coordinate)
+        DispatchQueue.main.async {
+            for view in self.view.subviews {
+                if view.restorationIdentifier == "MapView" {
+                    let mapView = view as! GMSMapView
+                    mapView.animate(toLocation: coordinate)
+                }
             }
         }
         
