@@ -30,7 +30,7 @@ class EventService {
             parameters["sort"] = sort
         }
         
-        Alamofire.request(ConfigService.instance.get("EventsServerHost"), parameters: parameters).responseJSON { response in
+        Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events", parameters: parameters).responseJSON { response in
             var events: [Event] = []
             
             if let result = response.result.value {
