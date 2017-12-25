@@ -215,11 +215,24 @@ p.lead {
 }
 
 @media (max-width: 800px) {
-    .nav-menu.is-scrolling,
-    .nav-menu.menu-is-open {
+    .nav-menu.is-scrolling {
         background: -moz-linear-gradient(135deg, rgba(0, 0, 0, 1) 40%, rgba(250, 216, 77, 1) 40%);
         background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 40%, rgba(250, 216, 77, 1) 40%);
         background: linear-gradient(135deg, rgba(0, 0, 0, 1) 40%, rgba(250, 216, 77, 1) 40%);
+    }
+
+    .nav-menu.menu-is-open {
+        background: -moz-linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+        background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+    }
+}
+
+@media (max-width: 400px) {
+    .nav-menu.is-scrolling {
+        background: -moz-linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
+        background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
     }
 }
 
@@ -237,6 +250,9 @@ p.lead {
         bottom: 5px;
         height: 1px;
         position: absolute;
+    }
+    .navbar-toggle {
+        display: none;
     }
 }
 
