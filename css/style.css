@@ -234,6 +234,11 @@ p.lead {
         background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
         background: linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
     }
+    .nav-menu.menu-is-open {
+        background: -moz-linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+        background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+    }
 }
 
 @media (min-width: 992px) {
