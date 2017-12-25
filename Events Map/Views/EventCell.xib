@@ -38,19 +38,23 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2k9-a1-aar">
-                        <rect key="frame" x="145" y="36.5" width="105" height="15.5"/>
+                        <rect key="frame" x="145" y="36.5" width="155" height="15.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x32-If-k5v" customClass="MDCRaisedButton">
-                        <rect key="frame" x="260" y="75.5" width="80" height="24"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x32-If-k5v">
+                        <rect key="frame" x="310" y="69.5" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="80" id="L9I-2V-z4P"/>
+                            <constraint firstAttribute="height" constant="30" id="9pZ-rA-9jx"/>
+                            <constraint firstAttribute="width" constant="30" id="N9a-wL-gfj"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <connections>
-                            <action selector="detailBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="dt5-NF-QoT"/>
+                            <action selector="likeBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="WRc-v9-nzb"/>
+                            <action selector="likeBtnPressedDown:" destination="KGk-i7-Jjw" eventType="touchDown" id="C1o-ph-n6a"/>
+                            <action selector="likeBtnPressedUp:" destination="KGk-i7-Jjw" eventType="touchCancel" id="RFl-Jm-kQs"/>
+                            <action selector="likeBtnPressedUp:" destination="KGk-i7-Jjw" eventType="touchUpOutside" id="uA0-ic-U14"/>
                         </connections>
                     </button>
                 </subviews>
@@ -70,10 +74,10 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
             <connections>
-                <outlet property="detailBtn" destination="x32-If-k5v" id="0ik-EU-rhY"/>
                 <outlet property="eventDate" destination="2k9-a1-aar" id="z3i-4a-eSf"/>
                 <outlet property="eventImage" destination="ajO-v8-BS1" id="EGO-YM-OI1"/>
                 <outlet property="eventTitle" destination="KvJ-q5-OiK" id="39l-jz-0mI"/>
+                <outlet property="likeBtn" destination="x32-If-k5v" id="J1Z-qU-5CL"/>
             </connections>
             <point key="canvasLocation" x="183.5" y="-55.5"/>
         </tableViewCell>

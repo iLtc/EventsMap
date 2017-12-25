@@ -17,7 +17,7 @@ class EventCell: UITableViewCell {
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var eventDate: UILabel!
     @IBOutlet weak var eventImage: UIImageView!
-    @IBOutlet weak var detailBtn: MDCRaisedButton!
+    @IBOutlet weak var likeBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,10 +33,10 @@ class EventCell: UITableViewCell {
         eventDate.font = MDCTypography.captionFont()
         
         // Mark: detail button style
-        detailBtn.backgroundColor = UIColor.MDColor.blue
-        detailBtn.tintColor = .white
-        detailBtn.setTitle("Detail", for: .normal)
-        
+        likeBtn.backgroundColor = UIColor.MDColor.blue
+        likeBtn.tintColor = .white
+        likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
+        likeBtn.layer.cornerRadius = likeBtn.bounds.width/2
     }
     
     func updateViews(_ event: Event) {
@@ -66,12 +66,22 @@ class EventCell: UITableViewCell {
         
     }
     
-    @IBAction func detailBtnPressed(_ sender: MDCRaisedButton) {
-        let vc = CardDetailViewController()
-        vc.event = self.event
-//        vc.headerContentView.image = UIImage.gif(url: (event?.photos[0])!)
+    @IBAction func likeBtnPressedDown(_ sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+    }
+    
+    @IBAction func likeBtnPressedUp(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: nil)
+    }
+    
+    @IBAction func likeBtnPressed(_ sender: UIButton) {
         
-        parentVC?.show(vc, sender: nil)
+        print("like")
+        UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: nil)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
