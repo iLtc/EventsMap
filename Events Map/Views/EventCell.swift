@@ -16,8 +16,8 @@ class EventCell: UITableViewCell {
     
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var eventDate: UILabel!
-    @IBOutlet weak var eventImage: UIImageView!
-    @IBOutlet weak var detailBtn: MDCRaisedButton!
+    @IBOutlet weak var eventImage: customImageView!
+    @IBOutlet weak var likeBtn: ShadowButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,10 +33,12 @@ class EventCell: UITableViewCell {
         eventDate.font = MDCTypography.captionFont()
         
         // Mark: detail button style
-        detailBtn.backgroundColor = UIColor.MDColor.blue
-        detailBtn.tintColor = .white
-        detailBtn.setTitle("Detail", for: .normal)
-        
+        likeBtn.backgroundColor = UIColor.MDColor.blue
+        likeBtn.tintColor = .white
+        likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
+        likeBtn.layer.cornerRadius = likeBtn.bounds.width/2
+        let btnLayer = likeBtn.layer as! MDCShadowLayer
+        btnLayer.elevation = ShadowElevation(rawValue: 2)
     }
     
     func updateViews(_ event: Event) {
@@ -64,20 +66,67 @@ class EventCell: UITableViewCell {
         }
         eventDate.text = eventStartDate + " - " + eventEndDate
         
+        if event.liked {
+            likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
+            likeBtn.tag = 0 // 0 == liked
+        } else {
+            likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
+            likeBtn.tag = 1 // 1 == unliked
+        }
     }
     
-    @IBAction func detailBtnPressed(_ sender: MDCRaisedButton) {
-        let vc = CardDetailViewController()
-        vc.event = self.event
-//        vc.headerContentView.image = UIImage.gif(url: (event?.photos[0])!)
+    @IBAction func likeBtnPressedDown(_ sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+    }
+    
+    @IBAction func likeBtnPressedUp(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: nil)
+    }
+    
+    @IBAction func likeBtnPressed(_ sender: UIButton) {
         
-        parentVC?.show(vc, sender: nil)
+        print("like")
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: nil)
+        
+        if sender.tag == 0 {
+            event?.unlike()
+            sender.tag = 1
+            likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
+        } else if sender.tag == 1 {
+            if (event?.like())! {
+                sender.tag = 0
+                likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
+            } else {
+                let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+                alertController.addAction(cancelAction)
+                let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                    let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 270))
+                    loginView.parentVC = self.parentVC
+                }
+                alertController.addAction(confirmAction)
+                
+                self.parentVC?.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+}
+
+class ShadowButton: UIButton {
+    
+    override class var layerClass: AnyClass {
+        return MDCShadowLayer.self
     }
     
 }

@@ -56,6 +56,12 @@ class InfoView: UITableView, UITableViewDataSource, UITableViewDelegate {
         return 110
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = CardDetailViewController()
+        vc.event = self.events[indexPath.row]
+        parentVC?.show(vc, sender: nil)
+    }
+    
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
