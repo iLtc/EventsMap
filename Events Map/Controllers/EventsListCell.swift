@@ -16,7 +16,7 @@ class EventsListCell: MDCCollectionViewCell {
     
     var titleLabel: UILabel = UILabel()
     var dateLabel: UILabel = UILabel()
-    var thumbnailImageView: UIImageView = UIImageView()
+    var thumbnailImageView = customImageView()
     
     fileprivate var cellView = UIView()
     fileprivate var inkOverlay = InkOverlay()
@@ -42,7 +42,7 @@ class EventsListCell: MDCCollectionViewCell {
         shadowLayer.elevation = .cardResting
         
         thumbnailImageView = {
-            let imageView = UIImageView()
+            let imageView = customImageView()
             imageView.backgroundColor = .lightGray
             imageView.contentMode = .scaleAspectFill
             imageView.autoresizingMask = .flexibleWidth
