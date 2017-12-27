@@ -5,6 +5,6 @@
 	<key>EventsServerToken</key>
 	<string>pIYVIXYAckHKWByyo_spcB0WiBFVFE2Y</string>
 	<key>EventsServerHost</key>
-	<string>https://events.iltcapp.net</string>
+	<string>https://api.events.iltcapp.net</string>
 </dict>
 </plist>
