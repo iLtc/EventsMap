@@ -404,6 +404,10 @@ header {
     transition: all 0.3s ease;
 }
 
+.card.features a:hover {
+    text-decoration: none;
+}
+
 @media (max-width:991px) {
     .card.features {
         margin-bottom: 2rem;
