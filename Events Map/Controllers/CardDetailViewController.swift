@@ -498,7 +498,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
     @objc func share(_ sender: Any) {
         
         let text = "Check out this event."
-        let url = URL(string: "https://events.iltcapp.net/events/" + event.id)
+        let url = URL(string: ConfigService.instance.get("EventsServerHost") + "/events/" + event.id)
         let dataToShare: [Any] = [ text, url! ]
         let activityViewController = UIActivityViewController(
             activityItems: dataToShare,
