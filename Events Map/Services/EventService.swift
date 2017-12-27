@@ -15,6 +15,57 @@ class EventService {
     static var instance = EventService()
     let defaults = UserDefaults.standard
     
+    func formatEvent(_ subJson: JSON) -> Event {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        let date = dateFormatter.date(from: subJson["first_date"].stringValue)
+        let endDate = dateFormatter.date(from: subJson["last_date"].stringValue)
+        
+        let event = Event(
+            id: subJson["eid"].stringValue,
+            title: subJson["title"].stringValue,
+            url: subJson["url"].stringValue,
+            date: date! as NSDate,
+            endDate: endDate! as NSDate,
+            isAllDay: subJson["all_day"] == "true",
+            location: subJson["location"].stringValue,
+            description: subJson["description"].stringValue
+        )
+        
+        for (_, photo): (String, JSON) in subJson["photos"] {
+            event.photos.append(photo.stringValue)
+        }
+        
+        event.geo["latitude"] = subJson["geo"]["latitude"].stringValue
+        event.geo["longitude"] = subJson["geo"]["longitude"].stringValue
+        
+        for category in subJson["categories"].arrayValue {
+            event.categories.append(category.stringValue)
+        }
+        
+        if subJson["liked"].stringValue == "true" {
+            event.liked = true
+        }
+        
+        if subJson["owned"].stringValue == "true" {
+            event.owned = true
+        }
+        
+        if subJson["likes"].stringValue != "null" {
+            if let likes = Int(subJson["likes"].stringValue) {
+                event.likes = likes
+            }
+        }
+        
+        if subJson["views"].stringValue != "null" {
+            if let views = Int(subJson["views"].stringValue) {
+                event.views = views
+            }
+        }
+        
+        return event
+    }
+    
     func getEvents(_ callback: @escaping (([Event]) -> Void)) {
         var parameters: [String: String] = [:]
         if let user = UserService.instance.getCurrentUser() {
@@ -37,53 +88,7 @@ class EventService {
                 let json = JSON(result)
                 
                 for (_, subJson): (String, JSON) in json {
-                    
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-                    let date = dateFormatter.date(from: subJson["first_date"].stringValue)
-                    let endDate = dateFormatter.date(from: subJson["last_date"].stringValue)
-                    
-                    let event = Event(
-                        id: subJson["eid"].stringValue,
-                        title: subJson["title"].stringValue,
-                        url: subJson["url"].stringValue,
-                        date: date! as NSDate,
-                        endDate: endDate! as NSDate,
-                        isAllDay: subJson["all_day"] == "true",
-                        location: subJson["location"].stringValue,
-                        description: subJson["description"].stringValue
-                    )
-                    
-                    for (_, photo): (String, JSON) in subJson["photos"] {
-                        event.photos.append(photo.stringValue)
-                    }
-                    
-                    event.geo["latitude"] = subJson["geo"]["latitude"].stringValue
-                    event.geo["longitude"] = subJson["geo"]["longitude"].stringValue
-                    
-                    for category in subJson["categories"].arrayValue {
-                        event.categories.append(category.stringValue)
-                    }
-                    
-                    if subJson["liked"].stringValue == "true" {
-                        event.liked = true
-                    }
-                    
-                    if subJson["owned"].stringValue == "true" {
-                        event.owned = true
-                    }
-                    
-                    if subJson["likes"].stringValue != "null" {
-                        if let likes = Int(subJson["likes"].stringValue) {
-                            event.likes = likes
-                        }
-                    }
-                    
-                    if subJson["views"].stringValue != "null" {
-                        if let views = Int(subJson["views"].stringValue) {
-                            event.views = views
-                        }
-                    }
+                    let event = self.formatEvent(subJson)
                     
                     events.append(event)
                 }
@@ -106,53 +111,7 @@ class EventService {
                 let json = JSON(result)
                 
                 for (_, subJson): (String, JSON) in json {
-                    
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-                    let date = dateFormatter.date(from: subJson["first_date"].stringValue)
-                    let endDate = dateFormatter.date(from: subJson["last_date"].stringValue)
-                    
-                    let event = Event(
-                        id: subJson["eid"].stringValue,
-                        title: subJson["title"].stringValue,
-                        url: subJson["url"].stringValue,
-                        date: date! as NSDate,
-                        endDate: endDate! as NSDate,
-                        isAllDay: subJson["all_day"] == "true",
-                        location: subJson["location"].stringValue,
-                        description: subJson["description"].stringValue
-                    )
-                    
-                    for (_, photo): (String, JSON) in subJson["photos"] {
-                        event.photos.append(photo.stringValue)
-                    }
-                    
-                    event.geo["latitude"] = subJson["geo"]["latitude"].stringValue
-                    event.geo["longitude"] = subJson["geo"]["longitude"].stringValue
-                    
-                    for category in subJson["categories"].arrayValue {
-                        event.categories.append(category.stringValue)
-                    }
-                    
-                    if subJson["liked"].stringValue == "true" {
-                        event.liked = true
-                    }
-                    
-                    if subJson["owned"].stringValue == "true" {
-                        event.owned = true
-                    }
-                    
-                    if subJson["likes"].stringValue != "null" {
-                        if let likes = Int(subJson["likes"].stringValue) {
-                            event.likes = likes
-                        }
-                    }
-                    
-                    if subJson["views"].stringValue != "null" {
-                        if let views = Int(subJson["views"].stringValue) {
-                            event.views = views
-                        }
-                    }
+                    let event = self.formatEvent(subJson)
                     
                     events.append(event)
                 }
