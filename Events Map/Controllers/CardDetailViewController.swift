@@ -542,10 +542,10 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
         alertController.addAction(cancelAction)
         let confirmAction = MDCAlertAction(title: "Delete") { (action) in
             let loadingView = self.activityIndicator("Loading......")
-            self.event.delete() { status, error in
+            self.event.delete() { code, msg in
                 loadingView.removeFromSuperview()
                 
-                if status == "Success" {
+                if code == "200" {
                     let alertController = MDCAlertController(title: nil, message: "Delete Success!")
                     let confirmAction = MDCAlertAction(title: "Done") { (action) in
                         self.dismissDetail()
@@ -554,7 +554,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
                     
                     self.present(alertController, animated: true, completion: nil)
                 } else {
-                    let alertController = MDCAlertController(title: nil, message: "Error: " + error)
+                    let alertController = MDCAlertController(title: nil, message: "Error: " + msg)
                     let confirmAction = MDCAlertAction(title: "Cancel", handler: nil)
                     alertController.addAction(confirmAction)
                     

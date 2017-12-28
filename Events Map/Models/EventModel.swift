@@ -67,8 +67,8 @@ class Event {
     }
     
     func delete(_ callback: @escaping ((String, String) -> Void)) {
-        EventService.instance.delete(self) {status, error in
-            callback(status, error)
+        EventService.instance.delete(self) {code, msg in
+            callback(code, msg)
         }
     }
     

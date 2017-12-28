@@ -268,13 +268,13 @@ class EventService {
         if let user = UserService.instance.getCurrentUser() {
             parameters["uid"] = user.id
         }else{
-            callback("Failed", "User Not Login")
+            callback("403", "User Not Login")
         }
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id, method: .delete, parameters: parameters).responseJSON { response in
             if let result = response.result.value {
                 let json = JSON(result)
-                callback(json["status"].stringValue, json["error"].stringValue)
+                callback(json["code"].stringValue, json["msg"].stringValue)
             }
         }
     }
