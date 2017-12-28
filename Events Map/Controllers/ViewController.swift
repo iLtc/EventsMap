@@ -515,28 +515,29 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         super.didReceiveMemoryWarning()
     }
 
-    func addEvents(events: [Event]) {
+    func addEvents(code: String, msg: String, events: [Event]) {
         if let loadingView = loadingView {
             loadingView.removeFromSuperview()
         }
         
-        if events.count == 0 {
-            let alert: MDCAlertController = MDCAlertController(title: "No Event", message: "There is no event now or base on your filter.")
+        // Mark: Remove old markers
+        if(self.markerBuffer.count > 0){
+            for marker in self.markerBuffer {
+                marker.map = nil
+            }
+            
+            self.markerBuffer = []
+        }
+        
+        if code != "200" {
+            let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
             alert.addAction(MDCAlertAction(title: "OK", handler: nil))
             
             present(alert, animated: true)
+            return
         }
         
         DispatchQueue.main.async {
-            // Mark: Remove old markers
-            if(self.markerBuffer.count > 0){
-                for marker in self.markerBuffer {
-                    marker.map = nil
-                }
-                
-                self.markerBuffer = []
-            }
-            
             for event in events {
                 if event.geo["latitude"] == "" {
                     continue

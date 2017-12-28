@@ -77,16 +77,17 @@ class ListViewController: UITableViewController {
     @objc func reload() {
         loadingView = activityIndicator("Loading......")
         
-        EventService.instance.getEvents() { events in
+        EventService.instance.getEvents() { code, msg, events in
             if let loadingView = self.loadingView {
                 loadingView.removeFromSuperview()
             }
             
-            if events.count == 0 {
-                let alert: MDCAlertController = MDCAlertController(title: "No Event", message: "There is no event now or base on your filter.")
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
                 alert.addAction(MDCAlertAction(title: "OK", handler: nil))
                 
                 self.present(alert, animated: true)
+                return
             }
             
             self.events = events

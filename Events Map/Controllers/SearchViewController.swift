@@ -20,7 +20,15 @@ class SearchViewController: MDCCollectionViewController, UISearchBarDelegate {
     private var isSearching = false
     
     override func viewWillAppear(_ animated: Bool) {
-        EventService.instance.getEvents { (events) in
+        EventService.instance.getEvents { code, msg, events in
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
+                return
+            }
+            
             self.events = events
             self.collectionView?.reloadData()
         }
