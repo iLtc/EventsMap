@@ -554,7 +554,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
                     
                     self.present(alertController, animated: true, completion: nil)
                 } else {
-                    let alertController = MDCAlertController(title: nil, message: "Error: " + msg)
+                    let alertController = MDCAlertController(title: "Error", message: msg)
                     let confirmAction = MDCAlertAction(title: "Cancel", handler: nil)
                     alertController.addAction(confirmAction)
                     

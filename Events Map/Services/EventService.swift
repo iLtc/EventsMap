@@ -288,6 +288,17 @@ class EventService {
         }
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id, method: .delete, parameters: parameters).responseJSON { response in
+            
+            if response.result.isFailure {
+                if let error = response.result.error as? AFError {
+                    callback("500", error.errorDescription!)
+                } else {
+                    //NETWORK FAILURE
+                    callback("500", "NETWORK FAILURE")
+                }
+                return
+            }
+            
             if let result = response.result.value {
                 let json = JSON(result)
                 callback(json["code"].stringValue, json["msg"].stringValue)
