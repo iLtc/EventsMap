@@ -279,7 +279,7 @@ class EventService {
         }
     }
     
-    func uploadImage(_ image: UIImage, _ callback: @escaping ((String) -> Void) ) {
+    func uploadImage(_ image: UIImage, _ callback: @escaping ((String, String, String) -> Void) ) {
         var urlRequest = URLRequest(url: URL(string: ConfigService.instance.get("EventsServerHost") + "/events/image")!)
         urlRequest.httpMethod = "POST"
         
@@ -295,13 +295,12 @@ class EventService {
                         if let result = response.result.value {
                             let json = JSON(result)
                             
-                            let imgURL = json["url"].stringValue
-                            
-                            callback(imgURL)
+                            callback(json["code"].stringValue, json["msg"].stringValue, json["url"].stringValue)
                         }
                     }
                 case .failure(let error):
                     print(error)
+                callback("500", error.localizedDescription, "")
             }
         })
     }

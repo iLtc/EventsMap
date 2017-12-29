@@ -310,7 +310,19 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             return
         }
         
-        EventService.instance.uploadImage(imageView.image!) { imageURL in
+        let loadingView = activityIndicator("Loading......")
+        
+        EventService.instance.uploadImage(imageView.image!) { code, msg, imageURL in
+            loadingView.removeFromSuperview()
+            
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
+                return
+            }
+            
             let event = Event(
                     id: "default",
                     title: self.eventTitle.text!,
@@ -331,14 +343,16 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
 
             event.categories.append("Events Map")
         
+            let loadingView = self.activityIndicator("Loading......")
+            
             event.save() { event in
+                loadingView.removeFromSuperview()
+                
                 let vc = CardDetailViewController()
                 vc.event = event
                 vc.headerContentView.image = UIImage.gif(url: event.photos[0])
                 self.isSaved = true
                 self.present(vc, animated: true, completion: nil)
-                
-
             }
         }
         
