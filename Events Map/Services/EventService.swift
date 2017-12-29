@@ -305,7 +305,7 @@ class EventService {
         })
     }
     
-    func addEvent(_ event: Event, _ callback: @escaping ((Event) -> Void) ) {
+    func addEvent(_ event: Event, _ callback: @escaping ((String, String, Event?) -> Void) ) {
         var parameters = [
             "title": event.title,
             "date": event.date,
@@ -322,13 +322,28 @@ class EventService {
         }
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events", method: .post, parameters: parameters).responseJSON { response in
+            if response.result.isFailure {
+                if let error = response.result.error as? AFError {
+                    callback("500", error.errorDescription!, nil)
+                } else {
+                    //NETWORK FAILURE
+                    callback("500", "NETWORK FAILURE", nil)
+                }
+                return
+            }
+            
             if let result = response.result.value {
                 let json = JSON(result)
                 
-                event.id = json["id"].stringValue
-                event.url = "https://events.iltcapp.net/events/" + json["id"].stringValue
+                if json["code"].stringValue != "200" {
+                    callback(json["code"].stringValue, json["msg"].stringValue, nil)
+                    return
+                }
                 
-                callback(event)
+                event.id = json["id"].stringValue
+                event.url = ConfigService.instance.get("EventsServerHost") + "/events/" + json["id"].stringValue
+                
+                callback("200", "", event)
             }
         }
     }

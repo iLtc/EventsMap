@@ -345,17 +345,24 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         
             let loadingView = self.activityIndicator("Loading......")
             
-            event.save() { event in
+            event.save() { code, msg, event in
                 loadingView.removeFromSuperview()
                 
+                if code != "200" {
+                    let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                    alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                    
+                    self.present(alert, animated: true)
+                    return
+                }
+                
                 let vc = CardDetailViewController()
-                vc.event = event
-                vc.headerContentView.image = UIImage.gif(url: event.photos[0])
+                vc.event = event!
+                vc.headerContentView.image = UIImage.gif(url: event!.photos[0])
                 self.isSaved = true
                 self.present(vc, animated: true, completion: nil)
             }
         }
-        
     }
     
     override func didReceiveMemoryWarning() {

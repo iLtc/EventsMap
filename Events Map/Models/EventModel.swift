@@ -62,7 +62,7 @@ class Event {
         }
     }
     
-    func save(_ callback: @escaping ((Event) -> Void) ) {
+    func save(_ callback: @escaping ((String, String, Event?) -> Void) ) {
         EventService.instance.addEvent(self, callback)
     }
     
