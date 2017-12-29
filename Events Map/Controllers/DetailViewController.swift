@@ -125,35 +125,53 @@ class DetailViewController: UITableViewController, UIToolbarDelegate, UICollecti
     }
     
     @objc func like() {
-        if event.like() {
-            let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-            button.setImage(UIImage(named: "Favorites"), for: .normal)
-            button.addTarget(self, action: #selector(unlike), for: .touchUpInside)
-            starBtn = UIBarButtonItem(customView: button)
-            self.setToolbarItems([space, starBtn, space, calendarBtn, space, navigationBtn, space, shareBtn, space], animated: true)
-            
-        } else {
-            let alertController = MDCAlertController(title: nil, message: "You need to login.")
-            let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
-            alertController.addAction(cancelAction)
-            let confirmAction = MDCAlertAction(title: "Login") { (action) in
-                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
-                loginView.parentVC = self
+        event.like() { code, msg in
+            switch code {
+            case "200":
+                let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+                button.setImage(UIImage(named: "Favorites"), for: .normal)
+                button.addTarget(self, action: #selector(self.unlike), for: .touchUpInside)
+                self.starBtn = UIBarButtonItem(customView: button)
+                self.setToolbarItems([self.space, self.starBtn, self.space, self.calendarBtn, self.space, self.navigationBtn, self.space, self.shareBtn, self.space], animated: true)
+                
+            case "400":
+                let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+                alertController.addAction(cancelAction)
+                let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                    let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+                    loginView.parentVC = self
+                }
+                alertController.addAction(confirmAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+            default:
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
             }
-            alertController.addAction(confirmAction)
-            
-            self.present(alertController, animated: true, completion: nil)
         }
     }
     
     @objc func unlike() {
-        print("unlike")
-        event.unlike()
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        button.setImage(UIImage(named: "Star"), for: .normal)
-        button.addTarget(self, action: #selector(like), for: .touchUpInside)
-        starBtn = UIBarButtonItem(customView: button)
-        self.setToolbarItems([space, starBtn, space, calendarBtn, space, navigationBtn, space, shareBtn, space], animated: true)
+        event.unlike() { code, msg in
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
+                return
+            }
+            
+            let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+            button.setImage(UIImage(named: "Star"), for: .normal)
+            button.addTarget(self, action: #selector(self.like), for: .touchUpInside)
+            self.starBtn = UIBarButtonItem(customView: button)
+            self.setToolbarItems([self.space, self.starBtn, self.space, self.calendarBtn, self.space, self.navigationBtn, self.space, self.shareBtn, self.space], animated: true)
+        }
+        
     }
     
     // Mark: share method

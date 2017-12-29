@@ -93,24 +93,42 @@ class EventCell: UITableViewCell {
         }, completion: nil)
         
         if sender.tag == 0 {
-            event?.unlike()
-            sender.tag = 1
-            likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
-        } else if sender.tag == 1 {
-            if (event?.like())! {
-                sender.tag = 0
-                likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
-            } else {
-                let alertController = MDCAlertController(title: nil, message: "You need to login.")
-                let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
-                alertController.addAction(cancelAction)
-                let confirmAction = MDCAlertAction(title: "Login") { (action) in
-                    let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 270))
-                    loginView.parentVC = self.parentVC
+            event?.unlike() { code, msg in
+                if code != "200" {
+                    let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                    alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                    
+                    self.parentVC?.present(alert, animated: true)
+                    return
                 }
-                alertController.addAction(confirmAction)
-                
-                self.parentVC?.present(alertController, animated: true, completion: nil)
+                sender.tag = 1
+                self.likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
+            }
+        } else if sender.tag == 1 {
+            event?.like() { code, msg in
+                switch code {
+                case "200":
+                    sender.tag = 0
+                    self.likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
+                    
+                case "400":
+                    let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                    let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+                    alertController.addAction(cancelAction)
+                    let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                        let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 270))
+                        loginView.parentVC = self.parentVC
+                    }
+                    alertController.addAction(confirmAction)
+                    
+                    self.parentVC?.present(alertController, animated: true, completion: nil)
+                    
+                default:
+                    let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                    alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                    
+                    self.parentVC?.present(alert, animated: true)
+                }
             }
         }
     }

@@ -513,24 +513,45 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
     // Mark: like method
     @objc func likeBtnPressed(_ sender: UIBarButtonItem) {
         if sender.tag == 0 {
-            event.unlike()
-            sender.tag = 1
-            sender.image = UIImage(named: "md-star-border")
-        } else if sender.tag == 1 {
-            if event.like() {
-                sender.tag = 0
-                sender.image = UIImage(named: "md-star")
-            } else {
-                let alertController = MDCAlertController(title: nil, message: "You need to login.")
-                let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
-                alertController.addAction(cancelAction)
-                let confirmAction = MDCAlertAction(title: "Login") { (action) in
-                    let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 270))
-                    loginView.parentVC = self
+            event.unlike() { code, msg in
+                if code != "200" {
+                    let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                    alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                    
+                    self.present(alert, animated: true)
+                    return
                 }
-                alertController.addAction(confirmAction)
                 
-                self.present(alertController, animated: true, completion: nil)
+                sender.tag = 1
+                sender.image = UIImage(named: "md-star-border")
+                self.event.liked = false
+            }
+        } else if sender.tag == 1 {
+            event.like() { code, msg in
+                switch code {
+                case "200":
+                    sender.tag = 0
+                    sender.image = UIImage(named: "md-star")
+                    self.event.liked = true
+                    
+                case "401":
+                    let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                    let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
+                    alertController.addAction(cancelAction)
+                    let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                        let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 270))
+                        loginView.parentVC = self
+                    }
+                    alertController.addAction(confirmAction)
+                    
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                default:
+                    let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                    alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                    
+                    self.present(alert, animated: true)
+                }
             }
         }
     }

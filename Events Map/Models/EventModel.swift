@@ -50,12 +50,16 @@ class Event {
         self.description = ""
     }
     
-    func like() -> Bool {
-        return EventService.instance.like(self)
+    func like(_ callback: @escaping ((String, String) -> Void)){
+        EventService.instance.like(self) { code, msg in
+            callback(code, msg)
+        }
     }
     
-    func unlike() {
-        EventService.instance.unlike(self)
+    func unlike(_ callback: @escaping ((String, String) -> Void)) {
+        EventService.instance.unlike(self) { code, msg in
+            callback(code, msg)
+        }
     }
     
     func save(_ callback: @escaping ((Event) -> Void) ) {

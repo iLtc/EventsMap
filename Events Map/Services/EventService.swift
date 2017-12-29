@@ -215,22 +215,67 @@ class EventService {
         defaults.set(sort, forKey: "CurrentSort")
     }
     
-    func like(_ event: Event) -> Bool {
+    func like(_ event: Event, _ callback: @escaping ((String, String) -> Void)) {
         if let user = UserService.instance.getCurrentUser() {
-            let parameters = ["id": user.id]
-            Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/like", method: .post, parameters: parameters)
-            appDelegate?.scheduleNotification(event)
-            return true
+            let parameters = ["uid": user.id]
+            Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/like", method: .post, parameters: parameters).responseJSON { response in
+                if response.result.isFailure {
+                    if let error = response.result.error as? AFError {
+                        callback("500", error.errorDescription!)
+                    } else {
+                        //NETWORK FAILURE
+                        callback("500", "NETWORK FAILURE")
+                    }
+                    return
+                }
+                
+                if let result = response.result.value {
+                    let json = JSON(result)
+                    
+                    if json["code"].stringValue != "200" {
+                        callback(json["code"].stringValue, json["msg"].stringValue)
+                        return
+                    }
+                    
+                    callback("200", "")
+                    
+                    self.appDelegate?.scheduleNotification(event)
+                }
+            }
         }else{
             // TODO: Pop up login
-            return false
+            callback("401", "You haven't logged in.")
         }
     }
     
-    func unlike(_ event: Event) {
+    func unlike(_ event: Event, _ callback: @escaping ((String, String) -> Void)) {
         if let user = UserService.instance.getCurrentUser() {
-            let parameters = ["id": user.id]
-            Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/unlike", method: .post, parameters: parameters)
+            let parameters = ["uid": user.id]
+            Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/" + event.id + "/unlike", method: .post, parameters: parameters).responseJSON { response in
+                if response.result.isFailure {
+                    if let error = response.result.error as? AFError {
+                        callback("500", error.errorDescription!)
+                    } else {
+                        //NETWORK FAILURE
+                        callback("500", "NETWORK FAILURE")
+                    }
+                    return
+                }
+                
+                if let result = response.result.value {
+                    let json = JSON(result)
+                    
+                    if json["code"].stringValue != "200" {
+                        callback(json["code"].stringValue, json["msg"].stringValue)
+                        return
+                    }
+                    
+                    callback("200", "")
+                }
+            }
+        } else {
+            // TODO: Pop up login
+            callback("401", "You haven't logged in.")
         }
     }
     

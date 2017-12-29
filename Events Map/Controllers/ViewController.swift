@@ -329,28 +329,46 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
     
     func like(_ sender: UIButton) {
-        if event.like() {
-            print("Liked")
-            sender.setImage(UIImage(named: "star-filled"), for: .normal)
-            
-        } else {
-            let alertController = MDCAlertController(title: nil, message: "You need to login.")
-            alertController.mdc_adjustsFontForContentSizeCategory = true
-            let cancelAction = MDCAlertAction(title: "Cancel",  handler: nil)
-            alertController.addAction(cancelAction)
-            let confirmAction = MDCAlertAction(title: "Login") { (action) in
-                let _ = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+        event.like() { code, msg in
+            switch code {
+            case "200":
+                sender.setImage(UIImage(named: "star-filled"), for: .normal)
+                self.event.liked = true
+                
+            case "400":
+                let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                alertController.mdc_adjustsFontForContentSizeCategory = true
+                let cancelAction = MDCAlertAction(title: "Cancel",  handler: nil)
+                alertController.addAction(cancelAction)
+                let confirmAction = MDCAlertAction(title: "Login") { (action) in
+                    let _ = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
+                }
+                alertController.addAction(confirmAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+            default:
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
             }
-            alertController.addAction(confirmAction)
-            
-            self.present(alertController, animated: true, completion: nil)
         }
     }
     
     @objc func unlike(_ sender: UIButton) {
-        print("unlike")
-        event.unlike()
-        sender.setImage(UIImage(named: "star-default"), for: .normal)
+        event.unlike() { code, msg in
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
+                return
+            }
+            
+            sender.setImage(UIImage(named: "star-default"), for: .normal)
+            self.event.liked = false
+        }
     }
     
     @objc func shareBtnPressed(_ sender: UIButton) {
