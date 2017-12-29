@@ -33,7 +33,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         manger.desiredAccuracy = kCLLocationAccuracyBest
         manger.requestWhenInUseAuthorization()
         manger.startUpdatingLocation()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         loadingView = activityIndicator("Loading......")
         EventService.instance.getEvents(addEvents)
     }
@@ -51,9 +53,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         mapView.delegate = self
         mapView.restorationIdentifier = "MapView"
         self.view.addSubview(mapView)
-        
-        loadingView = activityIndicator("Loading......")
-        EventService.instance.getEvents(addEvents)
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
