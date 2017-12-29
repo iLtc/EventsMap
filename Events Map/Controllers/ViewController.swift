@@ -38,11 +38,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         EventService.instance.getEvents(addEvents)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        loadingView = activityIndicator("Loading......")
-        EventService.instance.getEvents(addEvents)
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.showCurrentLocationOnMap()
         self.manger.stopUpdatingLocation()
@@ -56,6 +51,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         mapView.delegate = self
         mapView.restorationIdentifier = "MapView"
         self.view.addSubview(mapView)
+        
+        loadingView = activityIndicator("Loading......")
+        EventService.instance.getEvents(addEvents)
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
