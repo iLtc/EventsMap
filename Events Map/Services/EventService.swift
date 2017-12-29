@@ -102,9 +102,8 @@ class EventService {
                 }
                 
                 var events: [Event] = []
-                let eventsJson = json["events"]
                 
-                for (_, subJson): (String, JSON) in eventsJson {
+                for (_, subJson): (String, JSON) in json["events"] {
                     let event = self.formatEvent(subJson)
                     
                     events.append(event)
@@ -114,26 +113,42 @@ class EventService {
         }
     }
     
-    func getAllUserEvents(_ callback: @escaping (([Event]) -> Void)) {
+    func getAllUserEvents(_ callback: @escaping ((String, String, [Event]) -> Void)) {
         var parameters: [String: String] = [:]
         if let user = UserService.instance.getCurrentUser() {
             parameters["uid"] = user.id
         }
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/user", parameters: parameters).responseJSON { response in
-            var events: [Event] = []
+            
+            if response.result.isFailure {
+                if let error = response.result.error as? AFError {
+                    callback("500", error.errorDescription!, [])
+                } else {
+                    //NETWORK FAILURE
+                    callback("500", "NETWORK FAILURE", [])
+                }
+                return
+            }
             
             if let result = response.result.value {
                 let json = JSON(result)
                 
-                for (_, subJson): (String, JSON) in json {
+                if json["code"].stringValue != "200" {
+                    callback(json["code"].stringValue, json["msg"].stringValue, [])
+                    return
+                }
+                
+                var events: [Event] = []
+                
+                for (_, subJson): (String, JSON) in json["events"] {
                     let event = self.formatEvent(subJson)
                     
                     events.append(event)
                 }
+                
+                callback("200", "", events)
             }
-            
-            callback(events)
         }
     }
     

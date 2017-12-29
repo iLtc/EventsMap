@@ -268,7 +268,15 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
         activityIndicator.cycleColors = [blue, teal, green, amber, red]
         activityIndicator.startAnimating()
         collectionView?.addSubview(activityIndicator)
-        EventService.instance.getAllUserEvents { (events) in
+        EventService.instance.getAllUserEvents { (code, msg, events) in
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
+                return
+            }
+            
             self.events = events.reversed()
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
