@@ -41,6 +41,11 @@ class UserService {
             if let result = response.result.value {
                 let json = JSON(result)
                 
+                if json["code"].stringValue != "200" {
+                    callback(json["code"].stringValue, json["msg"].stringValue, nil)
+                    return
+                }
+                
                 let user = User(id: json["uid"].stringValue, name: json["name"].stringValue, picURL: json["picURL"].stringValue)
                 
                 let userDict = [
