@@ -12,6 +12,7 @@ import FacebookCore
 import FBSDKLoginKit
 import GoogleSignIn
 import GGLCore
+import MaterialComponents
 
 class LoginView: UIView, GIDSignInUIDelegate {
     
@@ -186,10 +187,20 @@ class LoginView: UIView, GIDSignInUIDelegate {
                     
                     self.loadingView = self.parentVC?.activityIndicator("Loading......")
                     
-                    UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { user in
+                    UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { code, msg, user in
                         if let loadingView = self.loadingView {
                             loadingView.removeFromSuperview()
                         }
+                        
+                        if code != "200" {
+                            let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                            alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                            
+                            self.parentVC?.present(alert, animated: true)
+                            return
+                        }
+                        
+                        let user = user!
                         
                         let image = UIImage.gif(url: user.picURL)!
                         self.parentImg?.image = image.resizeImage(targetSize: (self.parentImg?.frame.size)!)
@@ -227,10 +238,20 @@ class LoginView: UIView, GIDSignInUIDelegate {
     @objc func demoLogin() {
         loadingView = parentVC?.activityIndicator("Loading......")
         
-        UserService.instance.getDemoUser() {user in
+        UserService.instance.getDemoUser() {code, msg, user in
             if let loadingView = self.loadingView {
                 loadingView.removeFromSuperview()
             }
+            
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.parentVC?.present(alert, animated: true)
+                return
+            }
+            
+            let user = user!
             
             let image = UIImage.gif(url: user.picURL)!
             self.parentImg?.image = image.resizeImage(targetSize: (self.parentImg?.frame.size)!)

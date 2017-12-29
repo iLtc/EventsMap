@@ -19,7 +19,7 @@ class UserService {
     print(user.name, user.id, user.picURL)
  }
 */
-    func addUser(pid: String, name: String, picURL: String, platform: LoginPlatform, callback: @escaping ((User) -> Void)) {
+    func addUser(pid: String, name: String, picURL: String, platform: LoginPlatform, callback: @escaping ((String, String, User?) -> Void)) {
         let parameters: Parameters = [
             "pid": pid,
             "name": name,
@@ -28,6 +28,16 @@ class UserService {
         ]
         
         Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/users/new", method: .post, parameters: parameters).responseJSON { response in
+            if response.result.isFailure {
+                if let error = response.result.error as? AFError {
+                    callback("500", error.errorDescription!, nil)
+                } else {
+                    //NETWORK FAILURE
+                    callback("500", "NETWORK FAILURE", nil)
+                }
+                return
+            }
+            
             if let result = response.result.value {
                 let json = JSON(result)
                 
@@ -40,12 +50,12 @@ class UserService {
                 ]
                 self.defaults.set(userDict, forKey: "CurrentUser")
                 
-                callback(user)
+                callback("200", "", user)
             }
         }
     }
     
-    func getDemoUser(callback: @escaping ((User) -> Void)) {
+    func getDemoUser(callback: @escaping ((String, String, User?) -> Void)) {
         addUser(pid: "1234567", name: "Demo User", picURL: "https://s3.us-east-2.amazonaws.com/iltc-events/avataaars.png", platform: .server, callback: callback)
     }
     

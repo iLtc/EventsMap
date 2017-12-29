@@ -15,6 +15,7 @@ import UserNotifications
 import GoogleSignIn
 import FirebaseCore
 import GGLCore
+import MaterialComponents
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
@@ -37,9 +38,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         
         let imageURL = user.profile.imageURL(withDimension: 320)!
         
-        UserService.instance.addUser(pid: user.userID, name: user.profile.name, picURL: imageURL.absoluteString, platform:.google) { user in
+        UserService.instance.addUser(pid: user.userID, name: user.profile.name, picURL: imageURL.absoluteString, platform:.google) { code, msg, user in
             if let vc = self.userTableViewController {
                 self.loadingView?.removeFromSuperview()
+                
+                if code != "200" {
+                    let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                    alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                    
+                    vc.present(alert, animated: true)
+                    return
+                }
+                
+                let user = user!
                 
                 let image = UIImage.gif(url: user.picURL)!
                 
