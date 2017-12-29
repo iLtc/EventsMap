@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MaterialComponents
 
 class CategoryViewController: UITableViewController {
     
@@ -24,12 +25,25 @@ class CategoryViewController: UITableViewController {
     }
     
     func reload() {
-        EventService.instance.getAllCategories() { category in
+        let loadingView = activityIndicator("Loading......")
+        
+        EventService.instance.getAllCategories() { code, msg, category in
+            loadingView.removeFromSuperview()
+            
+            if code != "200" {
+                let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
+                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
+                
+                self.present(alert, animated: true)
+                return
+            }
+            
             self.category = category
             self.tableView.reloadData()
-        }
-        if EventService.instance.defaults.array(forKey: "CurrentCategories") != nil {
-            selectedCategory = EventService.instance.defaults.array(forKey: "CurrentCategories") as! [String]
+            
+            if EventService.instance.defaults.array(forKey: "CurrentCategories") != nil {
+                self.selectedCategory = EventService.instance.defaults.array(forKey: "CurrentCategories") as! [String]
+            }
         }
     }
     

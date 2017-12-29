@@ -144,24 +144,40 @@ class EventService {
      }
  }
  */
-    func getAllCategories(_ callback: @escaping (([String]) -> Void)) {
+    func getAllCategories(_ callback: @escaping ((String, String, [String]) -> Void)) {
         Alamofire.request(ConfigService.instance.get("EventsServerHost") + "/events/categories").responseJSON { response in
-            var categories: [String] = []
+            if response.result.isFailure {
+                if let error = response.result.error as? AFError {
+                    callback("500", error.errorDescription!, [])
+                } else {
+                    //NETWORK FAILURE
+                    callback("500", "NETWORK FAILURE", [])
+                }
+                return
+            }
             
             if let result = response.result.value {
                 let json = JSON(result)
                 
+                if json["code"].stringValue != "200" {
+                    callback(json["code"].stringValue, json["msg"].stringValue, [])
+                    return
+                }
+                
+                var categories: [String] = []
+                
                 for (_, subJson): (String, JSON) in json["categories"] {
                     categories.append(subJson.stringValue)
                 }
+                
+                callback("200", "", categories)
             }
-            callback(categories)
         }
     }
     
-    func getCurrentCategories(_ callback: @escaping (([String]) -> Void)) {
+    func getCurrentCategories(_ callback: @escaping ((String, String, [String]) -> Void)) {
         if let categories = defaults.array(forKey: "CurrentCategories") {
-            callback(categories as! [String])
+            callback("200", "", categories as! [String])
         } else {
             getAllCategories(callback)
         }
