@@ -17,14 +17,25 @@ $(function() {
      *-----------------------------------*/
     function menuscroll() {
         var $navmenu = $('.nav-menu');
+        var titleItem = document.getElementsByClassName("nav-title")[0];
         if ($(window).scrollTop() > 50) {
             $navmenu.addClass('is-scrolling');
+            if (titleItem != null) {
+                titleItem.style.transform = "translateY(" + 0 + "px)";
+                titleItem.style.opacity = "1";
+            }
         } else {
+            if (titleItem != null) {
+                titleItem.style.opacity = window.pageYOffset / 50;
+                titleItem.style.transform = "translateY(" + (51 - window.pageYOffset) + "px)";
+            }
+            
             $navmenu.removeClass("is-scrolling");
         }
     }
     menuscroll();
     $(window).on('scroll', function() {
+
         menuscroll();
     });
     /*-----------------------------------

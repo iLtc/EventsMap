@@ -160,6 +160,39 @@ p.lead {
     font-size: 15px;
 }
 
+.btn-span {
+    font-size: 17px;
+    font-weight: 500;
+    padding: 0;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.btn-span i {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateX(50px);
+}
+
+.btn-span h {
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+}
+
+.btn-span:hover,
+.btn-span:focus {
+    text-decoration: none;
+}
+
+.btn-span:hover i,
+.btn-span:focus i {
+    transform: translateX(0px);
+}
+
+.btn-span:hover h,
+.btn-span:focus h {
+    opacity: 1;
+}
+
 .light-bg {
     background-color: #ffeb3b24;
 }
@@ -189,10 +222,31 @@ p.lead {
 
 /* NAVBAR
 ----------------------*/
+.nav-title {
+    opacity: 0;
+    margin-left: 100px;
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
 
+.nav-title a:hover,
+.nav-title a:focus {
+    text-decoration: none;
+}
+
+@media (max-width:767px) {
+    .nav-title {
+        display: none;
+    }
+
+}
 .nav-menu {
     padding: 1rem 0;
     transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .nav-menu.is-scrolling,
@@ -238,6 +292,28 @@ p.lead {
         background: -moz-linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
         background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
         background: linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+    }
+}
+
+.nav-top {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+    background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 1) 30%, rgba(250, 216, 77, 1) 30%);
+}
+
+@media (max-width: 800px) {
+    .nav-top {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 40%, rgba(250, 216, 77, 1) 40%);
+        background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 40%, rgba(250, 216, 77, 1) 40%);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 40%, rgba(250, 216, 77, 1) 40%);
+    }
+}
+
+@media (max-width: 400px) {
+    .nav-top {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
+        background: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 50%, rgba(250, 216, 77, 1) 50%);
     }
 }
 
