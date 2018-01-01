@@ -219,6 +219,16 @@ p.lead {
     }
 }
 
+.content {
+    margin: 90px 40px;
+}
+
+@media (max-width: 767px) {
+    .content {
+        margin: 90px 20px;
+    }
+}
+
 
 /* NAVBAR
 ----------------------*/
