@@ -118,7 +118,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
         }, completion: nil)
         
         // Demo user button
-        let demoBtn: UIButton = {
+        /*let demoBtn: UIButton = {
             let button = UIButton(frame: CGRect(x: 10, y: googleBtn.frame.maxY + 70, width: frame.width - 20, height: 40))
             button.alpha = 0
             button.layer.cornerRadius = 4
@@ -138,7 +138,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
         UIButton.animate(withDuration: 0.5, delay: 0.6, options: .curveEaseOut, animations: {
             demoBtn.frame.origin.y = googleBtn.frame.maxY + 20
             demoBtn.alpha = 1
-        }, completion: nil)
+        }, completion: nil)*/
         
         self.sizeToFit()
         blurEffectView.sizeToFit()
