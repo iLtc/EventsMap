@@ -23,6 +23,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     var address = ""
     var coordinate: CLLocationCoordinate2D?
     var loadingView: UIView?
+    var bottomPadding:CGFloat = 0
+    let movePadding:CGFloat = 10
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,12 +108,9 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             }
         }
         
-//
-        var bottomPadding:CGFloat = 0
         if #available(iOS 11.0, *) {
             bottomPadding = view.safeAreaInsets.bottom
         }
-        let movePadding:CGFloat = 10
         let size = CGSize(width: self.view.bounds.width, height: 150 + bottomPadding + movePadding) // first: 180
         let origin = CGPoint(x: 0, y: self.view.bounds.height)
         let rect = CGRect(origin: origin, size: size)
@@ -128,13 +127,13 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurEffectView.clipsToBounds = true
         containerView.insertSubview(blurEffectView, at: 0)
-        containerView.tag = 1
         
         let infoHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: containerView.frame.width, height: 40))
         infoHeaderView.backgroundColor = .clear
         let separator = UIView(frame: CGRect(center: CGPoint(x: infoHeaderView.center.x, y: 40), size: CGSize(width: containerView.frame.width - 30, height: 0.5)))
         separator.backgroundColor = UIColor(white: 224/255, alpha: 1)
         infoHeaderView.addSubview(separator)
+        infoHeaderView.tag = 1
         
         let headerLabel: UILabel = {
             let label = UILabel(frame: CGRect(x: 15, y: 10, width: 40, height: 10))
@@ -163,7 +162,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         infoHeaderView.addSubview(indicatorView)
         indicatorView.sizeToFit()
         
-        containerView.addSubview(infoHeaderView)
+        containerView.insertSubview(infoHeaderView, at: 1)
         
         let infoView = InfoView(frame: CGRect(origin: CGPoint(x: 0, y: infoHeaderView.frame.maxY), size: CGSize(width: size.width, height: 110)), style: .plain)
         
@@ -291,7 +290,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         self.view.addSubview(containerView)
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
-            containerView.frame.origin.y = self.view.bounds.height - containerView.frame.height + movePadding
+            containerView.frame.origin.y = self.view.bounds.height - containerView.frame.height + self.movePadding
         }, completion: nil)
 
         buffer.append(containerView)
@@ -300,7 +299,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         // Tap InfoView trigger
         //let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewTapped(sender:)))
-        
         containerView.isUserInteractionEnabled = true
     }
     
@@ -582,7 +580,6 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let touch: UITouch = touches.first as UITouch!
 
         if (touch.view?.tag == 1) {
-            
             locationBegan = touch.location(in: touch.view).y
             
             
@@ -594,12 +591,12 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         let touch:UITouch = touches.first as UITouch!
         
         if (touch.view?.tag == 1) {
-            let infoView = touch.view
+            let infoView = touch.view?.superview
 //            if ((infoView?.frame.origin.y)! > view.frame.maxY - (infoView?.frame.height)! - 30) {
 //                let displacement = (infoView?.frame.midY)! - touch.location(in: view).y
 //                infoView?.frame.origin.y -= displacement * 0.005
 //            }
-            if ((infoView?.frame.origin.y)! >= view.frame.maxY - (infoView?.frame.height)!) {
+            if ((infoView?.frame.origin.y)! >= view.frame.maxY - (infoView?.frame.height)! + movePadding) {
                 
                 infoView?.frame.origin.y = touch.location(in: self.view).y - locationBegan
             }
@@ -612,14 +609,12 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
         
         if (touch.view?.tag == 1) {
             
-            let infoView = touch.view
+            let infoView = touch.view?.superview
             var location: CGFloat = (infoView?.frame.origin.y)!
-            if (infoView?.frame.origin.y)! < (view.frame.height - (infoView?.frame.height)!) + 40 {
-                location = self.view.bounds.height - (infoView?.frame.height)!
-            } else if (infoView?.frame.origin.y)! > view.frame.height - 95 {
-                location = self.view.bounds.height
+            if location < (view.frame.height - ((infoView?.frame.height)! - movePadding)*0.6) {
+                location = self.view.bounds.height - ((infoView?.frame.height)! - movePadding)
             } else {
-                location = self.view.bounds.height - 160
+                location = self.view.bounds.height
             }
 
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
@@ -629,35 +624,8 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                     self.removeView()
                 }
             })
-            //infoViewTapped(infoView!)
         }
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        let touch: UITouch = touches.first as UITouch!
-        
-        if (touch.view?.tag == 1) {
-            
-            
-            let infoView = touch.view
-            var location: CGFloat = (infoView?.frame.origin.y)!
-            if (infoView?.frame.origin.y)! < (view.frame.height - (infoView?.frame.height)!) + 40 {
-                location = self.view.bounds.height - (infoView?.frame.height)!
-            } else if (infoView?.frame.origin.y)! > view.frame.height - 95 {
-                location = self.view.bounds.height
-            } else {
-                location = self.view.bounds.height - 160
-            }
-            
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
-                infoView?.frame.origin.y = location
-            }, completion: {(finished: Bool) in
-                if location == self.view.bounds.height {
-                    self.removeView()
-                }
-            })
-        }
-    }
 }
 
