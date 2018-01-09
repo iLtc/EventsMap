@@ -139,7 +139,7 @@ class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignI
     }
     
     func popLoginView() {
-        let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 280))
+        let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 220))
         loginView.parentImg = UserImage
         loginView.parentName = UserName
         loginView.parentTableView = self.tableView

@@ -507,7 +507,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
             let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
             alertController.addAction(cancelAction)
             let confirmAction = MDCAlertAction(title: "Login") { (action) in
-                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 270))
+                let loginView = LoginView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220))
                 loginView.parentVC = self
             }
             alertController.addAction(confirmAction)
