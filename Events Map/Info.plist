@@ -32,11 +32,11 @@
 		</dict>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>edu.uiowa.EventsMap</string>
+			<string>io.iLtc.HawkEvents</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb444439642616561</string>
-				<string>EventsMap</string>
+				<string>HawkEvents</string>
 			</array>
 		</dict>
 		<dict>
@@ -44,16 +44,16 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>edu.uiowa.EventsMap</string>
+				<string>io.iLtc.HawkEvents</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>FacebookAppID</key>
 	<string>444439642616561</string>
 	<key>FacebookDisplayName</key>
-	<string>Events Map</string>
+	<string>Hawk Events</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
