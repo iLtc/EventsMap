@@ -1,7 +1,7 @@
 <?php
 // Configure your Subject Prefix and Recipient here
 $subjectPrefix = '[Contact via HawkEvents]';
-$emailTo       = '<YOUR_EMAIL_HERE>';
+$emailTo       = 'hawkevents@outlook.com';
 $errors = array(); // array to hold validation errors
 $data   = array(); // array to pass back data
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
