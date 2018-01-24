@@ -525,6 +525,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
                 sender.tag = 1
                 sender.image = UIImage(named: "md-star-border")
                 self.event.liked = false
+                self.removeNotification(self.event)
             }
         } else if sender.tag == 1 {
             event.like() { code, msg in
@@ -533,7 +534,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
                     sender.tag = 0
                     sender.image = UIImage(named: "md-star")
                     self.event.liked = true
-                    
+                    self.scheduleNotification(self.event)
                 case "401":
                     let alertController = MDCAlertController(title: nil, message: "You need to login.")
                     let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
