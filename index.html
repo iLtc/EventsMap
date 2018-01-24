@@ -325,7 +325,11 @@
                         </div>
                         <input type="text" id="form-subject" name="form-subject" class="form-control" placeholder="Message topic">
                         <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
-                        <div class="submit"><button type="sibmit" class="btn btn-primary">Submit</button></div>
+                        <div class="submit">
+                            <button class="g-recaptcha btn btn-primary" data-sitekey="6LdwNkIUAAAAAJQ3irWy8hWFco70MWg3Re14_7F1" data-callback="SubmitForm">
+                                Submit
+                            </button>
+                        </div>
                     </form>
 
                 </div>
@@ -363,7 +367,12 @@
 
     gtag('config', 'UA-111613340-1');
 </script>
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+    var SubmitForm = function() {
+        $("form").submit();
+    }
+</script>
 </body>
 
 </html>
