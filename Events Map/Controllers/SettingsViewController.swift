@@ -104,7 +104,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
 //            appDelegate?.scheduleNotification(Event())
             
         } else {
-            appDelegate?.disableNotification()
+            self.removeAllNotification()
         }
     }
     
