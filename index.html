@@ -321,14 +321,13 @@
                     <form action="https://iltc-php-mail-sender.herokuapp.com/sender.php" id="contact-form" method="post" class="contact-form">
                         <div class="form-double">
                             <input type="text" id="form-name" name="name" placeholder="Your name" class="form-control" required="required">
-                            <input type="email" id="form-email" name="email" class="form-control" placeholder="E-mail address" required="required" style="margin-left: 20px;">
+                            <input type="email" id="form-email" name="email" class="form-control" placeholder="E-mail address" required style="margin-left: 20px;">
                         </div>
-                        <input type="text" id="form-subject" name="subject" class="form-control" placeholder="Message topic">
-                        <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
+                        <input type="text" id="form-subject" name="subject" class="form-control" placeholder="Message topic" required>
+                        <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required></textarea>
                         <div class="submit">
-                            <button class="g-recaptcha btn btn-primary" data-sitekey="6LdwNkIUAAAAAJQ3irWy8hWFco70MWg3Re14_7F1" data-callback="SubmitForm">
-                                Submit
-                            </button>
+                            <div class="g-recaptcha" data-sitekey="6LdwNkIUAAAAAJQ3irWy8hWFco70MWg3Re14_7F1" data-callback="SubmitForm" data-size="invisible"></div>
+                            <input class="btn btn-primary" id="form-submit" type="submit">
                         </div>
                     </form>
 
@@ -360,16 +359,27 @@
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111613340-1"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
     gtag('config', 'UA-111613340-1');
-</script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
-<script>
+
+    var recaptchaVerified = false;
+    $('form').submit(function() {
+        if (recaptchaVerified) {
+            return true;
+        } else {
+            grecaptcha.execute();
+
+            return false;
+        }
+    });
+
     var SubmitForm = function() {
+        recaptchaVerified = true;
         $("form").submit();
     }
 </script>
