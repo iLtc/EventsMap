@@ -318,12 +318,12 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <form action="contact.php" id="contact-form" method="post" class="contact-form">
+                    <form action="https://iltc-php-mail-sender.herokuapp.com/sender.php" id="contact-form" method="post" class="contact-form">
                         <div class="form-double">
-                            <input type="text" id="form-name" name="form-name" placeholder="Your name" class="form-control" required="required">
-                            <input type="email" id="form-email" name="form-email" class="form-control" placeholder="E-mail address" required="required" style="margin-left: 20px;">
+                            <input type="text" id="form-name" name="name" placeholder="Your name" class="form-control" required="required">
+                            <input type="email" id="form-email" name="email" class="form-control" placeholder="E-mail address" required="required" style="margin-left: 20px;">
                         </div>
-                        <input type="text" id="form-subject" name="form-subject" class="form-control" placeholder="Message topic">
+                        <input type="text" id="form-subject" name="subject" class="form-control" placeholder="Message topic">
                         <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
                         <div class="submit">
                             <button class="g-recaptcha btn btn-primary" data-sitekey="6LdwNkIUAAAAAJQ3irWy8hWFco70MWg3Re14_7F1" data-callback="SubmitForm">
