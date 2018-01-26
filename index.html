@@ -327,7 +327,7 @@
                         <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required></textarea>
                         <div class="submit">
                             <div class="g-recaptcha" data-sitekey="6LdwNkIUAAAAAJQ3irWy8hWFco70MWg3Re14_7F1" data-callback="SubmitForm" data-size="invisible"></div>
-                            <input class="btn btn-primary" id="form-submit" type="submit">
+                            <input class="btn btn-primary" type="submit">
                         </div>
                     </form>
 
@@ -366,6 +366,10 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-111613340-1');
+
+    $("input, textarea").change(function(){
+        $.ajax('https://iltc-php-mail-sender.herokuapp.com/ping.php');
+    });
 
     var recaptchaVerified = false;
     $('form').submit(function() {
