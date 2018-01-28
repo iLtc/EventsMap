@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 
+// Schedule notification with event
 extension UIViewController {
     func scheduleNotification(_ event: Event) {
         
@@ -20,10 +21,6 @@ extension UIViewController {
         let dateComp = calendar.dateComponents([ .year, .month, .day, .hour, .minute], from: date!)
         let newComponents = DateComponents(calendar: calendar, timeZone: .current, year: dateComp.year, month: dateComp.month, day: dateComp.day, hour: dateComp.hour, minute: dateComp.minute)
         let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
-        
-        // Attachment
-//        let url = Bundle.main.url(forResource: "WechatIMG4", withExtension: "jpeg")
-//        let attachment = try! UNNotificationAttachment(identifier: "image", url: url!, options: [:])
         
         // Content
         let content = UNMutableNotificationContent()
@@ -38,6 +35,21 @@ extension UIViewController {
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "eventCategory"
         
+        // Attachment
+        var image: UIImage?
+        DispatchQueue.global().async {
+            let imageData = NSData(contentsOf: URL(string: event.photos[0])!)
+            
+            DispatchQueue.main.async {
+                image = UIImage(data: imageData! as Data)
+            }
+        }
+        
+        if image != nil {
+            if let attachment = UNNotificationAttachment.createLocalURL(identifier: event.id, image: image!, options: nil) {
+                content.attachments = [attachment]
+            }
+        }
         
         // Schedule a request
         let calendarRequest = UNNotificationRequest(identifier: event.id, content: content, trigger: calendarTrigger)
@@ -57,5 +69,29 @@ extension UIViewController {
     func removeNotification(_ event: Event) {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [event.id])
+    }
+}
+
+// Get the remote image as attachment
+extension UNNotificationAttachment {
+    
+    static func createLocalURL(identifier: String, image: UIImage, options: [NSObject:AnyObject]?) -> UNNotificationAttachment? {
+        let fileManager = FileManager.default
+        let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
+        let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName, isDirectory: true)
+        do {
+            try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
+            let imageFileIdentifier = identifier+".png"
+            let fileURL = tmpSubFolderURL.appendingPathComponent(imageFileIdentifier)
+            guard let imageData = UIImagePNGRepresentation(image) else {
+                return nil
+            }
+            try imageData.write(to: fileURL)
+            let imageAttachment = try UNNotificationAttachment.init(identifier: imageFileIdentifier, url: fileURL, options: options)
+            return imageAttachment
+        } catch {
+            print("error " + error.localizedDescription)
+        }
+        return nil
     }
 }
