@@ -68,7 +68,7 @@ class AboutTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Developer"
+            return "About"
         } else {
             return "Help"
         }
@@ -83,15 +83,15 @@ class AboutTableViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-                cell.textLabel?.text = "Tiancheng Luo"
+                cell.textLabel?.text = "Our Website"
                 return cell
             case 1:
                 let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-                cell.textLabel?.text = "Yizhen Chen"
+                cell.textLabel?.text = "Developers"
                 return cell
             case 2:
                 let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-                cell.textLabel?.text = "Zhenming Wang"
+                cell.textLabel?.text = "Privacy Policy"
                 return cell
             default:
                 fatalError("Error row")
@@ -109,11 +109,11 @@ class AboutTableViewController: UITableViewController {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                openURL(url: URL(string: "https://iLtc.io")!, title: "Tiancheng Luo")
+                openURL(url: URL(string: "https://events.iltcapp.net/")!, title: "Hawk Events")
             case 1:
-                openURL(url: URL(string: "https://homepage.divms.uiowa.edu/~ychen261/")!, title: "Yizhen Chen")
+                openURL(url: URL(string: "https://events.iltcapp.net/#contributors")!, title: "Developers")
             case 2:
-                openURL(url: URL(string: "https://homepage.divms.uiowa.edu/~zwang191/")!, title: "Zhenming Wang")
+                openURL(url: URL(string: "https://events.iltcapp.net/privacy/")!, title: "Privacy Policy")
             default:
                 fatalError("Error row")
             }
