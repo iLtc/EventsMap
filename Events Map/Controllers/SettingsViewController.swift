@@ -141,7 +141,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     func sendEmail() {
         let emailTitle = "Events Map Feedback"
         let messageBody = "Feature request or bug report?"
-        let toRecipents = ["tiancheng-luo@uiowa.edu", "yizhen-chen-1@uiowa.edu", "zhenming-wang@uiowa.edu"]
+        let toRecipents = ["hawkevents@outlook.com"]
         let mc: MFMailComposeViewController = MFMailComposeViewController()
         mc.mailComposeDelegate = self
         mc.setSubject(emailTitle)
