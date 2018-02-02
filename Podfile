@@ -15,4 +15,5 @@ target 'Events Map' do
   pod 'Google/SignIn'
   pod 'GoogleSignIn'
   pod 'lottie-ios'
+  pod 'Firebase/Core'
 end
