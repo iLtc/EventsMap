@@ -16,6 +16,7 @@ import GoogleSignIn
 import FirebaseCore
 import GGLCore
 import MaterialComponents
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
@@ -71,6 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         // Override point for customization after application launch.
         GMSServices.provideAPIKey("AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ")
         GMSPlacesClient.provideAPIKey("AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ")
+        
+        FIRApp.configure()
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame:UIScreen.main.bounds)
