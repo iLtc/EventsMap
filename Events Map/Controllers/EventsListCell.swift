@@ -36,7 +36,7 @@ class EventsListCell: MDCCollectionViewCell {
         cellView.backgroundColor = .white
         cellView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         cellView.clipsToBounds = true
-        
+        cellView.layer.cornerRadius = 2
         
         let shadowLayer = self.layer as! MDCShadowLayer
         shadowLayer.elevation = .cardResting
