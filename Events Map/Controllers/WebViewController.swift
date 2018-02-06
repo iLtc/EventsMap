@@ -40,9 +40,11 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         appBar.headerViewController.headerView.insertSubview(topBlurEffectView, at: 0)
         appBar.headerViewController.headerView.backgroundColor = .clear
         topBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        webView.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height - 44 - bottomPadding))
+        webView.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height))
         webView.scrollView.delegate = self
         webView.delegate = self
+        webView.backgroundColor = .clear
+        webView.isOpaque = false
         view.addSubview(webView)
         
         progressView.progress = 0
@@ -136,13 +138,13 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         buttonBar.items = [back, forward, browserBtn]
         buttonBar.frame.size = CGSize(width: view.frame.width, height: 44)
         let bottomBlurEffectView = UIVisualEffectView(effect: blurEffect)
-        bottomBlurEffectView.frame = CGRect(origin: .zero, size: buttonBar.frame.size)
+        bottomBlurEffectView.frame = CGRect(origin: .zero, size: CGSize(width: buttonBar.frame.size.width, height: 44 + bottomPadding))
         buttonBar.insertSubview(bottomBlurEffectView, at: 0)
-        buttonBar.clipsToBounds = true
+//        buttonBar.clipsToBounds = true
         
-        let safeBlurView = UIVisualEffectView(effect: blurEffect)
-        safeBlurView.frame = CGRect(x: 0, y: view.frame.maxY - bottomPadding, width: view.frame.width, height: bottomPadding)
-        view.addSubview(safeBlurView)
+//        let safeBlurView = UIVisualEffectView(effect: blurEffect)
+//        safeBlurView.frame = CGRect(x: 0, y: view.frame.maxY - bottomPadding, width: view.frame.width, height: bottomPadding)
+//        view.addSubview(safeBlurView)
         view.addSubview(buttonBar)
     }
     
@@ -231,14 +233,14 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
     }
 
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
-        let alertController = MDCAlertController(title: nil, message: "Load failed.")
-        
-        let confirmAction = MDCAlertAction(title: "OK") { (action) in
-            
-        }
-        alertController.addAction(confirmAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+//        let alertController = MDCAlertController(title: nil, message: "Load failed.")
+//
+//        let confirmAction = MDCAlertAction(title: "OK") { (action) in
+//
+//        }
+//        alertController.addAction(confirmAction)
+//
+//        self.present(alertController, animated: true, completion: nil)
 //        activityIndicator.hidden = true
     }
     
@@ -253,10 +255,28 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
     
     // MARK: UIScrollViewDelegate
     
+    private var lastContentOffset: CGFloat = 0
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == appBar.headerViewController.headerView.trackingScrollView {
             appBar.headerViewController.headerView.trackingScrollDidScroll()
         }
+        
+        if (self.lastContentOffset - 10 > scrollView.contentOffset.y) {
+            // move up
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                self.buttonBar.frame.origin = CGPoint(x: 0, y: self.view.frame.maxY - 44 - self.bottomPadding)
+                
+            }, completion: nil)
+        }
+        else if (self.lastContentOffset + 10 < scrollView.contentOffset.y) {
+            // move down
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                self.buttonBar.frame.origin = CGPoint(x: 0, y: self.view.frame.maxY)
+            }, completion: nil)
+        }
+        
+        self.lastContentOffset = scrollView.contentOffset.y
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
