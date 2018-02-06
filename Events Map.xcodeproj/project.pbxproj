@@ -281,7 +281,6 @@
 				2DD060061FDC833E007B71B0 /* LicencesViewController.swift */,
 				2DD111DC1FD8510F00AB0E49 /* IconViewController.swift */,
 				2DD111DE1FD8515B00AB0E49 /* IconCell.swift */,
-				2DD111DF1FD8515B00AB0E49 /* IconCell.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -296,6 +295,7 @@
 				2D7093951FD0BD9000F5A538 /* AddEventTableViewController.xib */,
 				24DCFDF81FD61C200031CACF /* AboutTableViewController.xib */,
 				2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */,
+				2DD111DF1FD8515B00AB0E49 /* IconCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -539,9 +539,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -764,7 +762,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Events Map/Events Map.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FUS7NVY2CP;
+				DEVELOPMENT_TEAM = 625732G463;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GooglePlaces/Frameworks",
@@ -794,7 +792,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Events Map/Events Map.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FUS7NVY2CP;
+				DEVELOPMENT_TEAM = 625732G463;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GooglePlaces/Frameworks",
