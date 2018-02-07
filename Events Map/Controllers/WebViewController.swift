@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import WebKit
 import MaterialComponents
 
-class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDelegate, UIWebViewDelegate {
+class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDelegate, WKUIDelegate {
     
     var existingInteractivePopGestureRecognizerDelegate : UIGestureRecognizerDelegate?
     
     let appBar = MDCAppBar()
-    let webView = UIWebView()
+    let webView = WKWebView()
     let buttonBar = MDCButtonBar()
     let progressView = MDCProgressView()
     let tintColor = UIColor.white
@@ -42,10 +43,11 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         topBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         webView.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height))
         webView.scrollView.delegate = self
-        webView.delegate = self
-        webView.backgroundColor = .clear
+        webView.uiDelegate = self
+        webView.backgroundColor = .white
         webView.isOpaque = false
-        view.addSubview(webView)
+        webView.allowsBackForwardNavigationGestures = true
+        view = webView
         
         progressView.progress = 0
         
@@ -57,7 +59,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         
         if url != nil {
             let request = URLRequest(url: url!)
-            webView.loadRequest(request)
+            webView.load(request)
             
         } else {
             let alertController = MDCAlertController(title: nil, message: "URL is invaild.")
@@ -180,7 +182,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
             self.url = url
             searchBar.text = url.absoluteString
             let request = URLRequest(url: url)
-            webView.loadRequest(request)
+            webView.load(request)
             
         }
     }
@@ -199,7 +201,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         }
     }
     
-    func webViewDidStartLoad(_ webView: UIWebView){
+    func webViewDidStartLoad(_ webView: WKWebView){
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         startAndShowProgressView()
@@ -218,11 +220,14 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
 //        activityIndicator.startAnimating()
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView){
+    func webViewDidFinishLoad(_ webView: WKWebView){
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         completeAndHideProgressView()
+        if (webView.hasOnlySecureContent) {
+            print("https")
+        }
         
-        if let urlText = webView.request?.url?.absoluteString {
+         if let urlText = webView.url?.absoluteString {
 //            searchBar.text = urlText
             refreshBtn.tag = 1
             refreshBtn.image = #imageLiteral(resourceName: "md-refresh").withRenderingMode(.alwaysTemplate)
@@ -231,8 +236,8 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
 //        activityIndicator.stopAnimating()
 //        activityIndicator.hidden = true
     }
-
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
+    
+    func webView(_ webView: WKWebView, didFailLoadWithError error: Error){
 //        let alertController = MDCAlertController(title: nil, message: "Load failed.")
 //
 //        let confirmAction = MDCAlertAction(title: "OK") { (action) in
