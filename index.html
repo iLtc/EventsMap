@@ -367,10 +367,6 @@
 
     gtag('config', 'UA-111613340-1');
 
-    $("input, textarea").change(function(){
-        $.ajax('https://iltc-php-mail-sender.herokuapp.com/ping.php');
-    });
-
     var recaptchaVerified = false;
     $('form').submit(function() {
         if (recaptchaVerified) {
