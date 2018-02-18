@@ -117,6 +117,9 @@ class EventCell: UITableViewCell {
                     sender.tag = 0
                     self.likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
                     self.event?.liked = true
+                    let alert: MDCAlertController = MDCAlertController(title: "Tip", message: "Hawk Events will push a notification 15 minutes before the event start")
+                    alert.addAction(MDCAlertAction(title: "Got it!", handler: nil))
+                    self.parentVC?.present(alert, animated: true)
                 case "400":
                     let alertController = MDCAlertController(title: nil, message: "You need to login.")
                     let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)

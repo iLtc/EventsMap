@@ -241,7 +241,6 @@
 				2D2D61BA1FD68BF10028B9AF /* DetailView.swift */,
 				2D8518BC1FEB988D00A661E2 /* InfoView.swift */,
 				2D8518BE1FEB9EAA00A661E2 /* EventCell.swift */,
-				2D8518BF1FEB9EAA00A661E2 /* EventCell.xib */,
 				245404091FBB4F2200206838 /* MapsCell.swift */,
 				2D1EF84D1FDCFAD90099CF85 /* MapView.swift */,
 				244520521FC3756500D1B956 /* DatePick.swift */,
@@ -296,6 +295,7 @@
 				24DCFDF81FD61C200031CACF /* AboutTableViewController.xib */,
 				2D957CA51FD3590D00E1B6FD /* SearchViewController.xib */,
 				2DD111DF1FD8515B00AB0E49 /* IconCell.xib */,
+				2D8518BF1FEB9EAA00A661E2 /* EventCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
