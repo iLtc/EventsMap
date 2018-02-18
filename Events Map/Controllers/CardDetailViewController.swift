@@ -512,9 +512,12 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
     
     // Mark: like method
     @objc func likeBtnPressed(_ sender: UIBarButtonItem) {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
         if sender.tag == 0 {
             event.unlike() { code, msg in
                 if code != "200" {
+                    
                     let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
                     alert.addAction(MDCAlertAction(title: "OK", handler: nil))
                     

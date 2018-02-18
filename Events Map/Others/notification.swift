@@ -26,23 +26,21 @@ extension UIViewController {
         let content = UNMutableNotificationContent()
         content.title = event.title
         content.subtitle = event.location
-        var badgeCount = 0
-        center.getPendingNotificationRequests { (requests) in
-            badgeCount = requests.count
-        }
-        content.badge =  badgeCount + 1 as NSNumber
+//        var badgeCount = 0
+//        center.getPendingNotificationRequests { (requests) in
+//            badgeCount = requests.count
+//        }
+//        content.badge =  badgeCount + 1 as NSNumber
         content.body = "Event starts in 15 minutes"
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "eventCategory"
         
         // Attachment
         var image: UIImage?
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             let imageData = NSData(contentsOf: URL(string: event.photos[0])!)
+            image = UIImage(data: imageData! as Data)
             
-            DispatchQueue.main.async {
-                image = UIImage(data: imageData! as Data)
-            }
         }
         
         if image != nil {
