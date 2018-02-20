@@ -117,11 +117,19 @@ class EventCell: UITableViewCell {
                     sender.tag = 0
                     self.likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
                     self.event?.liked = true
-                    let alert: MDCAlertController = MDCAlertController(title: "Tip", message: "Hawk Events will push a notification 15 minutes before the event start")
-                    alert.addAction(MDCAlertAction(title: "Got it!", handler: nil))
-                    self.parentVC?.present(alert, animated: true)
-                case "400":
-                    let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                    
+                    // Notification Tip Alert
+                    let userDefault = UserDefaults.standard
+                    if !userDefault.bool(forKey: "NotificationTip") {
+                        let alert: MDCAlertController = MDCAlertController(title: "Tip", message: "Hawk Events will push a notification 15 minutes before the event start.")
+                        alert.addAction(MDCAlertAction(title: "Got it!", handler: { (action) in
+                            userDefault.set(true, forKey: "NotificationTip")
+                            userDefault.synchronize()
+                        }))
+                        self.parentVC?.present(alert, animated: true)
+                    }
+                case "401":
+                    let alertController = MDCAlertController(title: nil, message: "You need to log in.")
                     let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
                     alertController.addAction(cancelAction)
                     let confirmAction = MDCAlertAction(title: "Login") { (action) in
