@@ -77,16 +77,20 @@ class EventCell: UITableViewCell {
     
     @IBAction func likeBtnPressedDown(_ sender: UIButton) {
         sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
     }
     
     @IBAction func likeBtnPressedUp(_ sender: UIButton) {
+        
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
             sender.transform = CGAffineTransform.identity
         }, completion: nil)
     }
     
     @IBAction func likeBtnPressed(_ sender: UIButton) {
-        
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
         print("like")
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
             sender.transform = CGAffineTransform.identity
@@ -100,9 +104,11 @@ class EventCell: UITableViewCell {
                     
                     self.parentVC?.present(alert, animated: true)
                     return
+                } else {
+                    sender.tag = 1
+                    self.event?.liked = false
+                    self.likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
                 }
-                sender.tag = 1
-                self.likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
             }
         } else if sender.tag == 1 {
             event?.like() { code, msg in
@@ -110,9 +116,20 @@ class EventCell: UITableViewCell {
                 case "200":
                     sender.tag = 0
                     self.likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
+                    self.event?.liked = true
                     
-                case "400":
-                    let alertController = MDCAlertController(title: nil, message: "You need to login.")
+                    // Notification Tip Alert
+                    let userDefault = UserDefaults.standard
+                    if !userDefault.bool(forKey: "NotificationTip") {
+                        let alert: MDCAlertController = MDCAlertController(title: "Tip", message: "Hawk Events will push a notification 15 minutes before the event start.")
+                        alert.addAction(MDCAlertAction(title: "Got it!", handler: { (action) in
+                            userDefault.set(true, forKey: "NotificationTip")
+                            userDefault.synchronize()
+                        }))
+                        self.parentVC?.present(alert, animated: true)
+                    }
+                case "401":
+                    let alertController = MDCAlertController(title: nil, message: "You need to log in.")
                     let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
                     alertController.addAction(cancelAction)
                     let confirmAction = MDCAlertAction(title: "Login") { (action) in

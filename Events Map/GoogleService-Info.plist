@@ -2,27 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>417113963893-78u5q5ht06mffvbb5s0acj2io2i9vhk9.apps.googleusercontent.com</string>
+	<string>426628438151-6kcu3e92olri65ukqm4s0qjjpvfkqs71.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.417113963893-78u5q5ht06mffvbb5s0acj2io2i9vhk9</string>
+	<string>com.googleusercontent.apps.426628438151-6kcu3e92olri65ukqm4s0qjjpvfkqs71</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB3IcOZsSavbgzn8WSbfuNJhm2IpN_IcOw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>426628438151</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>edu.uiowa.EventsMap</string>
+	<string>io.iLtc.HawkEvents</string>
 	<key>PROJECT_ID</key>
-	<string>eventmap-185502</string>
+	<string>hawk-events</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hawk-events.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<false></false>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:417113963893:ios:73522f42953ac3cf</string>
+	<string>1:426628438151:ios:1f1591bf12566cda</string>
+	<key>DATABASE_URL</key>
+	<string>https://hawk-events.firebaseio.com</string>
 </dict>
 </plist>

@@ -1,6 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
-target ‘Events Map’ do
+platform :ios, '11.0'
+target 'Events Map' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Alamofire', '~> 4.5'
@@ -14,4 +15,5 @@ target ‘Events Map’ do
   pod 'Google/SignIn'
   pod 'GoogleSignIn'
   pod 'lottie-ios'
+  pod 'Firebase/Core'
 end

@@ -16,13 +16,15 @@ import GoogleSignIn
 import FirebaseCore
 import GGLCore
 import MaterialComponents
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     
     var window: UIWindow?
     var isNotify: Bool = false
-    
+
+    let notificationDelegate = CustomNotificationDelegate()
     var userTableViewController: UserTableViewController?
     var loadingView: UIView?
     
@@ -68,8 +70,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        GMSServices.provideAPIKey("AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ")
-        GMSPlacesClient.provideAPIKey("AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ")
+        GMSServices.provideAPIKey("AIzaSyAKpvUj5l2vOfF-uBBdL6VkSaH8T2yphek")
+        GMSPlacesClient.provideAPIKey("AIzaSyAKpvUj5l2vOfF-uBBdL6VkSaH8T2yphek")
+        
+        FIRApp.configure()
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame:UIScreen.main.bounds)
@@ -78,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        GIDSignIn.sharedInstance().clientID = "108274172853-0aslkl77o0qqmose74fnhi88run4n4c4.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
 
         var mainViewController = UIViewController()
@@ -109,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
             return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         }
         
-        if url.scheme == "com.googleusercontent.apps.417113963893-78u5q5ht06mffvbb5s0acj2io2i9vhk9" {
+        if url.scheme == "com.googleusercontent.apps.108274172853-0aslkl77o0qqmose74fnhi88run4n4c4" {
             return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: sourceApplication, annotation: annotation)
         }
         
@@ -134,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -212,11 +218,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
             let calendarRequest = UNNotificationRequest(identifier: "calendarNotification", content: content, trigger: calendarTrigger)
             
 
-            UNUserNotificationCenter.current().add(calendarRequest) { (error) in
-                if (error != nil) {
-                    print("Error: \(String(describing: error?.localizedDescription))")
-                }
-            }
+//            UNUserNotificationCenter.current().add(calendarRequest) { (error) in
+//                if (error != nil) {
+//                    print("Error: \(String(describing: error?.localizedDescription))")
+//                }
+//            }
             
             // Location Trigger (Optional)
             if event.geo["latitude"] != "" {
@@ -228,11 +234,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
                 region.notifyOnExit = false
                 let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
                 let locationRequest = UNNotificationRequest(identifier: "locationNotification", content: content, trigger: locationTrigger)
-                UNUserNotificationCenter.current().add(locationRequest) { (error) in
-                    if (error != nil) {
-                        print("Error: \(String(describing: error?.localizedDescription))")
-                    }
-                }
+//                UNUserNotificationCenter.current().add(locationRequest) { (error) in
+//                    if (error != nil) {
+//                        print("Error: \(String(describing: error?.localizedDescription))")
+//                    }
+//                }
             }
             
         }
@@ -277,6 +283,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
             return navigationController as? UINavigationController
         }
         return nil
+    }
+    
+    // Set custom notification delegate class
+    class CustomNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+        
+        func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                    willPresent notification: UNNotification,
+                                    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+            // Play sound and show alert to the user
+            completionHandler([.alert,.sound])
+        }
+        
+        func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                    didReceive response: UNNotificationResponse,
+                                    withCompletionHandler completionHandler: @escaping () -> Void) {
+            
+            // Determine the user action
+            switch response.actionIdentifier {
+            case UNNotificationDismissActionIdentifier:
+                print("Dismiss Action")
+            case UNNotificationDefaultActionIdentifier:
+                print("Default")
+            case "Snooze":
+                print("Snooze")
+            case "Delete":
+                print("Delete")
+            default:
+                print("Unknown action")
+            }
+            completionHandler()
+        }
     }
 }
 

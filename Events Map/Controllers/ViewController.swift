@@ -430,6 +430,10 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 self.address = addressText
                 self.coordinate = coordinate
                 
+                if #available(iOS 11.0, *) {
+                    self.bottomPadding = self.view.safeAreaInsets.bottom
+                }
+                
                 let size = CGSize(width: self.view.bounds.width, height: 130)
                 let origin = CGPoint(x: 0, y: self.view.bounds.height)
                 let rect = CGRect(origin: origin, size: size)
@@ -466,7 +470,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
                 infoView.addSubview(detailBtn)
                 
                 self.view.addSubview(infoView)
-                infoView.frame.size = CGSize(width: self.view.bounds.width, height: contentLabel.frame.height + detailBtn.frame.height + 40)
+                infoView.frame.size = CGSize(width: self.view.bounds.width, height: contentLabel.frame.height + detailBtn.frame.height + 40 + self.bottomPadding)
                 UIView.animate(withDuration: 0.3, animations: {
                     infoView.frame.origin.y = self.view.bounds.height - infoView.frame.height
                 }, completion: nil)

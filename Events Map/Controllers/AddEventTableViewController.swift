@@ -64,7 +64,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
         addressField.delegate = self
         if let window = UIApplication.shared.keyWindow {
             searchBtn = {
-                let button = MDCFloatingButton(shape: MDCFloatingButtonShape.default)
+                let button = MDCFloatingButton(shape: .default)
                 button.alpha = 0
                 button.frame = CGRect(x: window.frame.maxX - 72, y: window.frame.maxY - 72, width: 56, height: 56)
                 button.setImage(UIImage(named: "Search"), for: .normal)
@@ -122,7 +122,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
                           width: size.width,
                           height: size.height)
         }
-        autocompleteController.transitionController.transition = transition
+        autocompleteController.mdm_transitionController.transition = transition
         present(autocompleteController, animated: true)
         
         

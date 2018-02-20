@@ -16,6 +16,7 @@ class AboutTableViewController: UITableViewController {
     override init(style: UITableViewStyle) {
         super.init(style: style)
         tableView.separatorStyle = .none
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,7 +37,17 @@ class AboutTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let copyrightView = UIView(frame: tableView.frame)
+        let copyrightLabel:UILabel = {
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 12)
+            label.text = "© 2018 Hawk Events"
+            label.sizeToFit()
+            label.frame.origin = CGPoint(x: copyrightView.frame.midX - label.frame.midX, y: copyrightView.frame.maxY - bottomPadding - 16)
+            return label
+        }()
+        copyrightView.addSubview(copyrightLabel)
+        tableView.backgroundView = copyrightView
         self.navigationItem.title = "About and Help"
 
         // Uncomment the following line to preserve selection between presentations
@@ -68,7 +79,7 @@ class AboutTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Developer"
+            return "About"
         } else {
             return "Help"
         }
@@ -83,15 +94,15 @@ class AboutTableViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-                cell.textLabel?.text = "Tiancheng Luo"
+                cell.textLabel?.text = "Website"
                 return cell
             case 1:
                 let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-                cell.textLabel?.text = "Yizhen Chen"
+                cell.textLabel?.text = "Support"
                 return cell
             case 2:
                 let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
-                cell.textLabel?.text = "Zhenming Wang"
+                cell.textLabel?.text = "Privacy Policy"
                 return cell
             default:
                 fatalError("Error row")
@@ -109,11 +120,11 @@ class AboutTableViewController: UITableViewController {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                openURL(url: URL(string: "https://iLtc.io")!, title: "Tiancheng Luo")
+                openURL(url: URL(string: "https://events.iltcapp.net/")!, title: "Hawk Events")
             case 1:
-                openURL(url: URL(string: "https://homepage.divms.uiowa.edu/~ychen261/")!, title: "Yizhen Chen")
+                openURL(url: URL(string: "https://events.iltcapp.net/#contact")!, title: "Contact Us")
             case 2:
-                openURL(url: URL(string: "https://homepage.divms.uiowa.edu/~zwang191/")!, title: "Zhenming Wang")
+                openURL(url: URL(string: "https://events.iltcapp.net/privacy/")!, title: "Privacy Policy")
             default:
                 fatalError("Error row")
             }
@@ -129,6 +140,7 @@ class AboutTableViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
     
     func openURL(url: URL, title: String) {
         let webViewController = WebViewController()
