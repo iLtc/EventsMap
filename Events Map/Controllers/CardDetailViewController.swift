@@ -335,7 +335,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
         let completion = {(accepted: Bool) in
             
         }
-        let displayedButton = MDCFloatingButton(frame: sender.frame, shape: .largeIcon)
+        let displayedButton = MDCFloatingButton(frame: sender.frame, shape: .default)
         displayedButton.setImage(#imageLiteral(resourceName: "md-close").withRenderingMode(.alwaysTemplate), for: .normal)
         displayedButton.backgroundColor = sender.titleColor(for: .normal)
         displayedButton.tintColor = sender.backgroundColor
