@@ -512,8 +512,6 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
     
     // Mark: like method
     @objc func likeBtnPressed(_ sender: UIBarButtonItem) {
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
         if sender.tag == 0 {
             event.unlike() { code, msg in
                 if code != "200" {
@@ -538,6 +536,16 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
                     sender.image = UIImage(named: "md-star")
                     self.event.liked = true
                     self.scheduleNotification(self.event)
+                    // Notification Tip Alert
+                    let userDefault = UserDefaults.standard
+                    if !userDefault.bool(forKey: "NotificationTip") {
+                        let alert: MDCAlertController = MDCAlertController(title: "Tip", message: "Hawk Events will push a notification 15 minutes before the event start.")
+                        alert.addAction(MDCAlertAction(title: "Got it!", handler: { (action) in
+                            userDefault.set(true, forKey: "NotificationTip")
+                            userDefault.synchronize()
+                        }))
+                        self.present(alert, animated: true)
+                    }
                 case "401":
                     let alertController = MDCAlertController(title: nil, message: "You need to login.")
                     let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
