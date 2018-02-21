@@ -37,7 +37,7 @@ class AboutTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let copyrightView = UIView(frame: tableView.frame)
+        let copyrightView = UIView(frame: view.frame)
         let copyrightLabel:UILabel = {
             let label = UILabel()
             label.font = .systemFont(ofSize: 12)
@@ -46,14 +46,6 @@ class AboutTableViewController: UITableViewController {
             label.frame.origin = CGPoint(x: copyrightView.frame.midX - label.frame.midX, y: copyrightView.frame.maxY - bottomPadding - 20)
             return label
         }()
-        let bottom = NSLayoutConstraint(item: copyrightLabel,
-                                         attribute: .bottom,
-                                         relatedBy: .equal,
-                                         toItem: self.view,
-                                         attribute: .bottom,
-                                         multiplier: 1.0,
-                                         constant: 30.0)
-        copyrightLabel.addConstraint(bottom)
         copyrightView.addSubview(copyrightLabel)
         tableView.backgroundView = copyrightView
         
