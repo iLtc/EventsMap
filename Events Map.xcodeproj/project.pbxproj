@@ -885,7 +885,7 @@
 					"\"paper_onboarding\"",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.EventsMap;
+				PRODUCT_BUNDLE_IDENTIFIER = io.iLtc.HawkEvents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events Map/Events Map-Bridging-Header.h";
@@ -1026,7 +1026,7 @@
 					"\"paper_onboarding\"",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.EventsMap;
+				PRODUCT_BUNDLE_IDENTIFIER = io.iLtc.HawkEvents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events Map/Events Map-Bridging-Header.h";
