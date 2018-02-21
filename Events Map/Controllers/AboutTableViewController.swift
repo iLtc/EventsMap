@@ -41,13 +41,22 @@ class AboutTableViewController: UITableViewController {
         let copyrightLabel:UILabel = {
             let label = UILabel()
             label.font = .systemFont(ofSize: 12)
-            label.text = "© 2018 Hawk Events"
+            label.text = "Hawk Events © 2018 "
             label.sizeToFit()
-            label.frame.origin = CGPoint(x: copyrightView.frame.midX - label.frame.midX, y: copyrightView.frame.maxY - bottomPadding - 16)
+            label.frame.origin = CGPoint(x: copyrightView.frame.midX - label.frame.midX, y: copyrightView.frame.maxY - bottomPadding - 20)
             return label
         }()
+        let bottom = NSLayoutConstraint(item: copyrightLabel,
+                                         attribute: .bottom,
+                                         relatedBy: .equal,
+                                         toItem: self.view,
+                                         attribute: .bottom,
+                                         multiplier: 1.0,
+                                         constant: 30.0)
+        copyrightLabel.addConstraint(bottom)
         copyrightView.addSubview(copyrightLabel)
         tableView.backgroundView = copyrightView
+        
         self.navigationItem.title = "About and Help"
 
         // Uncomment the following line to preserve selection between presentations
