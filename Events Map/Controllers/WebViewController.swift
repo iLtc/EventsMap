@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 import MaterialComponents
 
-class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDelegate, WKUIDelegate {
+class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDelegate, WKNavigationDelegate {
     
     var existingInteractivePopGestureRecognizerDelegate : UIGestureRecognizerDelegate?
     
@@ -43,19 +43,19 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         topBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         webView.frame = CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height))
         webView.scrollView.delegate = self
-        webView.uiDelegate = self
+        webView.navigationDelegate = self
         webView.backgroundColor = .white
         webView.isOpaque = false
         webView.allowsBackForwardNavigationGestures = true
         view = webView
         
+        // Progress indicator
         progressView.progress = 0
-        
         let progressViewHeight = CGFloat(2)
         progressView.frame = CGRect(x: 0, y: view.bounds.height/2 - progressViewHeight, width: view.bounds.width, height: progressViewHeight)
         progressView.progressTintColor = UIColor.MDColor.blue
         progressView.backwardProgressAnimationMode = .animate
-        
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         if url != nil {
             let request = URLRequest(url: url!)
@@ -150,6 +150,12 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
         view.addSubview(buttonBar)
     }
     
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            progressView.progress = Float(webView.estimatedProgress)
+        }
+    }
+    
     @objc func reload(_ sender: UIBarButtonItem) {
         if sender.tag == 1 {
             webView.reload()
@@ -189,52 +195,55 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
     
     func startAndShowProgressView() {
         progressView.setHidden(false, animated: true)
-        progressView.setProgress(0, animated: true) { (bool) in
-            self.progressView.setProgress(0.3, animated: bool, completion: nil)
-        }
+//        progressView.setProgress(0, animated: true) { (bool) in
+//            self.progressView.setProgress(0.3, animated: bool, completion: nil)
+//        }
         
     }
     
     func completeAndHideProgressView() {
-        progressView.setProgress(1, animated: true) { (finished) in
-            self.progressView.setHidden(true, animated: true)
-        }
+//        progressView.setProgress(1, animated: true) { (finished) in
+        self.progressView.setHidden(true, animated: true)
+//        }
     }
     
-    func webViewDidStartLoad(_ webView: WKWebView){
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        refreshBtn.tag = 0
+        refreshBtn.image = #imageLiteral(resourceName: "md-close").withRenderingMode(.alwaysTemplate)
+    }
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         startAndShowProgressView()
-        refreshBtn.tag = 0
-        refreshBtn.image = #imageLiteral(resourceName: "md-close").withRenderingMode(.alwaysTemplate)
-        if webView.canGoBack {
-            back.isEnabled = true
-        } else {
-            back.isEnabled = false
-        }
-        if webView.canGoForward {
-            forward.isEnabled = true
-        } else {
-            forward.isEnabled = false
-        }
-//        activityIndicator.startAnimating()
+        
+        //        activityIndicator.startAnimating()
     }
     
-    func webViewDidFinishLoad(_ webView: WKWebView){
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         completeAndHideProgressView()
-        if (webView.hasOnlySecureContent) {
-            print("https")
-        }
-        
-         if let urlText = webView.url?.absoluteString {
-//            searchBar.text = urlText
-            refreshBtn.tag = 1
-            refreshBtn.image = #imageLiteral(resourceName: "md-refresh").withRenderingMode(.alwaysTemplate)
+        back.isEnabled = webView.canGoBack
+        forward.isEnabled = webView.canGoForward
+        refreshBtn.tag = 1
+        refreshBtn.image = #imageLiteral(resourceName: "md-refresh").withRenderingMode(.alwaysTemplate)
+        if (webView.url?.absoluteString) != nil {
+            //            searchBar.text = urlText
+            appBar.navigationBar.title = webView.title
             
         }
-//        activityIndicator.stopAnimating()
-//        activityIndicator.hidden = true
+        //        activityIndicator.stopAnimating()
+        //        activityIndicator.hidden = true
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        completeAndHideProgressView()
+        refreshBtn.tag = 1
+        refreshBtn.image = #imageLiteral(resourceName: "md-refresh").withRenderingMode(.alwaysTemplate)
     }
     
     func webView(_ webView: WKWebView, didFailLoadWithError error: Error){
@@ -249,7 +258,7 @@ class WebViewController: UIViewController, UIScrollViewDelegate, UISearchBarDele
 //        activityIndicator.hidden = true
     }
     
-    
+
     @objc func openURL() {
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(url!, options: [:], completionHandler: nil)
