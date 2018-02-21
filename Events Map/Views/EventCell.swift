@@ -108,6 +108,7 @@ class EventCell: UITableViewCell {
                     sender.tag = 1
                     self.event?.liked = false
                     self.likeBtn.setImage(#imageLiteral(resourceName: "md-star-border"), for: .normal)
+                    self.parentVC?.removeNotification(self.event!)
                 }
             }
         } else if sender.tag == 1 {
@@ -117,7 +118,7 @@ class EventCell: UITableViewCell {
                     sender.tag = 0
                     self.likeBtn.setImage(#imageLiteral(resourceName: "md-star"), for: .normal)
                     self.event?.liked = true
-                    
+                    self.parentVC?.scheduleNotification(self.event!)
                     // Notification Tip Alert
                     let userDefault = UserDefaults.standard
                     if !userDefault.bool(forKey: "NotificationTip") {

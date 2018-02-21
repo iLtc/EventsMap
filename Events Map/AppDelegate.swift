@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         }
         
         if let vc = userTableViewController {
-            loadingView = vc.activityIndicator("Loading......")
+            loadingView = vc.activityIndicator()
         }
         
         let imageURL = user.profile.imageURL(withDimension: 320)!
