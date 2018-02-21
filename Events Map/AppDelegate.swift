@@ -70,8 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        GMSServices.provideAPIKey("AIzaSyAKpvUj5l2vOfF-uBBdL6VkSaH8T2yphek")
-        GMSPlacesClient.provideAPIKey("AIzaSyAKpvUj5l2vOfF-uBBdL6VkSaH8T2yphek")
+        GMSServices.provideAPIKey("AIzaSyB3IcOZsSavbgzn8WSbfuNJhm2IpN_IcOw")
+        GMSPlacesClient.provideAPIKey("AIzaSyB3IcOZsSavbgzn8WSbfuNJhm2IpN_IcOw")
         
         FIRApp.configure()
         
@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
-        GIDSignIn.sharedInstance().clientID = "108274172853-0aslkl77o0qqmose74fnhi88run4n4c4.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().clientID = "426628438151-6kcu3e92olri65ukqm4s0qjjpvfkqs71.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
 
         var mainViewController = UIViewController()
@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
             return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         }
         
-        if url.scheme == "com.googleusercontent.apps.108274172853-0aslkl77o0qqmose74fnhi88run4n4c4" {
+        if url.scheme == "com.googleusercontent.apps.426628438151-6kcu3e92olri65ukqm4s0qjjpvfkqs71" {
             return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: sourceApplication, annotation: annotation)
         }
         
