@@ -158,10 +158,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         
         // Add notification actions
         let dismissAction = UNNotificationAction(identifier: "dismiss", title: "Dismiss", options: [])
-        let openAction = UNNotificationAction(identifier: "openEvent", title: "Details", options: [])
+//        let openAction = UNNotificationAction(identifier: "openEvent", title: "Details", options: [])
         
         // Add actions to the Event category
-        let category = UNNotificationCategory(identifier: "eventCategory", actions: [openAction, dismissAction], intentIdentifiers: [], options: [])
+        let category = UNNotificationCategory(identifier: "eventCategory", actions: [dismissAction], intentIdentifiers: [], options: [])
         
         UNUserNotificationCenter.current().setNotificationCategories([category])
     }

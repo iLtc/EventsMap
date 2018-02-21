@@ -119,6 +119,7 @@ class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignI
                 GIDSignIn.sharedInstance().signOut()
                 UserImage.image = UIImage(named: "Contacts")
                 UserName.text = "No User"
+                self.removeAllNotification()
                 self.tableView.reloadData()
             }else {
                 popLoginView()
