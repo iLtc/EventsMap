@@ -11,17 +11,25 @@ import MaterialComponents
 
 extension UIViewController {
     // https://stackoverflow.com/questions/28785715/how-to-display-an-activity-indicator-with-text-on-ios-8-with-swift
-    func activityIndicator(_ title: String) -> UIView {
+    func activityIndicator() -> UIView {
         
         
         let indicator = MDCActivityIndicator()
         
-        let blue = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-        let teal = UIColor(red:0.00, green:0.59, blue:0.53, alpha:1.0)
-        let green = UIColor(red:0.30, green:0.69, blue:0.31, alpha:1.0)
-        let amber = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
-        let red = UIColor(red:0.96, green:0.26, blue:0.21, alpha:1.0)
-//        var strLabel = UILabel()
+        let blue = UIColor.MDColor.blue
+        let teal = UIColor.MDColor.teal
+        let green = UIColor.MDColor.green
+        let amber = UIColor.MDColor.amber
+        let red = UIColor.MDColor.red
+        let containerView:ShadowView = {
+            let view = ShadowView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            view.backgroundColor = .white
+            view.layer.cornerRadius = view.frame.width/2
+            view.shadowLayer.elevation = ShadowElevation(rawValue: 6.0)
+            view.isShadowPathAutoSizing = true
+            view.shadowColor = .black
+            return view
+        }()
 //        let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
         
 //        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
@@ -35,23 +43,29 @@ extension UIViewController {
 //            effectView.layer.cornerRadius = 15
 //            effectView.layer.masksToBounds = true
 
-        indicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        indicator.center = view.center
-        
+        indicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        containerView.center = view.center
+        containerView.addSubview(indicator)
         indicator.cycleColors = [blue, teal, green, amber, red]
         indicator.startAnimating()
         
 //            effectView.contentView.addSubview(activityIndicator)
 //            effectView.contentView.addSubview(strLabel)
-        view.addSubview(indicator)
+        
+        view.addSubview(containerView)
         
         
         
         
-        return indicator
+        return containerView
     }
     
     func dismiss() {
-        self.view.removeFromSuperview()
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.alpha = 0
+        }) { (finished) in
+            self.view.removeFromSuperview()
+        }
+        
     }
 }

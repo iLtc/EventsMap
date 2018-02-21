@@ -21,6 +21,8 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
     let appBar = MDCAppBar()
     var events = [Event]()
     
+    var loadingView: UIView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         zoomableImageView = UIImageView(frame: .zero)
@@ -258,21 +260,24 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
     }
     
     func reload() {
-        let activityIndicator = MDCActivityIndicator(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        activityIndicator.center = CGPoint(x: view.frame.midX, y: 200)
-        let blue = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
-        let teal = UIColor(red:0.00, green:0.59, blue:0.53, alpha:1.0)
-        let green = UIColor(red:0.30, green:0.69, blue:0.31, alpha:1.0)
-        let amber = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
-        let red = UIColor(red:0.96, green:0.26, blue:0.21, alpha:1.0)
-        activityIndicator.cycleColors = [blue, teal, green, amber, red]
-        activityIndicator.startAnimating()
-        collectionView?.addSubview(activityIndicator)
+//        let activityIndicator = MDCActivityIndicator(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+//        activityIndicator.center = CGPoint(x: view.frame.midX, y: 200)
+//        let blue = UIColor(red:0.13, green:0.59, blue:0.95, alpha:1.0)
+//        let teal = UIColor(red:0.00, green:0.59, blue:0.53, alpha:1.0)
+//        let green = UIColor(red:0.30, green:0.69, blue:0.31, alpha:1.0)
+//        let amber = UIColor(red:1.00, green:0.76, blue:0.03, alpha:1.0)
+//        let red = UIColor(red:0.96, green:0.26, blue:0.21, alpha:1.0)
+//        activityIndicator.cycleColors = [blue, teal, green, amber, red]
+//        activityIndicator.startAnimating()
+//        collectionView?.addSubview(activityIndicator)
+        loadingView = activityIndicator()
         EventService.instance.getAllUserEvents { (code, msg, events) in
             if code != "200" {
                 let alert: MDCAlertController = MDCAlertController(title: "Error", message: msg)
-                alert.addAction(MDCAlertAction(title: "OK", handler: nil))
                 
+                alert.addAction(MDCAlertAction(title: "OK", handler: { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                }))
                 self.present(alert, animated: true)
                 return
             }
@@ -280,7 +285,10 @@ class EventsListViewController: MDCCollectionViewController, UIViewControllerTra
             self.events = events.reversed()
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
-                activityIndicator.removeFromSuperview()
+//                activityIndicator.removeFromSuperview()
+                if let loadingView = self.loadingView {
+                    loadingView.removeFromSuperview()
+                }
             }
         }
         

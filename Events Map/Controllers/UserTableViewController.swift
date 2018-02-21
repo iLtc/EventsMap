@@ -149,7 +149,7 @@ class UserTableViewController: UITableViewController,GIDSignInDelegate, GIDSignI
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
             if let user = UserService.instance.getCurrentUser() {
-                let loadingView = self.activityIndicator("Loading......")
+                let loadingView = self.activityIndicator()
                 let image = UIImage.gif(url: user.picURL)
                 self.UserImage.image = image?.resizeImage(targetSize: self.UserImage.frame.size)
                 self.UserName.text = user.name

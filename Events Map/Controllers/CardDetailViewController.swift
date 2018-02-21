@@ -521,12 +521,13 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
                     
                     self.present(alert, animated: true)
                     return
-                }
+                } else {
                 
-                sender.tag = 1
-                sender.image = UIImage(named: "md-star-border")
-                self.event.liked = false
-                self.removeNotification(self.event)
+                    sender.tag = 1
+                    sender.image = UIImage(named: "md-star-border")
+                    self.event.liked = false
+                    self.removeNotification(self.event)
+                }
             }
         } else if sender.tag == 1 {
             event.like() { code, msg in
@@ -574,7 +575,7 @@ class CardDetailViewController: UIViewController, UIScrollViewDelegate, UIViewCo
         let cancelAction = MDCAlertAction(title: "Cancel", handler: nil)
         alertController.addAction(cancelAction)
         let confirmAction = MDCAlertAction(title: "Delete") { (action) in
-            let loadingView = self.activityIndicator("Loading......")
+            let loadingView = self.activityIndicator()
             self.event.delete() { code, msg in
                 loadingView.removeFromSuperview()
                 

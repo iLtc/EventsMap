@@ -185,7 +185,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
                     let data = dict["picture"]!["data"] as! [String: AnyObject]
                     let picURL = data["url"] as! String
                     
-                    self.loadingView = self.parentVC?.activityIndicator("Loading......")
+                    self.loadingView = self.parentVC?.activityIndicator()
                     
                     UserService.instance.addUser(pid: pid, name: name, picURL: picURL, platform:.facebook) { code, msg, user in
                         if let loadingView = self.loadingView {
@@ -236,7 +236,7 @@ class LoginView: UIView, GIDSignInUIDelegate {
     
     // MARK: - Demo Login
     @objc func demoLogin() {
-        loadingView = parentVC?.activityIndicator("Loading......")
+        loadingView = parentVC?.activityIndicator()
         
         UserService.instance.getDemoUser() {code, msg, user in
             if let loadingView = self.loadingView {
