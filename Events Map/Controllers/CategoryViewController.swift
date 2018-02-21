@@ -25,7 +25,7 @@ class CategoryViewController: UITableViewController {
     }
     
     func reload() {
-        let loadingView = activityIndicator("Loading......")
+        let loadingView = activityIndicator()
         
         EventService.instance.getAllCategories() { code, msg, category in
             loadingView.removeFromSuperview()

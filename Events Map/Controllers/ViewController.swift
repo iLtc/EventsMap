@@ -38,7 +38,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadingView = activityIndicator("Loading......")
+        loadingView = activityIndicator()
         EventService.instance.getEvents(addEvents)
     }
     

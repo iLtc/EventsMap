@@ -310,7 +310,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
             return
         }
         
-        let loadingView = activityIndicator("Loading......")
+        let loadingView = activityIndicator()
         
         EventService.instance.uploadImage(imageView.image!) { code, msg, imageURL in
             loadingView.removeFromSuperview()
@@ -343,7 +343,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
 
             event.categories.append("Events Map")
         
-            let loadingView = self.activityIndicator("Loading......")
+            let loadingView = self.activityIndicator()
             
             event.save() { code, msg, event in
                 loadingView.removeFromSuperview()

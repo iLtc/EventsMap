@@ -75,7 +75,7 @@ class ListViewController: UITableViewController {
     }
     
     @objc func reload() {
-        loadingView = activityIndicator("Loading......")
+        loadingView = self.parent?.activityIndicator()
         
         EventService.instance.getEvents() { code, msg, events in
             if let loadingView = self.loadingView {
