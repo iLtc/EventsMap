@@ -16,4 +16,8 @@ target 'Events Map' do
   pod 'GoogleSignIn'
   pod 'lottie-ios'
   pod 'Firebase/Core'
+
+  # Pods for Crashlytics
+  pod 'Fabric', '~> 1.7.3'
+  pod 'Crashlytics', '~> 3.10.0'
 end
