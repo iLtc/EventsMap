@@ -318,7 +318,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <form action="https://iltc-php-mail-sender.herokuapp.com/sender.php" id="contact-form" method="post" class="contact-form">
+                    <form action="https://lambdas.iltcapp.net/MailSender/" id="contact-form" method="post" class="contact-form">
                         <div class="form-double">
                             <input type="text" id="form-name" name="name" placeholder="Your name" class="form-control" required="required">
                             <input type="email" id="form-email" name="email" class="form-control" placeholder="E-mail address" required style="margin-left: 20px;">
@@ -327,6 +327,7 @@
                         <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required></textarea>
                         <div class="submit">
                             <div class="g-recaptcha" data-sitekey="6LdwNkIUAAAAAJQ3irWy8hWFco70MWg3Re14_7F1" data-callback="SubmitForm" data-size="invisible"></div>
+                            <input type="hidden" name="page" value="HawkEvents">
                             <input class="btn btn-primary" type="submit">
                         </div>
                     </form>
