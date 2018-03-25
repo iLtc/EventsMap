@@ -40,16 +40,11 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     
     override func viewWillAppear(_ animated: Bool) {
         loadingView = activityIndicator()
-        didAppear = true
+        
         
     }
     
-    func mapViewDidFinishTileRendering(_ mapView: GMSMapView) {
-        if (didAppear == true) {
-            EventService.instance.getEvents(addEvents)
-            didAppear = false
-        }
-    }
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.showCurrentLocationOnMap()
