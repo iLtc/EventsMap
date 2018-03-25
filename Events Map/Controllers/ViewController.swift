@@ -25,7 +25,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     var loadingView: UIView?
     var bottomPadding:CGFloat = 0
     let movePadding:CGFloat = 10
-    var didAppear = false
+    var mapLoaded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +40,14 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     
     override func viewWillAppear(_ animated: Bool) {
         loadingView = activityIndicator()
-        
-        
+        mapLoaded = true
     }
     
-    
+    func mapViewDidFinishTileRendering(_ mapView: GMSMapView) {
+        if (mapLoaded == true) {
+            EventService.instance.getEvents(addEvents)
+        }
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.showCurrentLocationOnMap()
@@ -537,6 +540,7 @@ class ViewController: UICollectionViewController, CLLocationManagerDelegate, GMS
     }
 
     func addEvents(code: String, msg: String, events: [Event]) {
+        mapLoaded = false
         if let loadingView = loadingView {
             loadingView.removeFromSuperview()
         }
