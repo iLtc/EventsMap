@@ -122,6 +122,7 @@ class AddEventTableViewController: UITableViewController, UIImagePickerControlle
                           width: size.width,
                           height: size.height)
         }
+        
         autocompleteController.mdm_transitionController.transition = transition
         present(autocompleteController, animated: true)
         
